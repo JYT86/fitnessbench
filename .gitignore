@@ -2,3 +2,11 @@ __pycache__/
 *.pyc
 .DS_Store
 .ipynb_checkpoints/
+
+# Reference clones of the EnzEngDB extraction code (each has its own .git).
+# Kept alongside for reading, deliberately not part of this repository.
+DEBase/
+EnzymeEngineeringDB/
+
+# Local working notes, not part of the upstream repository.
+CLAUDE.md
