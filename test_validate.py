@@ -163,6 +163,14 @@ def non_numeric_readout(header, rows):
     return header, rows
 
 
+def strand_provenance(root: str) -> None:
+    """papers/ exists but holds nothing matching any dataset's source prefix."""
+    d = os.path.join(os.path.dirname(root), "papers")
+    os.makedirs(d, exist_ok=True)
+    with open(os.path.join(d, "unrelated.pdf"), "w", encoding="utf-8") as fh:
+        fh.write("not the source of any dataset")
+
+
 def drop_reference_row(root: str) -> None:
     path = reference_path(root)
     header, rows = read_csv(path)
@@ -216,6 +224,8 @@ CASES = [
      "assay_method is empty"),
     ("dataset missing from reference.csv", drop_reference_row,
      "no row in reference.csv"),
+    ("dataset with no paper or source data", strand_provenance,
+     "starts with"),
 ]
 
 

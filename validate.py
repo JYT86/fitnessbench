@@ -327,17 +327,24 @@ def check_layout(path: str, rel: str, root: str, rep: Report) -> None:
 
 
 def check_sources(path: str, rel: str, repo_root: str, rep: Report) -> None:
-    """papers/ and original_datasets/ share the dataset's '{Author} {Year}-{Model}' prefix."""
+    """papers/ and original_datasets/ share the dataset's '{Author} {Year}-{Model}' prefix.
+
+    Only the absence of *both* is worth reporting. A paywalled publication cannot
+    always be redistributed into papers/, but the source data it was derived from
+    should still be there, so one of the two is enough to trace a dataset back.
+    """
     bits = os.path.basename(path).split("-")
     if len(bits) < 2:
         return
     prefix = "-".join(bits[:2])
-    for folder in ("papers", "original_datasets"):
-        d = os.path.join(repo_root, folder)
-        if not os.path.isdir(d):
-            continue
-        if not any(f.startswith(prefix) for f in os.listdir(d)):
-            rep.warn(rel, f"no file in {folder}/ starts with {prefix!r}")
+    folders = [f for f in ("papers", "original_datasets")
+               if os.path.isdir(os.path.join(repo_root, f))]
+    if not folders:
+        return  # not a full repository layout, nothing to check against
+    if not any(name.startswith(prefix)
+               for f in folders for name in os.listdir(os.path.join(repo_root, f))):
+        rep.warn(rel, f"no file in {' or '.join(f + '/' for f in folders)} "
+                      f"starts with {prefix!r}")
 
 
 def main() -> int:

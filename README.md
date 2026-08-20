@@ -135,6 +135,33 @@ print((singles.readout > float(row.wt_readout)).sum())
 
 ---
 
+## Sources
+
+Datasets arrive two ways, and are recorded identically once here:
+
+- **Curated from a publication's supplementary data**, following `example_workflow.md`.
+  `papers/` and `original_datasets/` hold the untouched source.
+- **Converted in bulk from a published database.** `scripts/convert_enzengdb.py` imports
+  the EnzEngDB record table (*Nucleic Acids Research* 2026, D564). `original_datasets/`
+  holds the subset of records each dataset came from; the source publications are
+  paywalled and are not redistributed here.
+
+The conversion does not trust EnzEngDB's `variant_aa` column. For part of that table it
+disagrees with the row's own mutation labels, because a mutation was applied at the
+wrong position — their pipeline flags many of these itself as "position 0 and 1 index
+had same AA". Sequences are instead rebuilt by applying the stated labels to the parent,
+requiring a single numbering offset to fit *every* label in the dataset. Records that
+fail that, that carry indels, or whose repeat measurements disagree by more than 2% are
+dropped and counted in `remark`.
+
+Source organism and assay conditions are not in EnzEngDB. They were read out of the
+source publications by hand and live in `PUBLICATIONS` in the converter, so a dataset
+with no entry there is reported but never written. Where the publication's supporting
+information is paywalled, `remark` names the specific conditions that could not be
+confirmed rather than leaving the gap silent.
+
+---
+
 ## Validation
 
 ```bash
