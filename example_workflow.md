@@ -195,6 +195,16 @@ result, not a curation decision.
 
 ## Before committing
 
+```bash
+python validate.py
+```
+
+That runs every check below across the whole tree, plus the ones from step 3 and
+step 4 — reverting each row's substitutions to confirm they all land on the same
+reference sequence, and re-deriving `seq_len`, `n_variants` and `wt_readout` from the
+CSV so the `reference.csv` row cannot drift from the data. The assertions kept here
+are the reasoning; `validate.py` is the enforcement.
+
 ```python
 x = [float(r['readout']) for r in rows]
 s = [float(r['normalized-score']) for r in rows]
@@ -205,6 +215,6 @@ assert len({len(r['sequence']) for r in rows}) == 1
 assert os.path.exists(os.path.join(category_dir, reference_row['filename']))
 ```
 
-Plus one thing no assertion covers: re-derive a number the paper states in prose — a
+Plus the one thing no assertion covers: re-derive a number the paper states in prose — a
 count of improved variants, a fold-change — and check you land on it. When you cannot,
 say so rather than reverse-engineering a formula that hits the published figure.

@@ -135,6 +135,41 @@ print((singles.readout > float(row.wt_readout)).sum())
 
 ---
 
+## Validation
+
+```bash
+python validate.py            # errors fail, warnings are advisory
+python validate.py --strict   # warnings fail too
+python test_validate.py       # confirm the checks still catch what they claim to
+```
+
+`validate.py` is stdlib-only and enforces everything in `example_workflow.md`
+mechanically, so a contribution is cheap to trust. It checks, per dataset:
+
+- the four columns, in order; unique `mutant` labels; one sequence length; standard residues only
+- **every row against the reference sequence.** Reverting a row's substitutions must
+  land on the same sequence for every row — which does not need a `WT` row to exist,
+  and catches numbering offsets, substitutions that silently never landed, and a
+  residue drifting at a position the row does not mutate
+- Hamming distance from WT, computed from the *output* sequence rather than the label
+- `normalized-score` reproduced from `readout` to 1e-6 (`sd == 0` means all zeros)
+
+and per `reference.csv`:
+
+- the eleven columns; required fields non-empty; `doi` a bare DOI, not a URL
+- `filename` unique and resolving, and no dataset left unlisted (union-merge on this
+  file makes both worth checking on every merge)
+- `seq_len`, `n_variants` and `wt_readout` re-derived from the CSV, so they cannot drift
+
+`test_validate.py` corrupts a copy of the data twenty different ways and asserts the
+validator fails with the right message each time. A check nobody has watched fail is
+not evidence of anything.
+
+Two things stay human: whether the readout is the quantity the experiment actually
+compares, and re-deriving a number the paper states in prose.
+
+---
+
 ## License
 
 Dataset CSVs are derived from the supplementary data of the cited publications;
