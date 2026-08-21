@@ -30,7 +30,9 @@ FitnessBench/
 │   │   └── ...
 │   └── ...
 ├── papers/                          # source publications (PDF)
-└── original_datasets/               # source supplementary data, unmodified
+├── original_datasets/               # source supplementary data, unmodified
+└── skill/
+    └── fitnessbench-digger/         # the curation workflow, as a Claude Code skill
 ```
 
 The directory hierarchy is `{Category}/{Property}/{Source}/`. The category and
@@ -132,6 +134,53 @@ print(spearmanr(my_model(singles.sequence), singles["normalized-score"]))
 # "better than wild type" comes from readout, not normalized-score
 print((singles.readout > float(row.wt_readout)).sum())
 ```
+
+---
+
+## Curation
+
+New datasets are curated with the **`fitnessbench-digger`** skill, kept in this repo at
+[`skill/fitnessbench-digger/SKILL.md`](skill/fitnessbench-digger/SKILL.md). It is the
+authoritative description of the process: locating the real source data, extracting tables
+from supplementary PDFs, establishing the wild-type sequence and its residue numbering,
+assembling variants, orienting and normalizing the readout, and writing the dataset CSV
+together with its `reference.csv` row under gated validation checks.
+
+To use it with Claude Code, make it visible as a skill:
+
+```bash
+mkdir -p ~/.claude/skills
+ln -s "$PWD/skill/fitnessbench-digger" ~/.claude/skills/fitnessbench-digger
+```
+
+Then point it at a paper. The argument is free text — a DOI, an article URL, or a local
+path all work, and it resolves whichever you give it:
+
+```
+# by DOI
+/fitnessbench-digger 10.1126/sciadv.adr2641
+
+# by article URL
+/fitnessbench-digger https://www.science.org/doi/10.1126/sciadv.adr2641
+
+# by path to a PDF already in the repo
+/fitnessbench-digger papers/Jiang 2024-PRIME-Science.pdf
+
+# by path to a PDF anywhere on disk — it reads the front matter for the DOI
+/fitnessbench-digger ~/Downloads/gkaf1142.pdf
+
+# narrow the scope up front, instead of picking from the Phase 1 candidate list
+/fitnessbench-digger 10.1126/sciadv.adr2641 — only the LbCas12a and T7RNAP Tm data
+
+# audit an existing dataset instead of adding one (skips to Phase 7)
+/fitnessbench-digger audit datasets/Stability/ThermalStability/PRIME/Jiang 2024-PRIME-LbCas12a-thermalstability-Tm.csv
+```
+
+Invoked with no argument at all, it asks which paper you mean and stops — it will not
+guess from what is already in `datasets/`.
+
+Anything that changes about the format described above should be changed in the skill as
+well — the skill is what actually produces the files.
 
 ---
 
