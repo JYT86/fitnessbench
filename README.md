@@ -146,16 +146,38 @@ from supplementary PDFs, establishing the wild-type sequence and its residue num
 assembling variants, orienting and normalizing the readout, and writing the dataset CSV
 together with its `reference.csv` row under gated validation checks.
 
-To use it with Claude Code, make it visible as a skill and invoke it with the paper:
+To use it with Claude Code, make it visible as a skill:
 
 ```bash
 mkdir -p ~/.claude/skills
 ln -s "$PWD/skill/fitnessbench-digger" ~/.claude/skills/fitnessbench-digger
 ```
 
+Then point it at a paper. The argument is free text — a DOI, an article URL, or a local
+path all work, and it resolves whichever you give it:
+
 ```
-/fitnessbench-digger 10.1038/s41467-024-49798-6
+# by DOI
+/fitnessbench-digger 10.1126/sciadv.adr2641
+
+# by article URL
+/fitnessbench-digger https://www.science.org/doi/10.1126/sciadv.adr2641
+
+# by path to a PDF already in the repo
+/fitnessbench-digger papers/Jiang 2024-PRIME-Science.pdf
+
+# by path to a PDF anywhere on disk — it reads the front matter for the DOI
+/fitnessbench-digger ~/Downloads/gkaf1142.pdf
+
+# narrow the scope up front, instead of picking from the Phase 1 candidate list
+/fitnessbench-digger 10.1126/sciadv.adr2641 — only the LbCas12a and T7RNAP Tm data
+
+# audit an existing dataset instead of adding one (skips to Phase 7)
+/fitnessbench-digger audit datasets/Stability/ThermalStability/PRIME/Jiang 2024-PRIME-LbCas12a-thermalstability-Tm.csv
 ```
+
+Invoked with no argument at all, it asks which paper you mean and stops — it will not
+guess from what is already in `datasets/`.
 
 Anything that changes about the format described above should be changed in the skill as
 well — the skill is what actually produces the files.
