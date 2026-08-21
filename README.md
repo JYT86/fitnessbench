@@ -30,7 +30,9 @@ FitnessBench/
 │   │   └── ...
 │   └── ...
 ├── papers/                          # source publications (PDF)
-└── original_datasets/               # source supplementary data, unmodified
+├── original_datasets/               # source supplementary data, unmodified
+└── skill/
+    └── fitnessbench-digger/         # the curation workflow, as a Claude Code skill
 ```
 
 The directory hierarchy is `{Category}/{Property}/{Source}/`. The category and
@@ -132,6 +134,31 @@ print(spearmanr(my_model(singles.sequence), singles["normalized-score"]))
 # "better than wild type" comes from readout, not normalized-score
 print((singles.readout > float(row.wt_readout)).sum())
 ```
+
+---
+
+## Curation
+
+New datasets are curated with the **`fitnessbench-digger`** skill, kept in this repo at
+[`skill/fitnessbench-digger/SKILL.md`](skill/fitnessbench-digger/SKILL.md). It is the
+authoritative description of the process: locating the real source data, extracting tables
+from supplementary PDFs, establishing the wild-type sequence and its residue numbering,
+assembling variants, orienting and normalizing the readout, and writing the dataset CSV
+together with its `reference.csv` row under gated validation checks.
+
+To use it with Claude Code, make it visible as a skill and invoke it with the paper:
+
+```bash
+mkdir -p ~/.claude/skills
+ln -s "$PWD/skill/fitnessbench-digger" ~/.claude/skills/fitnessbench-digger
+```
+
+```
+/fitnessbench-digger 10.1038/s41467-024-49798-6
+```
+
+Anything that changes about the format described above should be changed in the skill as
+well — the skill is what actually produces the files.
 
 ---
 
