@@ -6,16 +6,30 @@ step 1 of `example_workflow.md` should start from.
 
 ## Where these came from
 
-Two nature.com searches, both restricted to `date_range=2025-2025`, ordered by relevance:
+**First sweep.** Two nature.com searches, both restricted to `date_range=2025-2025`,
+ordered by relevance:
 
 - `machine learning guided enzyme engineering in prokaryotes` — **6 results**
 - `machine learning guided enzyme engineering in eukaryotes` — **16 results**
 
-20 unique articles, 22 hits (2 appear in both). Screened on title, abstract and
-data-availability statement. Supplementary files have **not** been downloaded or
-opened yet, so variant counts below come from the article text, not from the sheets.
+20 unique articles, 22 hits (2 appear in both).
 
-## Shortlist
+**Second sweep.** The same query with the organism clause dropped —
+`machine learning guided enzyme engineering` — which is a superset of the first two.
+nature.com was rate-limited at the time, returning its 3 KB `Client Challenge` page, so
+the sweep ran against Europe PMC over the same corpus restricted to Nature-family
+journals and 2025: **481 hits, top 100 screened by relevance**. Europe PMC ranks
+differently from nature.com, so this list is not the site's own ordering and is worth
+re-running against the site itself.
+
+Everything is screened on title, abstract and data-availability statement. Supplementary
+files have **not** been opened for anything still marked as a candidate, so variant
+counts are the papers' own claims rather than verified sheet contents.
+
+## Shortlist from the first sweep — all three curated
+
+All three are on the `2025` branch: 31 datasets, 387,910 variants, validator clean.
+
 
 ### 1. Zhang 2025 — PylRS, machine-learning-guided evolution
 *Machine learning-guided evolution of pyrrolysyl-tRNA synthetase for improved
@@ -53,6 +67,47 @@ Nature Communications, 2025-08-27 · `10.1038/s41467-025-63304-6`
 - **Home** `Activity/` (growth fitness) — needs a property name; `GrowthFitness` if we take it
 - **Watch for** the only eukaryotic-host dataset of the three, and the cleanest large fitness landscape. Not ML-guided, so take it only if the benchmark wants DMS landscapes as well as engineering campaigns — worth asking Yutong.
 
+## Second sweep — new candidates
+
+Nothing here is curated yet. All five in Tier A are open access with per-variant data
+confirmed from the data-availability statement, and all are small — a thousand-variant
+enzyme is a few MB, not the tens of MB Duan cost.
+
+### Tier A
+
+| # | Paper | DOI | What it holds | Where the data is |
+|---|---|---|---|---|
+| 1 | Landwehr 2025, *Accelerated enzyme engineering by machine-learning guided cell-free expression* | `10.1038/s41467-024-55399-0` | 1,217 amide synthetase variants across 10,953 reactions, variants optimised for 9 pharmaceuticals | Source Data + `github.com/grantlandwehr/accelerated-enzyme-engineering`; protein **and DNA sequences for every enzyme are in the SI**, so Phase 3 is a stated sequence |
+| 2 | Yang 2025, *Active learning-assisted directed evolution* (ALDE) | `10.1038/s41467-025-55987-8` | five epistatic active-site residues, three wet-lab rounds, 12% → 93% yield on a non-native cyclopropanation | `github.com/jsunn-y/ALDE` + Zenodo `12196802` |
+| 3 | iCASE 2025, *Tailoring industrial enzymes for thermostability and activity* | `10.1038/s41467-025-55944-5` | six enzymes (PG, XY, GADA, MTGase, laccase, PES-H1), thermostability **and** activity, explicit epistasis analysis | Supplementary + Source Data, "no restriction on data availability" |
+| 4 | Zhao lab 2025, *AI-powered autonomous enzyme engineering* | `10.1038/s41467-025-61209-y` | AtHMT (90-fold substrate preference) and YmPhytase | Supplementary Data 3 and 4, named explicitly as the mutant screening data |
+| 5 | *Integrating protein language models and automatic biofoundry* | `10.1038/s41467-025-56751-8` | tRNA synthetase, four rounds x 96 ESM-2-nominated variants, activity up 2.4-fold | within the paper and its supplementary files |
+
+Two of these carry public benchmark data that is **out of scope** and must not be
+curated under their name: ALDE simulates on GB1 and others, and the biofoundry paper
+uses GB1, UBC9 and ubiquitin. Those belong to whoever measured them.
+
+### Tier B — check before committing
+
+- `10.1038/s41586-025-09021-y` — **PAMmla**, *Nature*. ~1,000 engineered SpCas9 enzymes
+  characterised for PAM specificity. Good shape, but the only one of these **not** open
+  access in PMC, so retrieval may need a hand-off.
+- `10.1038/s41929-025-01436-0` — artificial metathase, *Nature Catalysis*. De novo design
+  plus directed evolution; variant count unknown and possibly under the 20 floor.
+- `10.1038/s41467-025-63802-7` — distal mutations in three de novo Kemp eliminases;
+  likely a handful of mutants each.
+
+### Rejected from the second sweep
+
+The bulk of the 481 hits are **prediction tools trained and evaluated on other people's
+data** — CatPred, CataPro, TopEC, PreMode, DeepMVP, ABACUS-T, LassoESM, the
+cross-attention specificity GNN, the biophysics-based protein language models. Phase 1
+of the skill rules these out by name: a dataset a paper merely evaluates on belongs to
+the publication that measured it. Also rejected: `10.1038/s41586-025-09298-z` (AI-designed
+editors are not variants of one wild type) and the reviews — *Machine learning applied to
+biocatalysis research*, the PET hydrolase standardisation guidelines, the C1 utilisation
+review.
+
 ## Maybes
 
 - **Wong 2025**, *Characterizing and engineering post-translational modifications with
@@ -86,9 +141,14 @@ Nature Communications, 2025-08-27 · `10.1038/s41467-025-63304-6`
 
 ## On the search itself
 
-Twenty articles for a whole year is thin, and most of them are reviews — the query is a
-natural-language sentence and nature.com matches it loosely. Two obvious gaps: it covers
-Springer Nature journals only, so *Science*, *JACS*, *ACS Catalysis*, *Nature Catalysis*
-preprints and bioRxiv are all invisible, and "enzyme engineering" misses directed-evolution
-and deep-mutational-scanning papers that never use the phrase. If the 2025 set needs more
-than three datasets, widen the net before curating.
+Dropping the organism clause was worth doing: 20 articles became 481 hits and five new
+Tier A candidates, which says the first two queries were narrow rather than the year being
+thin. Two gaps remain. Both sweeps cover Springer Nature journals only, so *Science*,
+*JACS*, *ACS Catalysis* and bioRxiv are still invisible; and "enzyme engineering" still
+misses directed-evolution and deep-mutational-scanning papers that never use the phrase —
+Duan 2025 was found through the organism query rather than by describing itself as enzyme
+engineering at all.
+
+One practical note for the next sweep: nature.com rate-limits on bursts and answers with
+a 3 KB `Client Challenge` page that returns HTTP 200 and parses as valid HTML. Check the
+byte count on every fetch; a tiny response is a block, not an empty result.
