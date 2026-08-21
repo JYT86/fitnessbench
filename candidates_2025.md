@@ -108,6 +108,32 @@ editors are not variants of one wild type) and the reviews — *Machine learning
 biocatalysis research*, the PET hydrolase standardisation guidelines, the C1 utilisation
 review.
 
+## Checked against ProteinGym
+
+Asked whether any of this duplicates ProteinGym. It does not, and as of this writing it
+structurally cannot.
+
+- Latest **data** release is `PG_v1.3`, 2025-04-28. Commits since then (to 2026-03-25)
+  are benchmark-file and scoring fixes, not new assays.
+- It holds **217 DMS substitution assays, the newest from 2023** — no 2024 or 2025 assays
+  at all, so a 2025 sweep cannot collide with the current release.
+- Searching its assay list for our proteins returns nothing: PylRS 0, TEV protease 0,
+  RPB1/POLR2 0. The single "tev" hit is `MET_HUMAN_Estevam_2023`, a substring false
+  positive.
+
+Two caveats worth carrying forward:
+
+- ProteinGym does hold `CAS9_STRP1_Spencer_2017_positive`. The PAMmla candidate is a
+  separate PAM-specificity experiment on the same protein, so not duplication, but it is
+  the one candidate whose protein already appears there.
+- The scopes differ. ProteinGym collects deep mutational scans and clinical variants;
+  engineering campaigns like Zhang 2025 and Huber 2025 are not DMS in that sense. Duan
+  2025 is the closest in shape and is still absent.
+
+And the trap this makes concrete: **ProteinGym is itself a compilation of other people's
+measurements**, which is precisely the category Phase 1 excludes. A paper's ProteinGym
+benchmark tables are never curatable under that paper's name.
+
 ## Maybes
 
 - **Wong 2025**, *Characterizing and engineering post-translational modifications with
