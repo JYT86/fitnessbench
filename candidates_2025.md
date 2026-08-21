@@ -69,7 +69,7 @@ Nature Communications, 2025-08-27 · `10.1038/s41467-025-63304-6`
 
 ## Second sweep — new candidates
 
-Nothing here is curated yet. All five in Tier A are open access with per-variant data
+Nothing here is curated yet except Landwehr, which shipped. All five originally in Tier A are open access with per-variant data
 confirmed from the data-availability statement, and all are small — a thousand-variant
 enzyme is a few MB, not the tens of MB Duan cost.
 
@@ -79,13 +79,29 @@ enzyme is a few MB, not the tens of MB Duan cost.
 |---|---|---|---|---|
 | 1 | Landwehr 2025, *Accelerated enzyme engineering by machine-learning guided cell-free expression* | `10.1038/s41467-024-55399-0` | 1,217 amide synthetase variants across 10,953 reactions, variants optimised for 9 pharmaceuticals | Source Data + `github.com/grantlandwehr/accelerated-enzyme-engineering`; protein **and DNA sequences for every enzyme are in the SI**, so Phase 3 is a stated sequence |
 | 2 | Yang 2025, *Active learning-assisted directed evolution* (ALDE) | `10.1038/s41467-025-55987-8` | five epistatic active-site residues, three wet-lab rounds, 12% → 93% yield on a non-native cyclopropanation | `github.com/jsunn-y/ALDE` + Zenodo `12196802` |
-| 3 | iCASE 2025, *Tailoring industrial enzymes for thermostability and activity* | `10.1038/s41467-025-55944-5` | six enzymes (PG, XY, GADA, MTGase, laccase, PES-H1), thermostability **and** activity, explicit epistasis analysis | Supplementary + Source Data, "no restriction on data availability" |
 | 4 | Zhao lab 2025, *AI-powered autonomous enzyme engineering* | `10.1038/s41467-025-61209-y` | AtHMT (90-fold substrate preference) and YmPhytase | Supplementary Data 3 and 4, named explicitly as the mutant screening data |
 | 5 | *Integrating protein language models and automatic biofoundry* | `10.1038/s41467-025-56751-8` | tRNA synthetase, four rounds x 96 ESM-2-nominated variants, activity up 2.4-fold | within the paper and its supplementary files |
 
 Two of these carry public benchmark data that is **out of scope** and must not be
 curated under their name: ALDE simulates on GB1 and others, and the biofoundry paper
 uses GB1, UBC9 and ubiquitin. Those belong to whoever measured them.
+
+### Worked and rejected
+
+**iCASE 2025**, *Tailoring industrial enzymes for thermostability and activity*,
+`10.1038/s41467-025-55944-5` — **rejected, no work item reaches 20 variants.** Taken
+through Phase 0 and 1 on the strength of its six enzymes and two properties, which
+looked like the largest yield of any candidate. The Source Data workbook has 63 sheets
+and every one whose first column carries mutant labels holds **at most 16 rows**:
+PG 14 variants for both specific activity and melting temperature, PES-H1 15, and the
+XY, GADA, MTGase and laccase panels 6 to 7 each. The large sheets are simulation output
+— DSI values, compressibility, binding free energies — which is not an experimental
+measurement and is `no` on separate grounds.
+
+The paper's strength is the computational strategy; it validates with small targeted
+mutant sets rather than screens, which is exactly what the 20-variant floor exists to
+catch. Nothing from it ships, so there is no `remark` anywhere to record this in — hence
+the note here.
 
 ### Tier B — check before committing
 
