@@ -103,7 +103,34 @@ mutant sets rather than screens, which is exactly what the 20-variant floor exis
 catch. Nothing from it ships, so there is no `remark` anywhere to record this in — hence
 the note here.
 
-### Tier B — check before committing
+### Tier B — worked
+
+- `10.1038/s41586-025-09021-y` — **PAMmla**, *Nature*. **Curated**: 64 datasets, 1,078
+  SpCas9 variants each. The article is paywalled and returns HTML in place of a PDF, but
+  the supplementary tables are open, which is all the readouts needed.
+- `10.1038/s41929-025-01436-0` — artificial metathase, *Nature Catalysis*. **Rejected, no
+  variant table.** Ships one spreadsheet per figure; every sheet holds between 4 and 38
+  non-empty rows of kinetics and titration data, and none is a per-variant list.
+- `10.1038/s41467-025-63802-7` — Kemp eliminase distal mutations. **Rejected, no variant
+  table.** Four sheets of kinetic traces and stopped-flow raw data, no mutant-labelled
+  block anywhere in the source data.
+
+### Maybes — worked
+
+- **Alamos 2025**, ENTRAP-seq, `10.1038/s41587-025-02880-w` — **curated.** Table S3 holds
+  243 single substitutions of the CONSTANS activation domain with enrichment ratios; the
+  1,495-virus and Arabidopsis tile libraries are fragments of thousands of unrelated
+  proteins and are not variants of one wild type, so they are out of scope.
+- **Wong 2025**, PglB glycosylation, `10.1038/s41467-025-60526-6` — **not curated, and
+  the reason is a search limit rather than a proven absence.** Supplementary Data 1
+  enumerates the mutant OST constructs, 14 saturated positions with roughly 19
+  substitutions each, but I could not locate a per-variant activity table for them: the
+  four Source Data workbooks hold per-figure panels and three sheets of ~345,000 rows
+  that are sequencing or mass-spectrometry output, and the PglB screen is not obviously
+  among them. Worth one more look by someone with the paper open before it is written
+  off.
+
+### Tier B — original notes
 
 - `10.1038/s41586-025-09021-y` — **PAMmla**, *Nature*. ~1,000 engineered SpCas9 enzymes
   characterised for PAM specificity. Good shape, but the only one of these **not** open
