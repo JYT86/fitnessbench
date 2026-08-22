@@ -151,6 +151,50 @@ editors are not variants of one wild type) and the reviews — *Machine learning
 biocatalysis research*, the PET hydrolase standardisation guidelines, the C1 utilisation
 review.
 
+## Third sweep — past Springer Nature
+
+The first two sweeps only ever saw Springer Nature journals, and both queried "enzyme
+engineering", which misses papers that never use the phrase. Widening on both axes at
+once, via Europe PMC across all publishers:
+
+`("deep mutational scanning" OR "deep mutational scan" OR "variant effect map" OR
+"massively parallel mutagenesis" OR "site-saturation mutagenesis")`, 2025, open access —
+**544 hits**, against 481 for the enzyme-engineering query and 20 for the original pair.
+
+The journal spread is the point: PNAS, eLife, JBC, Cell Genomics, Cell Reports, ACS
+Central Science, Science Advances, J Virol, Angew Chem. Nature Communications is the
+single largest source at 18 of the first 100, but it is a minority.
+
+### Curated from this sweep
+
+**Estevam 2025**, *Mapping kinase domain resistance mechanisms for the MET receptor
+tyrosine kinase via deep mutational scanning*, eLife, `10.7554/eLife.101882` — 12
+datasets, roughly 3,600 to 3,950 variants each, one per inhibitor plus the DMSO control.
+Data on GitHub at `fraser-lab/MET_kinase_Inhibitor_DMS`.
+
+### Shortlisted, not yet worked
+
+| Paper | DOI | Why |
+|---|---|---|
+| Deep mutational scanning of the multi-domain phosphatase SHP2 | `10.1038/s41467-025-60641-4` | full DMS of a multi-domain signalling enzyme |
+| Deep Mutational Scanning of FDX1 | `10.1038/s41467-025-67869-0` | ferredoxin, lipoylation and cuproptosis |
+| EGFR resistance to 4th-generation TKIs | `10.1038/s41698-025-01086-2` | the EGFR analogue of the MET study |
+| Reshaping a glycoside hydrolase active site | `10.1021/acscentsci.5c01227` | ACS, a genuine carbohydrate-active enzyme |
+| DMS in *E. coli* | `10.1073/pnas.2516165122` | PNAS |
+| Glucokinase variant characterization | `10.3390/ijms27010156` | clinical variant panel |
+
+Beyond these, the sweep is full of antibody-escape and human disease-variant scans —
+spike, EGFR, MC4R, P2RY8, THAP1. Those are protein variant fitness and the format holds
+them, but whether the benchmark wants them is a scope question for Yutong rather than a
+curation one, so they are listed and left.
+
+### Still missing
+
+Neither this sweep nor the earlier ones reach **bioRxiv** at scale, or the directed
+evolution literature that describes itself as neither "enzyme engineering" nor "deep
+mutational scanning". A fourth axis — "fitness landscape", "epistasis", "combinatorial
+library" — would likely surface a further tranche.
+
 ## Checked against ProteinGym
 
 Asked whether any of this duplicates ProteinGym. It does not, and as of this writing it
