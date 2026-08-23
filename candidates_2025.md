@@ -190,9 +190,20 @@ kept apart in `datasets_human/` rather than mixed into `datasets/`. They are goo
 measurements and the format holds them, but they are abundant enough in the 2025
 literature to swamp a set meant to be about something else.
 
-Two consequences for screening. Human scans drop below non-human ones in priority rather
-than being rejected — EGFR resistance in the shortlist above is the clearest example, and
-it is the human analogue of a study already curated. And `source_organism` is worth
+Viral proteins are split the same way, into `datasets_virus/`. The benchmark's focus is
+cellular non-human organisms — bacteria, archaea, yeast, plants — and viral scaffolds and
+escape scans accumulate fast enough to crowd that out. So the tree a dataset lands in is:
+
+| Source organism | Tree |
+|---|---|
+| bacteria, archaea, yeast, plants | `datasets/` |
+| viruses, including bacteriophage | `datasets_virus/` |
+| *Homo sapiens* | `datasets_human/` |
+
+Two consequences for screening. Human and viral scans drop below cellular non-human ones
+in priority rather than being rejected — EGFR resistance in the shortlist above is the
+clearest example, being the human analogue of a study already curated, and the sweep's
+spike and antibody-escape papers are the viral case. And `source_organism` is worth
 reading at Phase 1, not at Phase 6: it decides which tree a dataset lands in, so it is
 cheaper to know before the work than after.
 

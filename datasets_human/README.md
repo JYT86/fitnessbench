@@ -2,8 +2,8 @@
 
 Datasets whose source organism is *Homo sapiens*, held separately from `datasets/`.
 
-The benchmark's focus is microbial and other non-human proteins — bacteria, archaea,
-yeast, plants, viruses. Human variant scans are abundant in the 2025 literature and are
+The benchmark's focus is cellular non-human organisms — bacteria, archaea, yeast, plants.
+Viral proteins are split out the same way, into `datasets_virus/`. Human variant scans are abundant in the 2025 literature and are
 perfectly good measurements, but mixing them into `datasets/` would let them dominate a
 set meant to be about something else. Keeping them here means a consumer of the benchmark
 chooses whether to include them, rather than having to filter by `source_organism` after
@@ -26,6 +26,7 @@ keeps the hierarchy scalable, and splitting at the root is what avoids breaking 
 ```bash
 python validate.py                                # datasets/
 python validate.py --datasets-dir datasets_human  # this tree
+python validate.py --datasets-dir datasets_virus  # viral proteins
 ```
 
 Both must pass. `papers/` and `original_datasets/` are shared between the two trees and
