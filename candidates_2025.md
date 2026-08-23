@@ -178,15 +178,23 @@ Data on GitHub at `fraser-lab/MET_kinase_Inhibitor_DMS`.
 |---|---|---|
 | Deep mutational scanning of the multi-domain phosphatase SHP2 | `10.1038/s41467-025-60641-4` | full DMS of a multi-domain signalling enzyme |
 | Deep Mutational Scanning of FDX1 | `10.1038/s41467-025-67869-0` | ferredoxin, lipoylation and cuproptosis |
-| EGFR resistance to 4th-generation TKIs | `10.1038/s41698-025-01086-2` | the EGFR analogue of the MET study |
+| EGFR resistance to 4th-generation TKIs | `10.1038/s41698-025-01086-2` | the EGFR analogue of the MET study; human, so `datasets_human/` and lower priority |
 | Reshaping a glycoside hydrolase active site | `10.1021/acscentsci.5c01227` | ACS, a genuine carbohydrate-active enzyme |
 | DMS in *E. coli* | `10.1073/pnas.2516165122` | PNAS |
 | Glucokinase variant characterization | `10.3390/ijms27010156` | clinical variant panel |
 
 Beyond these, the sweep is full of antibody-escape and human disease-variant scans —
-spike, EGFR, MC4R, P2RY8, THAP1. Those are protein variant fitness and the format holds
-them, but whether the benchmark wants them is a scope question for Yutong rather than a
-curation one, so they are listed and left.
+spike, EGFR, MC4R, P2RY8, THAP1. That scope question is now settled: **the benchmark
+prefers bacterial, archaeal, yeast, plant and viral proteins**, and human datasets are
+kept apart in `datasets_human/` rather than mixed into `datasets/`. They are good
+measurements and the format holds them, but they are abundant enough in the 2025
+literature to swamp a set meant to be about something else.
+
+Two consequences for screening. Human scans drop below non-human ones in priority rather
+than being rejected — EGFR resistance in the shortlist above is the clearest example, and
+it is the human analogue of a study already curated. And `source_organism` is worth
+reading at Phase 1, not at Phase 6: it decides which tree a dataset lands in, so it is
+cheaper to know before the work than after.
 
 ### Still missing
 
