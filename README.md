@@ -31,6 +31,7 @@ FitnessBench/
 │   └── ...
 ├── papers/                          # source publications (PDF)
 ├── original_datasets/               # source supplementary data, unmodified
+├── figure/                          # diagrams used by the README
 └── skill/
     └── fitnessbench-digger/         # the curation workflow, as a Claude Code skill
 ```
@@ -145,6 +146,15 @@ authoritative description of the process: locating the real source data, extract
 from supplementary PDFs, establishing the wild-type sequence and its residue numbering,
 assembling variants, orienting and normalizing the readout, and writing the dataset CSV
 together with its `reference.csv` row under gated validation checks.
+
+![The fitnessbench-digger curation workflow](figure/workflow.png)
+
+The arrows back to the reviewer are the point of the design: the skill stops and asks
+rather than guessing whenever the answer would be a judgment call — which paper, when one
+is already documented; which `(protein, property)` pairs to take; which file to download,
+when retrieval is blocked; whether the readout orientation is right. Everything after
+Phase 1 is mechanical, and the last step recomputes the values the paper states as a check
+on the whole chain.
 
 To use it with Claude Code, make it visible as a skill:
 
