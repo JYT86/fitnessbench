@@ -174,20 +174,25 @@ sitting there under this paper's prefix, that is the copy to use and there is no
 downstream errors, the file simply never joins the prefix that links it to its datasets. Having
 skipped retrieval is not having skipped 0e.
 
-Otherwise try to get it — and **bound the attempt to these three routes, once each**:
+Otherwise try to get it — and **bound the attempt to these two routes, once each**:
 
 | Route | |
 |---|---|
 | PMC / Europe PMC | `.../PMC<id>/fullTextXML`, or the PDF the OA service advertises |
 | the DOI | `curl -sSLI https://doi.org/<DOI>` and follow where it lands |
-| a preprint of the same work | bioRxiv/arXiv; good for methods and figures, **not** for the version of record's supplement numbering, which routinely differs |
+
+**A preprint is not a third route.** Do not fall back to bioRxiv, arXiv, or any other preprint of
+the same work — not for the article, not for its supplements. Only the version of record counts
+here: its supplement numbering routinely differs from the preprint's, so a locator taken from a
+preprint sends the user to the wrong file, and a `remark` citing one records a table that the
+published paper does not have. If the version of record cannot be retrieved, go to 0d and ask.
 
 | Outcome | Do |
 |---|---|
 | a real PDF arrives | confirm with `file`, stage it, go to 0a |
 | paywall, 403, captcha interstitial, or an HTML page where a PDF was promised | **stop and ask** |
 
-Stop means stop. Do not work down a list of mirrors, do not try a fourth search phrasing, do not
+Stop means stop. Do not work down a list of mirrors, do not try another search phrasing, do not
 reconstruct the article from whatever fragments are readable. Ask, naming what you tried, so the
 user knows exactly which file is missing:
 
@@ -234,7 +239,6 @@ has no Source Data statement at all, with its screening tables living inside the
 | PNAS | **Dataset SN** (xlsx) → **SI Appendix** (one PDF holding everything else) | — |
 | eLife | per-figure **source data** files → **Supplementary file N** | — |
 | ACS (JACS, ACS Catal., Biochemistry) | a single **Supporting Information** PDF; standalone xlsx only sometimes | — |
-| bioRxiv / preprint | one **Supplementary Material** blob, often unstructured | — |
 
 Rule of thumb behind the ordering: prefer the slot that is *machine-readable and per-variant*.
 Source Data and Dataset/Data SN files are the numbers behind a figure; an SI PDF is the same
@@ -251,7 +255,6 @@ they have to fetch it by hand:
 | PNAS | **Supporting Information** on the article page — SI Appendix and each Dataset SN listed separately |
 | eLife | an **Additional files** section near the foot, alongside **Data availability** |
 | ACS | a **Supporting Information** box linking the SI PDF; also at `pubs.acs.org/doi/suppl/<DOI>` |
-| bioRxiv | a **Supplementary Material** tab on the preprint page |
 
 **Both tables are accumulated experience, not a specification.** When a paper turns out to file its
 data somewhere these rows do not predict, amend the row or add one, in the same session — that is
@@ -278,6 +281,29 @@ Known failure modes, each with a distinct signature:
 | HTTP 404 on `ftp.ncbi.nlm.nih.gov/pub/pmc/oa_package/` | retired, still advertised by the OA service | use the Europe PMC route |
 | curl exit 35, `Connection reset by peer` | host unreachable from here | another mirror, not another flag |
 | `idconv` returns no record for the DOI | not deposited in PMC — common for subscription journals | go to the publisher's own supplementary URL |
+| HTTP 500 from `.../supplementaryFiles`, body is the EBI error page | the bundler cannot build the zip — often a very large member | fetch each file by name, per the row below |
+
+When the bundle refuses, the **per-file** Europe PMC route still works, and it survives hosts that
+block everything else. The filenames come from 0a — they are the `xlink:href` of each
+`<supplementary-material>` in `.../PMC<id>/fullTextXML`, which also carries each file's byte size in
+a `<?size N?>` processing instruction; that size is the check the publisher's page would otherwise
+have given you.
+
+```bash
+B="https://europepmc.org/api/fulltextRepo?pprId=PMC<id>&type=FILE"
+curl -sSL -o data.csv  "$B&fileName=41467_2024_50712_MOESM4_ESM.csv&mimeType=text/plain"
+curl -sSL -o data.zip  "$B&fileName=41467_2024_50712_MOESM6_ESM.zip&mimeType=application/octet-stream"
+```
+
+| Symptom | Cause | Do |
+|---|---|---|
+| `{"error": "Please input a valid fileName and mimeType"}` | `mimeType` omitted | it is required, not optional |
+| times out, or 500, on a `.zip` or `.xlsx` | `application/zip` is refused for large members | retry once as `application/octet-stream` |
+| `{"error":"PDF link has expired or is invalid"}` | **this endpoint serves no PDFs at all** | the article and SI PDF must come from elsewhere — usually 0d |
+
+The last row is the one that decides the phase: a paper whose data is machine-readable can be fully
+retrieved here while its **PDFs** stay out of reach, so 0d gets asked for the PDFs only, and Phase 1
+is not blocked meanwhile.
 
 The zip holds what PMC happens to hold. **Diff its contents against the listing from 0a**: if a
 file the paper names is missing, do not assume it does not exist — fetch that one from the
