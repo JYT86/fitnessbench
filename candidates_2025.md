@@ -214,6 +214,40 @@ evolution literature that describes itself as neither "enzyme engineering" nor "
 mutational scanning". A fourth axis — "fitness landscape", "epistasis", "combinatorial
 library" — would likely surface a further tranche.
 
+## Fourth sweep — ACS journals
+
+Both direct access and a title-then-abstract screen through Europe PMC, restricted to
+ACS Catal, ACS Cent Sci, ACS Synth Biol, JACS and Biochemistry, 2025, open access.
+
+**Curated:**
+
+- **Wysocki 2025**, *High-Throughput Detection of Cyanobacterial Form I Rubisco
+  Assembly*, ACS Synth Biol, `10.1021/acssynbio.5c00591` — 2 datasets, 6608 variants each,
+  a phage-selection site-saturation library on RbcL (Halothiobacillus neapolitanus).
+  Wild type is a real measurement rather than synthesized, and a fitness of exactly 0 is
+  an explicit censoring sentinel covering up to 79% of one condition — read the remark
+  before using this one.
+- **Thornton 2025**, *Cell-Free Protein Synthesis as a Method to Rapidly Screen
+  Machine Learning-Generated Protease Variants*, ACS Synth Biol,
+  `10.1021/acssynbio.5c00062` — 2 datasets, 48 variants each, on Con1, a designed
+  consensus potyviral protease rather than a natural sequence. Filed under
+  `datasets_virus/`. Its supplement's `?pdf=render` route on europepmc.org is the one
+  that worked when `fullTextXML` 404'd — worth trying first if that happens again.
+
+**Rejected, no per-variant table:** PET hydrolases from natural diversity (a homolog
+panel of ~400 distinct natural sequences, no shared wild type — same shape as the
+Cas12a-orthologs rejection from the first sweep); the KdcA directed-evolution paper, the
+DyP peroxidase thermostability paper, and the SPOT-library metallopeptide paper all ship
+only a PDF supplement with no spreadsheet, and each reports a small number of named
+variants (an 8-mutation final construct, a handful of recombinants) well under the floor
+— PDF table extraction was not attempted given the likely yield.
+
+**Access notes for this venue.** ACS blocks direct article and supplement access outright
+(403 on both), so everything here came through Europe PMC. Two distinct routes were
+needed across two papers: `supplementaryFiles` plus `fullTextXML` worked for Wysocki;
+Thornton's `fullTextXML` 404'd and needed the `europepmc.org/articles/<pmcid>?pdf=render`
+fallback instead. Try `fullTextXML` first, fall back to `?pdf=render` on a 404.
+
 ## Checked against ProteinGym
 
 Asked whether any of this duplicates ProteinGym. It does not, and as of this writing it
