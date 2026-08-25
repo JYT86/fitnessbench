@@ -422,3 +422,81 @@ engineering at all.
 One practical note for the next sweep: nature.com rate-limits on bursts and answers with
 a 3 KB `Client Challenge` page that returns HTTP 200 and parses as valid HTML. Check the
 byte count on every fetch; a tiny response is a block, not an empty result.
+
+## Fourth sweep — directed evolution, avoiding "DMS" and "enzyme engineering" phrasing
+
+Requested explicitly: sweep directed-evolution literature that describes itself with
+neither phrase, restricted to 2025 and to real journals (`SRC:MED` on Europe PMC, which
+excludes the bioRxiv/PPR source and therefore excludes preprints without a separate
+filter). Two query axes — `"directed evolution"` and `"site-saturation mutagenesis"`,
+each `NOT "deep mutational scanning" NOT "enzyme engineering"` — plus a narrower
+`"laboratory evolution"` pass and a `"yeast surface display" AND "deep sequencing"` pass.
+
+**The headline finding is about the vocabulary itself, not any one paper.** Papers that
+describe their own work as "directed evolution" overwhelmingly turn out to be classic
+low-throughput campaigns: randomize, select, sequence a handful of survivors, name one
+champion. That shape is structurally incompatible with this format regardless of how the
+paper reads — there is no systematic per-variant table to recover, because one was never
+generated. This is close to the inverse of the DMS/enzyme-engineering sweeps, where the
+phrase itself was a reasonable proxy for "a library was scored systematically." Here the
+phrase is closer to a proxy for the opposite. Twenty-plus abstracts and a dozen full-text
+fetches this round, and every single one that reached full text turned out to name only
+its final winner(s):
+
+| Paper | DOI | Why not |
+|---|---|---|
+| Wong (chitosanase signal peptide) | `10.1021/acs.jafc.5c13730` | Iterative rounds to one named winner (M8); paywalled, not opened past the abstract |
+| PROTEUS mammalian evolution platform | `10.1038/s41467-025-59438-2` | Methods/tool paper; the "N variants" figures are allele-frequency spectra from continuous passaging, not an isolated-clone table, and the two characterized Nb139 mutations are far under floor |
+| Golden Gate continuous-evolution toolkit | `10.1093/synbio/ysaf014` | Pure toolkit demonstration; no target-protein dataset, just proof the mutator works |
+| Maize HPPD via TADR | `10.1111/pbi.70160` | 3-page technical advance; 9 point mutants individually tested, qualitative colony-color readout for most |
+| MerR Hg2+ biosensor | `10.1016/j.bios.2025.117687` | Selection funnel (98% eliminated, then top 0.2%) ending in one named variant (V124E); not open access |
+| Oncolytic Sindbis virus (osteosarcoma) | `10.1016/j.omton.2025.201096` | Adaptive passaging to a consensus lineage, not a mapped substitution landscape; "variant" appears 6 times in the whole paper |
+| Rubisco laboratory-evolution screen (Nat Plants) | `10.1038/s41477-025-02093-8` | Screen narrows to exactly two named point mutations (M116L, A242V), deeply characterized but not a library table |
+| Nonheme iron BsQueD (alkene amination) | `10.1021/jacsau.5c00817` | "An optimized variant" — lineage evolution to one champion |
+| PchB to chorismate mutase (reverse evolution) | `10.1021/acs.biochem.5c00157` | Functional-complementation selection from a 7-position, 38,000-variant library down to a handful of named sequenced clones (5-1, 2-43, 10-37...); no per-variant table, just individually characterized survivors |
+| PHL7 PET hydrolase (4 rounds) | `10.1016/j.checat.2025.101399` | Four named final variants (Jemez, Santa Fe, Taos, Tusas); no deposited dataset, "available upon reasonable request" |
+| Q-body immunosensor quenching prediction | `10.1021/jacsau.4c01189` | The large NGS-scored library is a synthetic nanobody repertoire, not point mutants of one wild type; the validated point-mutant sets (Trp scans) are single digits per antibody |
+| Curr Protoc SELIS walkthrough | `10.1002/cpz1.70218` | Protocol demonstration, not a dataset paper |
+| Ebola VP40 patient mutations | `10.1016/j.jbc.2025.110489` | "40 mutations" is epidemiological surveillance across outbreak lineages, not an experimental library; only 2 mutations (R204H, H269R) are lab-characterized |
+| Affibody stability (DR5 / TNFR1) | `10.1002/bit.28954` | Deep sequencing used only to triage candidates for individual validation; reported data is a handful of purified variants, not library-wide |
+
+**Two papers came closer than anything above and are worth a dedicated pass rather than a
+quick verdict:**
+
+- **A class A β-lactamase gatekeeper-residue screen**, `10.1016/j.jbc.2025.110347` — site
+  saturation of Ambler position 105 in five different β-lactamases (BlaC, CTX-M-14,
+  KPC-2, NmcA, TEM-1), each screened by deep sequencing against 7 substrates/inhibitors
+  with 3 replicates. The Supporting Data (`mmc2.xls`, a genuine legacy `.xls`, needs
+  `xlrd`) really does hold raw counts and per-replicate fitness values, not just a
+  figure. The catch: this is one saturated position, so each enzyme's dataset would be
+  19 substitutions plus WT — one row under this branch's usual floor, and thin compared
+  to everything else on it. Worth a second look if the bar is "genuine deep-sequencing
+  fitness data" rather than "library-scale."
+- **A tryptophan decarboxylase (TDC) active-site recombination study**, `10.1002/pro.70356`
+  — substrate-multiplexed screening (SUMS) across five active-site positions, combining a
+  clean prior single-site-saturation sub-library (96 unique single mutants, referenced
+  but not obviously deposited) with iterative combinatorial recombination libraries
+  (~250 variants total, up to triple mutants, LC-MS-quantified activity against multiple
+  substrates). Multi-site labels are within the format's scope, but the data availability
+  statement is "upon reasonable request" — nothing machine-readable was found in the
+  supplement, so this would need an email to the authors before it goes further.
+- **A yeast-display Aβ-fibril conformational antibody campaign**, `10.3389/fimmu.2025.1655893`
+  — unlike the Frontiers antibody paper found in an earlier round (heatmap-only, no
+  export), this one deposited raw NGS data on GitHub
+  (`Tessier-Lab-UMich/druglike-abeta-antibodies`, `data/ngs_data/Rep_{1,2}/DMD_data/`):
+  per-sort-round CDR-sequence frequency tables covering a 10-site NNK library (5 in
+  HCDR1: H27/H31/H32/H33/H34, 5 in LCDR2: L50/L51/L52/L53/L55) built off a named parent
+  antibody ("clone 97"). This is genuinely promising — real sequencing counts, a defined
+  wild type, a defined mutated region — but turning sort-round frequencies into an
+  enrichment score means first finding clone 97's parent CDR sequence (a different,
+  earlier paper) and working out which of the five numbered files per replicate is
+  "before" and which is "after" selection, none of which is safe to guess at. Left for a
+  session that can read the cited parent paper's methods in full.
+
+Not yet run: `"phage display"`, `"PACE"` / `"phage-assisted continuous evolution"`,
+`"ancestral sequence reconstruction"`, and `"combinatorial active-site saturation
+test"` / `"iterative saturation mutagenesis"` as their own query axes. Given how lopsided
+this round's hit rate was, the phage/PACE axis is the more promising one to try next —
+PACE campaigns are more likely than manual "directed evolution" write-ups to carry a
+deep-sequencing-scored population, closer in spirit to the β-lactamase and Aβ-antibody
+leads above than to the one-champion pattern that dominated everything else this round.
