@@ -172,16 +172,37 @@ tyrosine kinase via deep mutational scanning*, eLife, `10.7554/eLife.101882` —
 datasets, roughly 3,600 to 3,950 variants each, one per inhibitor plus the DMSO control.
 Data on GitHub at `fraser-lab/MET_kinase_Inhibitor_DMS`.
 
-### Shortlisted, not yet worked
+### Chased from the shortlist, and what happened
 
-| Paper | DOI | Why |
+| Paper | DOI | Outcome |
 |---|---|---|
-| Deep mutational scanning of the multi-domain phosphatase SHP2 | `10.1038/s41467-025-60641-4` | full DMS of a multi-domain signalling enzyme |
-| Deep Mutational Scanning of FDX1 | `10.1038/s41467-025-67869-0` | ferredoxin, lipoylation and cuproptosis |
-| EGFR resistance to 4th-generation TKIs | `10.1038/s41698-025-01086-2` | the EGFR analogue of the MET study; human, so `datasets_human/` and lower priority |
-| Reshaping a glycoside hydrolase active site | `10.1021/acscentsci.5c01227` | ACS, a genuine carbohydrate-active enzyme |
-| DMS in *E. coli* | `10.1073/pnas.2516165122` | PNAS |
-| Glucokinase variant characterization | `10.3390/ijms27010156` | clinical variant panel |
+| DMS in *E. coli* periplasm | `10.1073/pnas.2516165122` | **Checked, deprioritized.** The "protein of interest" is human Aβ42, and the readout is amyloid aggregation propensity via a bacterial reporter (TPBLA), not an enzyme fitness — the assay host is bacterial, the protein is not. Human, so `datasets_human/` if ever built. |
+| Reshaping a glycoside hydrolase active site | `10.1021/acscentsci.5c01227` | **Checked, rejected.** A 330,000-clone droplet-microfluidics library was screened, but only a handful of named winners (M1, M2, ...) are individually characterised with a quantitative readout; no systematic per-variant table exists in the paper or its PDF-only supplement. |
+
+### Still shortlisted, not yet chased
+
+| Paper | DOI | Why | Priority |
+|---|---|---|---|
+| Deep mutational scanning of the multi-domain phosphatase SHP2 | `10.1038/s41467-025-60641-4` | full DMS of a multi-domain signalling enzyme | human, `datasets_human/` |
+| Deep Mutational Scanning of FDX1 | `10.1038/s41467-025-67869-0` | ferredoxin, lipoylation and cuproptosis | human, `datasets_human/` |
+| EGFR resistance to 4th-generation TKIs | `10.1038/s41698-025-01086-2` | the EGFR analogue of the MET study | human, `datasets_human/` |
+| Glucokinase variant characterization | `10.3390/ijms27010156` | clinical variant panel | human, `datasets_human/`, likely small |
+
+### Also checked this round, all rejected
+
+Found through a broader PNAS/Cell Press pass while chasing the above, none surviving:
+
+| Paper | DOI | Why rejected |
+|---|---|---|
+| Directed evolution of a beta-lactamase (conformational states) | `10.1002/pro.70322` | 3 successive mutants + WT, well under the floor |
+| Deep structure-function analysis of Mus81 with dominant mutational scanning | `10.1073/pnas.2506043122` | deposited data is a binary Y/N hit classification (dominant / fails-to-complement), not a quantitative per-variant score; the underlying graded growth-sensitivity data was not deposited |
+| Pyranose oxidase oligomerization engineering | `10.1111/febs.70004` | Zenodo deposit is models/docking scores only; experimental data "available upon request" |
+| Isophthalate dioxygenase engineering | `10.1128/jb.00221-25` | no data-availability statement found |
+| Confocal absorbance-activated droplet sorting (cAADS) | `10.1002/advs.202505324` | "available from the corresponding author upon reasonable request" |
+| Directed evolution of a plant Rubisco chaperone | `10.1073/pnas.2510701122` | PDF-only SI; text says "selected" variants, not a full library table |
+| In vivo directed evolution of an ultrafast Rubisco | `10.1073/pnas.2505083122` | kinetic characterisation covers only ~7 named substitutions; the 292-row dataset is population allele-frequency trajectories per locus, not per-clone fitness |
+| Directed evolution of a covalent RNA-labeling tag | `10.1073/pnas.2422085122` | PDF-only SI |
+| Nanobody-antigen interface optimisation | `10.1073/pnas.2426438122` | PDF-only SI |
 
 Beyond these, the sweep is full of antibody-escape and human disease-variant scans —
 spike, EGFR, MC4R, P2RY8, THAP1. That scope question is now settled: **the benchmark
