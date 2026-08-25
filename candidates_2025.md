@@ -248,6 +248,69 @@ needed across two papers: `supplementaryFiles` plus `fullTextXML` worked for Wys
 Thornton's `fullTextXML` 404'd and needed the `europepmc.org/articles/<pmcid>?pdf=render`
 fallback instead. Try `fullTextXML` first, fall back to `?pdf=render` on a 404.
 
+**Why the other four ACS candidates failed, precisely.** Not access — all four were
+reachable. Each failed for a different reason, and the four together are most of the
+failure modes this format runs into:
+
+| Paper | Failure |
+|---|---|
+| PET hydrolases from natural diversity | homolog panel — ~400 distinct natural sequences, no shared wild type |
+| KdcA directed evolution | PDF-only supplement, and the text names one 8-substitution final variant, not a library table |
+| DyP peroxidase thermostability | PDF-only supplement, a handful of designed variants |
+| SPOT metallopeptide library | PDF-only supplement, small named set |
+
+None of the last three ship a spreadsheet at all — PDF table extraction was not
+attempted given the likely yield (a handful of named variants each, from the abstracts).
+Worth revisiting with actual extraction if the floor-check-from-abstract heuristic turns
+out to be wrong.
+
+## Fifth sweep — PNAS
+
+Title-matched (protein/enzyme engineering terms, 30 hits) and abstract-matched
+(landscape/library terms, 11 hits), 2025, open access, 41 unique papers.
+
+Four credible candidates chased to their supplementary data, all rejected on the same
+pattern seen elsewhere: a directed-evolution campaign that samples a large space but
+individually characterises only a handful of final hits, rather than reporting a
+systematic per-variant table.
+
+| Paper | DOI | Why rejected |
+|---|---|---|
+| Directed evolution of a plant Rubisco chaperone | `10.1073/pnas.2510701122` | PDF-only SI; text says "selected" variants, not a full library table |
+| In vivo directed evolution of an ultrafast Rubisco | `10.1073/pnas.2505083122` | four data files, but the kinetic characterisation covers only ~7 named substitutions; Dataset S2's 292 rows are population-level allele-frequency trajectories per locus across evolution rounds, not per-clone genotype-fitness pairs |
+| Directed evolution of a covalent RNA-labeling tag | `10.1073/pnas.2422085122` | PDF-only SI |
+| Nanobody-antigen interface optimisation | `10.1073/pnas.2426438122` | PDF-only SI; phage display down to a small validated set |
+
+Nothing else in either sweep was both non-review and non-human-disease-focused enough to
+be worth a floor-check — the abstract-matched set in particular was almost entirely
+antibody/epistasis/prediction-tool papers already excluded on the same grounds as the
+first Nature sweep.
+
+## Sixth sweep — Cell Press
+
+Broadened past `Cell Reports` and `Cell Genomics` to the full family (`Cell`, `Molecular
+Cell`, `Cell Chemical Biology`, `Cell Systems`, `Structure`, `Cell Host & Microbe`,
+`Immunity`, `Current Biology`, `Chem`, `iScience`, `Cell Reports Methods`, `Cell Reports
+Physical Science`). Title-matched: 43 hits, almost entirely clinical-ML `iScience`
+papers with no connection to protein engineering.
+
+**Curated:** Teo 2025, *Probing the functional constraints of influenza A virus NEP by
+deep mutational scanning*, Cell Reports, `10.1016/j.celrep.2024.115196` — found by title
+sweep alone; it never uses the phrase "deep mutational scanning" prominently enough to
+surface in an abstract-text query, which is worth remembering when a title sweep and an
+abstract sweep disagree. 1894 variants of influenza NEP (A/WSN/1933 strain). The
+processed fitness table was not in the article's own supplement — Cell Press's STAR
+Methods convention points to a **Zenodo deposit of the analysis repository**
+(`10.5281/zenodo.14291492`) instead, which held the real per-variant CSV where the
+article and PMC supplement held only scripts and figure sources. Worth checking Zenodo
+whenever a Cell Press paper's Data Availability section names one, even when the article
+supplement looks complete.
+
+Two more from this sweep, not chased further: F. rodentium Cas9 (structural/cryo-EM
+paper, likely a handful of validated point mutants, no data-availability statement
+found) and the ODM protein-design pipeline (generative-model paper, likely benchmarks on
+public data per the Phase 1 exclusion for evaluated-on datasets).
+
 ## Checked against ProteinGym
 
 Asked whether any of this duplicates ProteinGym. It does not, and as of this writing it
