@@ -179,14 +179,29 @@ Data on GitHub at `fraser-lab/MET_kinase_Inhibitor_DMS`.
 | DMS in *E. coli* periplasm | `10.1073/pnas.2516165122` | **Checked, deprioritized.** The "protein of interest" is human Aβ42, and the readout is amyloid aggregation propensity via a bacterial reporter (TPBLA), not an enzyme fitness — the assay host is bacterial, the protein is not. Human, so `datasets_human/` if ever built. |
 | Reshaping a glycoside hydrolase active site | `10.1021/acscentsci.5c01227` | **Checked, rejected.** A 330,000-clone droplet-microfluidics library was screened, but only a handful of named winners (M1, M2, ...) are individually characterised with a quantitative readout; no systematic per-variant table exists in the paper or its PDF-only supplement. |
 
-### Still shortlisted, not yet chased
+### Shortlist, chased to completion
 
-| Paper | DOI | Why | Priority |
-|---|---|---|---|
-| Deep mutational scanning of the multi-domain phosphatase SHP2 | `10.1038/s41467-025-60641-4` | full DMS of a multi-domain signalling enzyme | human, `datasets_human/` |
-| Deep Mutational Scanning of FDX1 | `10.1038/s41467-025-67869-0` | ferredoxin, lipoylation and cuproptosis | human, `datasets_human/` |
-| EGFR resistance to 4th-generation TKIs | `10.1038/s41698-025-01086-2` | the EGFR analogue of the MET study | human, `datasets_human/` |
-| Glucokinase variant characterization | `10.3390/ijms27010156` | clinical variant panel | human, `datasets_human/`, likely small |
+| Paper | DOI | Outcome |
+|---|---|---|
+| Deep mutational scanning of the multi-domain phosphatase SHP2 | `10.1038/s41467-025-60641-4` | **curated** — see below, 2 datasets, 16,181 variants |
+| Deep Mutational Scanning of FDX1 | `10.1038/s41467-025-67869-0` | **rejected.** Data availability names a FigShare repository, but it holds only raw Enrich2-style per-sample counts (2.1 GB of intermediates) — recovering per-variant scores means reimplementing the authors' analysis pipeline, not reading a table. The paper's own Source Data has only anonymized score *distributions* (no genotype column) and position-*averaged* values, neither of which gives a per-variant readout. |
+| EGFR resistance to 4th-generation TKIs | `10.1038/s41698-025-01086-2` | **rejected.** Same shape as MET (Ba/F3, saturation library, ~17,000 variants) but without that paper's GitHub deposit: Data availability names only raw sequencing reads at GEO, and the 12-page PDF-only supplement holds figures and free-energy-perturbation calculations for a handful of representative isoforms, not a per-variant table. |
+| Glucokinase variant characterization | `10.3390/ijms27010156` | **rejected.** 25 individually chosen clinical variants, well under the floor — not a saturation library, despite citing that "deep mutational scanning datasets for GCK" exist elsewhere (an earlier paper, not this one, not chased). |
+
+### Sherekar 2025 ... correction, Jiang 2025 — SHP2 phosphatase
+
+*Deep mutational scanning of the multi-domain phosphatase SHP2 reveals mechanisms of
+regulation and pathogenicity*, Nature Communications, `10.1038/s41467-025-60641-4`.
+
+Two datasets, both `datasets_human/Activity/CatalyticActivity/DMS/`: full-length SHP2
+(10,899 variants) and its isolated PTP domain expressed as a separate truncated construct
+(5,282 variants, renumbered to the construct's own 1-indexed start). A yeast
+growth-rescue assay, enrichment relative to wild type. The real per-variant table was in
+the article's own Source Data (`Fig 2b/2c column` sheets) rather than the three files the
+paper itself labels "Supplementary Data" — those turned out to be library-design oligo
+pools, WT-only kinetics, and a 595-row clinical cross-reference of this same data. Worth
+remembering: a paper's own "Supplementary Data N" numbering is not a reliable signal for
+where the primary result lives; check Source Data regardless.
 
 ### Also checked this round, all rejected
 
