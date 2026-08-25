@@ -121,14 +121,19 @@ the note here.
   243 single substitutions of the CONSTANS activation domain with enrichment ratios; the
   1,495-virus and Arabidopsis tile libraries are fragments of thousands of unrelated
   proteins and are not variants of one wild type, so they are out of scope.
-- **Wong 2025**, PglB glycosylation, `10.1038/s41467-025-60526-6` — **not curated, and
-  the reason is a search limit rather than a proven absence.** Supplementary Data 1
-  enumerates the mutant OST constructs, 14 saturated positions with roughly 19
-  substitutions each, but I could not locate a per-variant activity table for them: the
-  four Source Data workbooks hold per-figure panels and three sheets of ~345,000 rows
-  that are sequencing or mass-spectrometry output, and the PglB screen is not obviously
-  among them. Worth one more look by someone with the paper open before it is written
-  off.
+- **Wong 2025**, PglB glycosylation, `10.1038/s41467-025-60526-6` — **curated.** The
+  earlier search limit was real but wrong about where to stop: "Source Data 1.xlsx" ->
+  sheet "Figure 5" holds the per-variant AlphaLISA table the first pass missed (the
+  ~345,000-row sheets are unrelated sequencing/MS output from the paper's separate RiPP
+  section). 285 single substitutions across 15 site-saturated positions of CjPglB
+  (UniProt Q0P9C8), all 15 verified against it exactly. Readout is AlphaLISA signal
+  (RLU) for CPS4 glycan transfer, mean of two replicates; the wild-type row is a
+  genuine same-plate control measurement, not synthesized. As a check, the ten
+  highest-signal variants the paper names in prose (S80V, S80T, Q287K, N311I, N311V,
+  N311M, L480A, L480F, L480W, L480R) are exactly this file's top ten by readout. The
+  paper's separate 328-construct PD-sequon-insertion library (Fig. 6) is a different
+  kind of variant — insertion position in a different carrier protein, not a
+  substitution of CjPglB itself — and stays out of scope.
 
 ### Tier B — original notes
 
