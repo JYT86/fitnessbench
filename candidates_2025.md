@@ -423,6 +423,74 @@ One practical note for the next sweep: nature.com rate-limits on bursts and answ
 a 3 KB `Client Challenge` page that returns HTTP 200 and parses as valid HTML. Check the
 byte count on every fetch; a tiny response is a block, not an empty result.
 
+## Seventh sweep — ACS, redone systematically
+
+The fourth sweep was the one sweep with no recorded boolean query: it was a manual browse
+of each journal's 2025 issue listings plus a title/abstract read. Redone here with the
+same method as the third, fifth and sixth sweeps so it sits on the same footing:
+
+`(JOURNAL:"ACS Catal" OR "ACS Cent Sci" OR "ACS Synth Biol" OR "J Am Chem Soc" OR
+"Biochemistry") AND PUB_YEAR:2025 AND SRC:MED AND ("deep mutational scanning" OR
+"site-saturation mutagenesis" OR "directed evolution" OR "variant effect map" OR
+"massively parallel mutagenesis" OR "enzyme engineering" OR "protein engineering")`
+— **237 hits, 234 not seen in any earlier sweep.** All 234 abstracts were pulled and
+keyword-scored for signals of a per-variant quantitative table (deep sequencing, FACS,
+site-saturation, explicit variant counts, sequence-function), and the top of that ranking
+was chased to full text and supplement.
+
+**The re-sweep was worth running: it found a paper the manual pass missed.**
+
+### Curated from this sweep
+
+**Somvilla 2025**, *Ultrahigh-Throughput Activity Engineering of Promiscuous Amidases
+through a Fluorescence-Activated Cell Sorting Assay*, ACS Catalysis,
+`10.1021/acscatal.5c01903` — 8 datasets, 20 variants each, on SaAmd, an amidase-signature
+family amidase from *Sphingomonas alpina*. Combinatorial libraries at active-site loop L3
+(positions 207-210) and distal loop positions 123 and 364 were sorted by FACS, using a
+coumarin hydrolysis product retained in the cell by glutathione conjugation for the
+genotype-phenotype link; the curated numbers are the follow-up purified-enzyme specific
+activities in Supplementary Table S3, one dataset per substrate across 8 amide, ester and
+carbamate substrates. Reference sequence is UniProt A0A7H0LPJ3, 436 residues; the paper's
+construct appends a C-terminal `LELEHHHHHH` tag, dropped here as a purification artefact
+that cannot shift any residue number. Wild type is a real same-panel measurement. Three of
+the paper's own prose fold-changes re-derive exactly: 16.4x vs "up to 16-fold", 4.7x vs
+"almost 5-fold", 5.6x vs "up to 6-fold".
+
+**Why the manual pass missed it.** Its abstract says "directed evolution",
+"high-throughput screening" and "flow cytometry" and never uses "enzyme engineering" or
+"deep mutational scanning" — the exact blind spot the directed-evolution sweep was meant
+to cover, in a venue that sweep did not weight heavily. It is also a PDF-only supplement,
+the property that got four ACS candidates written off in the fourth sweep without
+extraction being attempted. Here extraction *was* attempted and the table came out clean.
+That earlier note — "worth revisiting with actual extraction if the floor-check-from-
+abstract heuristic turns out to be wrong" — turned out to be the right worry.
+
+### Rejected from this sweep
+
+| Paper | DOI | Why not |
+|---|---|---|
+| A cyanobacterial screening platform for Rubisco mutant variants | `10.1021/acssynbio.5c00065` | 16 variants, under the floor -- the authors' own GitHub repository is named `CbbM_16variants`. Deep-sequenced competitive growth, so the shape is right and only the size is wrong. |
+| Ultrahigh-throughput multiplexed screening from cell-free expression | `10.1021/jacs.5c04962` | Not open access, no PMC record; a droplet-microfluidics methods paper rather than a variant dataset |
+| Directed evolution of a genetically encoded chloride indicator | `10.1021/acssynbio.4c00818` | `fullTextXML` empty; abstract describes a lineage to a named improved indicator |
+| Stereoselective photoenzymatic hydroarylation | `10.1021/jacs.5c12440` | `fullTextXML` empty; biocatalysis paper, evolution to a named champion variant |
+
+The rest of the 234 fall into the categories already established elsewhere in this file:
+biocatalysis papers evolving to one named champion, de novo design papers, reviews, and
+metabolic-engineering papers with no protein-variant table at all.
+
+### What this says about the other sweeps
+
+Two lessons worth carrying, both of which argue for redoing rather than trusting an
+earlier pass:
+
+- **A manual browse is not equivalent to a query, and should not be recorded as if it
+  were.** The fourth sweep's row in the tracker said "title/abstract screen", which read
+  like the others but was not comparable to them.
+- **"PDF-only supplement" is a reason to try extraction, not a reason to reject.** Four
+  fourth-sweep candidates were rejected on that basis without opening the PDF. Somvilla
+  is a PDF-only supplement whose Table S3 extracted cleanly with PyMuPDF in one pass. The
+  four earlier ones are worth re-opening on the same basis before they stay rejected.
+
 ## Fourth sweep — directed evolution, avoiding "DMS" and "enzyme engineering" phrasing
 
 Requested explicitly: sweep directed-evolution literature that describes itself with
