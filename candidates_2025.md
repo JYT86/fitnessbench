@@ -568,3 +568,76 @@ this round's hit rate was, the phage/PACE axis is the more promising one to try 
 PACE campaigns are more likely than manual "directed evolution" write-ups to carry a
 deep-sequencing-scored population, closer in spirit to the β-lactamase and Aβ-antibody
 leads above than to the one-champion pattern that dominated everything else this round.
+
+## Audit of within-paper rejections — 2026-08-27
+
+Every curated paper's `remark` ends with a clause naming what was *not* extracted from it.
+That clause is the only record of those decisions, and until now nothing had ever re-read
+one. This round did: all 36 exclusions across the 17 curated papers are now enumerated in
+the **Partial rejections** tab of `FitnessBench_2025_literature_search.xlsx`, each with a
+verdict. Twenty-nine hold up. Four do not, and one is imprecise.
+
+**Singh 2025 — the YmPhytase campaign. Wrong, now fixed.** The remark said "no sequence is
+given in the paper and no reference accession could be found". The *Description of
+Additional Supplementary Files* lists Supplementary Data 5 as
+`SupplementaryDataFile_5_DNA_sequencing_files.zip` — "The DNA sequences for wild-type AtHMT
+and YmPhytase" — and the Fig. 3 caption repeats the pointer in the caption of the very
+figure whose data was curated. The zip holds a plasmid map whose CDS at 2413..3714
+translates to a 434-residue ORF against which all 180 mutation labels verify at offset 0.
+Shipped as `Singh 2025-ML-YmPhytase-catalyticactivity-relative_activity.csv`, 181 variants.
+
+The failure was searching for an accession and treating its absence as the absence of a
+sequence. **A construct sequence in a supplementary plasmid map is a Phase 3 source like
+any other** — 0a's attachment listing is where to look for it, before any accession search.
+
+**Singh 2025 — rounds 2 to 4, both enzymes. Wrong, now fixed.** The remark said the rounds
+are "built on several different improved parents per round with no per-well template
+assignment shipped, so a variant's full genotype cannot be reconstructed". The `Mutations`
+column of every round-2/3/4 sheet writes the full genotype, not the new substitution:
+`V141M / K226G / I15V / Q295D`. No template assignment is needed to read it.
+
+Both datasets now pool all four rounds, since every round normalizes to wild type on its own
+plate and they therefore share a scale: **AtHMT 176 → 482 variants** and **YmPhytase 181 →
+449**, singles through quadruples. Both reconcile against the paper's own arithmetic — the
+AtHMT Overview sheet states 482 new mutants and the YmPhytase Summary sheet 448, the latter
+plus the T44V/K45E benchmark giving 449. Two carried-forward parents are named by round and
+well rather than by genotype (`R2C12`, `R3 B3`) and resolve against those sheets. The cost of
+pooling is that the positive controls drift across plates — V140T spans 1.78 to 3.09 over six
+rounds, M16 2.90 to 3.87 over five — and that spread is now the recorded statement of
+plate-to-plate reproducibility in each `remark`.
+
+**Singh 2025 — AtHMT round-1 variant identity. Wrong, harmless.** Found while rebuilding: the
+remark claimed identity "is not in the screening file, whose rows are plate wells" and had to
+be recovered by joining to the primer plate map of Supplementary Data 1. The round-1 sheets
+carry their own `Mutation` column holding all 176 labels — identical to the set the join
+produced, so the data was never affected, but the file was described as something it is not.
+Three wrong claims about one paper's supplement is not three mistakes; it is one file that
+was skimmed rather than inventoried.
+
+**Landwehr 2025 — the GitHub combinatorial libraries. Not a rejection reason.** "Measure a
+different library on the same enzyme" describes a *separate dataset*, which is exactly what
+this format curates one row at a time. `data/ML_validation/*.xlsx` and `data/HSS/*.xlsx` in
+`github.com/grantlandwehr/accelerated-enzyme-engineering` hold per-variant measured
+activity keyed by a four-letter code over the four randomized sites — 77 to 243 variants
+per file across 9 substrates, all above the floor, and the same shape as the ALDE ParLQ
+dataset already shipped. Open.
+
+**Estevam 2025 — the exon-14-deleted MET background. A deferral written as a rejection.**
+"A different construct, and would be its own set of datasets" is a reason to curate it, not
+to drop it; it would roughly double this paper's yield to ~24 datasets. Availability is
+unconfirmed — the eLife PMC package carries figures only and the data repository was not
+located — so chase the Data availability statement before committing to it.
+
+**Huber 2025 — Fig. 3a. Imprecise.** Grouped with four other panels as "fewer than twenty
+distinct protease genotypes". The other four are 6, 12, 5 and 5 and the claim holds; Fig. 3a
+is 2 positions × 20 amino acids = 40. It is almost certainly redundant with the shipped
+library, which already covers positions 171 and 176, but the stated reason is not the true
+one.
+
+**What generalizes.** Three of the four wrong calls share a shape: a clause that reads like
+a finding but is really an unfinished search — *no sequence could be found*, *the genotype
+cannot be reconstructed*, *it would be its own set of datasets*. None of them names the file
+that was opened and found wanting. A clause-5 rejection should say what was looked at, so
+that re-reading it later is cheaper than redoing the search — "Supplementary Data 5 holds
+only the AtHMT map" would have been checkable in seconds; "no sequence is given in the
+paper" was not.
