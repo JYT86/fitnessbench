@@ -65,21 +65,20 @@ papers' own claims or ProteinGym's counts, not verified sheet contents.
 
 ## Tier A — 2023 version of record, per-variant data already confirmed by ProteinGym
 
-Ten publications. Counts are ProteinGym's, and are a floor: they cover only the assays it
+Nine publications, after Tsuboyama was worked and skipped (below). Counts are ProteinGym's, and are a floor: they cover only the assays it
 ingested, not necessarily everything the paper measured.
 
 | # | Paper | DOI | Assays | Mutants | Notes |
 |---|---|---|---|---|---|
-| 1 | Tsuboyama 2023, *Mega-scale experimental analysis of protein folding stability* | `10.1038/s41586-023-06328-6` | 64 | 117,811 | Nature. The landmark of the year and the single largest item on this branch. Folding stability (ΔG) across many small domains, natural and designed |
-| 2 | Chen 2023, *Deep Mutational Scanning of an Oxygen-Independent Fluorescent Protein CreiLOV* | `10.1021/acssynbio.2c00662` | 1 | 167,529 | ACS Synth Biol. Largest single assay in the cohort. ACS retrieval is the known-painful route |
-| 3 | Li 2023, *Functional constraints and evolutionary potential of the influenza polymerase* | `10.1128/jvi.01329-23` | 1 | 12,003 | J Virol. `datasets_virus` |
-| 4 | Gill 2023, *Self-association of chemokine receptors CXCR4 and CCR5* | `10.1016/j.jbc.2023.105229` | 1 | 6,137 | JBC. Human |
-| 5 | van Loggerenberg 2023, *Systematically testing human HMBS missense variants* | `10.1016/j.ajhg.2023.08.012` | 1 | 5,689 | AJHG. Human |
-| 6 | Weeks 2023, *Fitness and functional landscapes of the E. coli RNase III gene rnc* | `10.1093/molbev/msad047` | 1 | 4,277 | Mol Biol Evol. Growth fitness, one protein — the cleanest first item |
-| 7 | MacRae 2023, *Protein–protein interactions in the Mla lipid transport system* | `10.1016/j.jbc.2023.104744` | 1 | 4,007 | JBC |
-| 8 | Lo 2023, *Functional impact of 1,570 substitutions in human OTC* | `10.1016/j.ajhg.2023.03.019` | 1 | 1,570 | AJHG. Human |
-| 9 | Meier 2023, *Deep mutational scan of a drug efflux pump* | `10.1038/s41589-022-01205-1` | 2 | 1,444 | Nat Chem Biol. 2022 DOI, 2023 issue |
-| 10 | Ghose 2023, *Marginal specificity in protein interactions* | `10.1073/pnas.2221163120` | 1 | 1,121 | PNAS |
+| 1 | Chen 2023, *Deep Mutational Scanning of an Oxygen-Independent Fluorescent Protein CreiLOV* | `10.1021/acssynbio.2c00662` | 1 | 167,529 | ACS Synth Biol. Largest single assay in the cohort. ACS retrieval is the known-painful route |
+| 2 | Li 2023, *Functional constraints and evolutionary potential of the influenza polymerase* | `10.1128/jvi.01329-23` | 1 | 12,003 | J Virol. `datasets_virus` |
+| 3 | Gill 2023, *Self-association of chemokine receptors CXCR4 and CCR5* | `10.1016/j.jbc.2023.105229` | 1 | 6,137 | JBC. Human |
+| 4 | van Loggerenberg 2023, *Systematically testing human HMBS missense variants* | `10.1016/j.ajhg.2023.08.012` | 1 | 5,689 | AJHG. Human |
+| 5 | Weeks 2023, *Fitness and functional landscapes of the E. coli RNase III gene rnc* | `10.1093/molbev/msad047` | 1 | 4,277 | Mol Biol Evol. Growth fitness, one protein — the cleanest first item |
+| 6 | MacRae 2023, *Protein–protein interactions in the Mla lipid transport system* | `10.1016/j.jbc.2023.104744` | 1 | 4,007 | JBC |
+| 7 | Lo 2023, *Functional impact of 1,570 substitutions in human OTC* | `10.1016/j.ajhg.2023.03.019` | 1 | 1,570 | AJHG. Human |
+| 8 | Meier 2023, *Deep mutational scan of a drug efflux pump* | `10.1038/s41589-022-01205-1` | 2 | 1,444 | Nat Chem Biol. 2022 DOI, 2023 issue |
+| 9 | Ghose 2023, *Marginal specificity in protein interactions* | `10.1073/pnas.2221163120` | 1 | 1,121 | PNAS |
 
 ## Tier B — additive, not in ProteinGym
 
@@ -139,3 +138,33 @@ The minority of the ML/engineering sweep that carries its own variants. Not yet 
   record or a decision to make an exception.
 - **Xie, compound heterozygous genotypes from variant effect maps**, `10.1101/2023.01.11.523651`
   — 1,914 mutants. Same position.
+
+## Worked and skipped
+
+**Tsuboyama 2023**, *Mega-scale experimental analysis of protein folding stability in biology
+and design*, `10.1038/s41586-023-06328-6` — **taken through Phase 0 and Phase 1, then skipped
+on scope.** Recorded here because nothing shipped, so there is no `remark` anywhere to hold it.
+
+Everything needed is retrievable and the paper is in excellent shape. The article PDF comes
+from the publisher with a browser user agent, and the Data availability statement points at
+Zenodo `10.5281/zenodo.7992926`, whose `Processed_K50_dG_datasets.zip` carries
+`Tsuboyama2023_Dataset2_Dataset3_20230416.csv` — one row per variant with `WT_name`,
+`mut_type`, the variant `aa_seq` with the SAGG linkers already stripped, and `deltaG` in
+kcal/mol with a 95% confidence interval. ΔG is a folding stability, so it is higher-is-better
+as shipped and needs no inverting. Phase 2 and the orientation are settled; nothing was
+blocking.
+
+What stopped it is size. `Single_DMS_list.csv` enumerates **983 domains** carrying a complete
+single-mutant scan, 26 to 74 residues each — **534 natural** (PDB-named) and **449 de novo
+designed**. One domain is one protein, so one domain is one dataset, and the paper would
+therefore land 983 rows and roughly 776,000 variants on this branch in a single PR. ProteinGym
+takes 64 of them, all of which matched a row here by exact sequence.
+
+The double mutants (210,118 across 559 site pairs in 190 domains), the single deletions and
+the two insertions at every position are skipped with it. Deletions and insertions have no
+representation in a `{WT}{pos}{MUT}` mutant column in any case.
+
+**If it is picked up later**, the work is Phase 3 onward on a chosen subset, and the natural
+domains are the obvious first cut. The Zenodo archive is 1 GB and takes about five minutes to
+fetch; a copy of it and of the article PDF is in scratch at `C:/tmp/fbdl/tsu/`, which is
+outside the repo and will not survive indefinitely.
