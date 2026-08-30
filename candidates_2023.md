@@ -57,7 +57,11 @@ SRC:MED`, which is reproducible in a way the nature.com search box is not.
 | ProteinGym cross-reference | `reference_files/DMS_substitutions.csv`, filtered to `year = 2023` | 87 assays / 20 papers |
 | DMS | `"deep mutational scan(ning)" OR "variant effect map" OR "mutational scanning"`, `HAS_SUPPL:Y` | 200, top 100 screened |
 | ML / engineering | `("machine learning" OR "deep learning" OR "language model") AND ("enzyme engineering" OR "protein engineering" OR "directed evolution")`, `HAS_SUPPL:Y` | 220, top 100 screened |
-| Directed evolution | `"directed evolution"` | 876, not yet screened |
+| Directed evolution | `"directed evolution"` + a library clause | 248, top 100 screened |
+| MAVE / saturation genome editing | `"multiplexed assay of variant effect" OR "MAVE" OR "saturation genome editing" OR "variant effect mapping"` | 48, all screened |
+| Nature family, restricted | the eight Nature-family journals x the DMS/SGE vocabulary | 133, top 100 screened |
+| PACE and phage display | `"phage-assisted continuous evolution" OR "PACE" OR "phage display"` + a library clause | 6,844, top 100 screened |
+| Ancestral sequence reconstruction | `"ancestral sequence reconstruction"` | 82, all screened |
 
 Screening is on title, abstract and data-availability statement. Supplementary files have
 **not** been opened for anything still marked a candidate, so variant counts below are the
@@ -191,8 +195,55 @@ figure.
 | Curated | Weeks (3 datasets), Meier (6), Dewachter (3), Tan (2) — **14 datasets** |
 | Worked and skipped | Tsuboyama, on scope |
 | Worked and rejected | E3 ligase degrader resistance, no scored variant table |
-| Nature-family remaining | none — the family is exhausted for this shortlist |
+| Nature-family remaining | two new, found by the restricted sweep below |
 
-Everything still open is outside the Nature family: Tier A's Chen (ACS Synth Biol), Li
-(J Virol), Gill and MacRae (JBC), van Loggerenberg and Lo (AJHG), Ghose (PNAS); and Tier B's
-Cell, Cell Reports, PLoS Pathogens, Life Science Alliance, Virus Evolution and J Virol items.
+Still open from the first round: Tier A's Chen (ACS Synth Biol), Li (J Virol), Gill and MacRae
+(JBC), van Loggerenberg and Lo (AJHG), Ghose (PNAS); and Tier B's Cell, Cell Reports, PLoS
+Pathogens, Life Science Alliance, Virus Evolution and J Virol items.
+
+## Second round of sweeps
+
+Four axes the first round had not run, plus a re-run of the directed-evolution axis it had
+left unscreened. **The claim that the Nature family was exhausted was wrong** — it was
+exhausted only for the first round's shortlist. A journal-restricted sweep finds two more.
+
+### Tier A additions — scored per-variant libraries
+
+| Paper | DOI | Notes |
+|---|---|---|
+| **Deep mutational scanning of RNA polymerase-mediated adaptation** | `10.1038/s41467-023-41882-7` | Nat Commun. RpoB, the RNAP beta subunit; laboratory-evolution trade-offs between growth and maintenance. Bacterial, so `datasets/` |
+| **Saturation genome editing of DDX3X** | `10.1038/s41467-023-43041-4` | Nat Commun. 12,776 **nucleotide** variants tested; needs the protein-consequence annotation to become a substitution set, and only the missense subset will convert |
+| **DNA repair function scores for 2,172 variants in the BRCA1 amino-terminus** | `10.1371/journal.pgen.1010739` | PLoS Genet. Human. Clean count, clean single readout |
+| **Saturation genome editing of 11 codons and exon 13 of BRCA2** | `10.1371/journal.pgen.1010940` | PLoS Genet. Human. Smallest of the four; 11 codons is about 209 substitutions before the exon-13 tiling, so it needs the floor checked before Phase 3 |
+| **Imprinted SARS-CoV-2 humoral immunity induces convergent Omicron RBD evolution** | `10.1038/s41586-022-05644-7` | Nature, 2023 issue on a 2022 DOI. Large antibody-escape mapping over the RBD; likely many datasets, one per antibody, so it carries the same scope question Tsuboyama did |
+
+### Worth a look, not yet graded
+
+- `10.1038/s41467-023-36035-9` — Phosphosite Scanning, Nat Commun. The variants are phosphosite
+  mutants across several CDK substrates, so it may be many small sets rather than one library.
+- `10.1186/s13059-023-03097-3` — DEQSeq, Genome Biol. Thousands of evolved base editors with
+  per-clone editing efficiency and specificity, but the genotypes are evolved multi-mutants
+  rather than a designed library.
+- `10.1371/journal.ppat.1011119` — PLoS Pathog. Saturation mutagenesis of an anti-SARS-CoV-2
+  antibody; needs checking for whether it converges on champion variants.
+- `10.1002/acn3.51767` (SLC2A1 / GLUT1) and `10.1371/journal.pone.0293422` (multiplexed assay
+  of variant effect), both from the DMS tail.
+
+### Axes swept and found empty
+
+Recording these so they are not re-run.
+
+- **PACE and phage display**, 6,844 hits, top 100 screened. The acronym PACE is badly polluted,
+  and the real hits are antibody and nanobody discovery campaigns ending in a handful of named
+  binders, not scored libraries. The 2025 branch guessed this axis would be the promising one;
+  for 2023 it is not.
+- **Ancestral sequence reconstruction**, 82 hits, all screened. Resurrection studies comparing
+  a handful of ancestral proteins — small panels of *different* proteins rather than variants
+  of one wild type, which is the same exclusion that removed the PET-hydrolase homolog panel
+  on the 2025 branch.
+- **The DMS tail**, hits 101 to 200. Almost entirely computational: predictors, molecular
+  dynamics, structural modelling and SARS-CoV-2 epidemiology. The first 100 carried nearly all
+  the experimental signal, which is a useful calibration for how deep these sweeps need to go.
+- **Directed evolution**, 248 hits with a library clause, top 100 screened. Same shape the 2025
+  branch found: one-champion-variant engineering write-ups. The few that scored a library are
+  already on the list above.
