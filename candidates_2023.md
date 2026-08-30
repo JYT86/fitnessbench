@@ -62,6 +62,9 @@ SRC:MED`, which is reproducible in a way the nature.com search box is not.
 | Nature family, restricted | the eight Nature-family journals x the DMS/SGE vocabulary | 133, top 100 screened |
 | PACE and phage display | `"phage-assisted continuous evolution" OR "PACE" OR "phage display"` + a library clause | 6,844, top 100 screened |
 | Ancestral sequence reconstruction | `"ancestral sequence reconstruction"` | 82, all screened |
+| ACS journals | six ACS titles x the DMS vocabulary | 48, all screened |
+| PNAS | PNAS x the DMS vocabulary plus `"fitness landscape"` | 28, all screened |
+| Cell Press | six Cell Press titles x the DMS vocabulary | 30, all screened |
 
 Screening is on title, abstract and data-availability statement. Supplementary files have
 **not** been opened for anything still marked a candidate, so variant counts below are the
@@ -247,3 +250,47 @@ Recording these so they are not re-run.
 - **Directed evolution**, 248 hits with a library clause, top 100 screened. Same shape the 2025
   branch found: one-champion-variant engineering write-ups. The few that scored a library are
   already on the list above.
+
+## Third round — publisher-restricted sweeps
+
+Run for parity with the 2025 branch, which found that Europe PMC's relevance ranking hides
+publisher-specific results. It did here too: **Cell Press is the richest untapped seam for
+2023**, which fits a year whose DMS literature is mostly cell biology and virology rather than
+enzyme engineering.
+
+Two caveats apply to almost everything below, and both are retrieval problems rather than
+scientific ones.
+
+**Most Cell Press hits are not open access.** Europe PMC will serve neither full text nor
+supplements for them, so each needs the publisher route, and ScienceDirect is harder to reach
+than the Springer static host that worked for Meier. Expect several to end at 0d.
+
+**Base editor screens are not variant libraries in this format's sense.** Several hits screen a
+library of guide RNAs tiling a gene, so the unit of measurement is a gRNA, and one gRNA can
+install more than one edit. Converting those to a `{WT}{pos}{MUT}` table means assigning
+genotypes the assay did not resolve. They are listed, but flagged.
+
+### Cell Press
+
+| Paper | DOI | Grade |
+|---|---|---|
+| An AsCas12f-based compact genome-editing tool derived by deep mutational scanning | `10.1016/j.cell.2023.08.031` | Real DMS of a compact 422-residue Cas12f. **Not OA** |
+| Deep mutational scanning highlights a role for cytosolic regions in Hrd1 function | `10.1016/j.celrep.2023.113451` | Real DMS of the yeast ERAD ligase. **Not OA** |
+| A complete allosteric map of a GTPase switch in its native cellular network | `10.1016/j.cels.2023.01.003` | Large point-mutant map of a GTPase. **Not OA** |
+| Scanning mutagenesis of the voltage-gated sodium channel NaV1.2 using base editing | `10.1016/j.celrep.2023.112563` | OA, but the library is **368 gRNAs**, not variants — flagged above |
+| Base editor screens for in situ mutational scanning at scale | `10.1016/j.molcel.2023.06.009` | Reads as a review of the approach rather than a primary dataset; check before chasing |
+| Stringent sequence constraints of an IGHV1-69 broadly neutralizing antibody | `10.1016/j.celrep.2023.113410` | Not yet graded |
+| Systematic conformation-to-phenotype mapping via limited deep sequencing | `10.1016/j.molcel.2023.05.006` | Not yet graded |
+
+### ACS
+
+Forty-eight hits, and the same one-champion biocatalysis pattern as the directed-evolution
+axis. One lead: `10.1021/acschembio.3c00257`, *Base Editor Scanning Reveals Activating
+Mutations of DNMT3A* — carries the gRNA-unit caveat, and is not OA.
+
+### PNAS
+
+Twenty-eight hits, almost all evolutionary theory and modelling rather than measurement —
+null models for the distribution of fitness effects, dynamical principles, landscape sparsity.
+The only measurement leads were already on the list: Ghose in Tier A and the luciferase
+generative-modelling paper in Tier C. PNAS is the lowest-yield publisher axis of the three.
