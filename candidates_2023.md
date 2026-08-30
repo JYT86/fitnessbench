@@ -89,13 +89,9 @@ From the DMS sweep. 2023 is heavily viral, so most of these land in `datasets_vi
   hold; full-spike libraries, Bloom-lab deposits are consistently machine-readable.
 - `10.1016/j.celrep.2022.111951` — *Mutational fitness landscape of human influenza H3N2
   neuraminidase*, Cell Rep.
-- `10.1038/s41467-023-35940-3` — *Deep mutational scanning of essential bacterial proteins
-  can guide antibiotic discovery*, Nat Commun. Bacterial, so `datasets/`.
-- `10.1038/s41467-023-37786-1` — *High-throughput identification of prefusion-stabilizing
-  mutations in SARS-CoV-2 spike*, Nat Commun.
+- `10.1038/s41467-023-35940-3` — **CURATED** as Dewachter 2023, three datasets (FabZ, LpxC, MurA).
+- `10.1038/s41467-023-37786-1` — **CURATED** as Tan 2023, two datasets (expression, membrane fusion).
 - `10.1371/journal.ppat.1011901` — *Deep mutational scans of XBB.1.5 and BQ.1.1*, PLoS Pathog.
-- `10.1038/s41589-022-01177-2` — *Functional E3 ligase hotspots and resistance mechanisms*,
-  Nat Chem Biol. Human.
 - `10.26508/lsa.202302043` — *Missense variant interaction scanning, FERM domain*, Life Sci Alliance.
 - `10.1093/ve/vead055` — *Fitness effects of mutations to SARS-CoV-2 proteins*, Virus Evol.
 - `10.1128/jvi.01414-23` — *Single mutations in Zika virus envelope and antibody escape*, J Virol.
@@ -168,3 +164,35 @@ representation in a `{WT}{pos}{MUT}` mutant column in any case.
 domains are the obvious first cut. The Zenodo archive is 1 GB and takes about five minutes to
 fetch; a copy of it and of the article PDF is in scratch at `C:/tmp/fbdl/tsu/`, which is
 outside the repo and will not survive indefinitely.
+
+**Ollikainen/Sievers 2023**, *Functional E3 ligase hotspots and resistance mechanisms to
+small-molecule degraders*, `10.1038/s41589-022-01177-2` — **worked and rejected, no scored
+variant table.** Recorded here because nothing shipped.
+
+The saturation mutagenesis of VHL and CRBN under degrader selection is real and the raw data
+is public, but the only per-variant deposit is `GSE198280`, which holds
+`*.gatk.aaCounts.txt.gz` — a position-by-amino-acid **count** matrix per sample, 44 of them,
+with no position labels and no score. The enrichment landscape the paper analyses exists only
+as heat maps in Figs. 1–5. The publisher's single workbook is hybrid-capture MuTect2 allele
+frequencies at genomic coordinates, a resistance-hit list rather than a landscape, and the
+Supplementary Information carries only a gene-capture list, a degrader list, crystallography
+statistics and oligo sequences.
+
+Building a dataset would mean re-implementing the authors' normalization from raw counts,
+choosing their filtering thresholds, and having no published per-variant table to check the
+result against. That is the same shape as the FDX1 rejection already recorded on the `2025`
+branch, and it falls under the consolidated reject condition for data that exists only in a
+figure.
+
+## Status
+
+| | |
+|---|---|
+| Curated | Weeks (3 datasets), Meier (6), Dewachter (3), Tan (2) — **14 datasets** |
+| Worked and skipped | Tsuboyama, on scope |
+| Worked and rejected | E3 ligase degrader resistance, no scored variant table |
+| Nature-family remaining | none — the family is exhausted for this shortlist |
+
+Everything still open is outside the Nature family: Tier A's Chen (ACS Synth Biol), Li
+(J Virol), Gill and MacRae (JBC), van Loggerenberg and Lo (AJHG), Ghose (PNAS); and Tier B's
+Cell, Cell Reports, PLoS Pathogens, Life Science Alliance, Virus Evolution and J Virol items.
