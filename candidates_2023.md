@@ -214,9 +214,8 @@ exhausted only for the first round's shortlist. A journal-restricted sweep finds
 
 | Paper | DOI | Notes |
 |---|---|---|
-| **Deep mutational scanning of RNA polymerase-mediated adaptation** | `10.1038/s41467-023-41882-7` | Nat Commun. RpoB, the RNAP beta subunit; laboratory-evolution trade-offs between growth and maintenance. Bacterial, so `datasets/` |
-| **Saturation genome editing of DDX3X** | `10.1038/s41467-023-43041-4` | Nat Commun. 12,776 **nucleotide** variants tested; needs the protein-consequence annotation to become a substitution set, and only the missense subset will convert |
-| **DNA repair function scores for 2,172 variants in the BRCA1 amino-terminus** | `10.1371/journal.pgen.1010739` | PLoS Genet. Human. Clean count, clean single readout |
+| **CURATED** Saturation genome editing of DDX3X | `10.1038/s41467-023-43041-4` | Radford 2023, 3,861 substitutions |
+| **CURATED** DNA repair function scores, BRCA1 amino-terminus | `10.1371/journal.pgen.1010739` | Diabate 2023, 2,154 substitutions |
 | **Saturation genome editing of 11 codons and exon 13 of BRCA2** | `10.1371/journal.pgen.1010940` | PLoS Genet. Human. Smallest of the four; 11 codons is about 209 substitutions before the exon-13 tiling, so it needs the floor checked before Phase 3 |
 | **Imprinted SARS-CoV-2 humoral immunity induces convergent Omicron RBD evolution** | `10.1038/s41586-022-05644-7` | Nature, 2023 issue on a 2022 DOI. Large antibody-escape mapping over the RBD; likely many datasets, one per antibody, so it carries the same scope question Tsuboyama did |
 
@@ -294,3 +293,21 @@ Twenty-eight hits, almost all evolutionary theory and modelling rather than meas
 null models for the distribution of fitness effects, dynamical principles, landscape sparsity.
 The only measurement leads were already on the list: Ghose in Tier A and the luciferase
 generative-modelling paper in Tier C. PNAS is the lowest-yield publisher axis of the three.
+
+**RpoB DMS**, *Deep mutational scanning reveals the molecular determinants of RNA
+polymerase-mediated adaptation*, `10.1038/s41467-023-41882-7` — **worked and rejected, the
+landscape ships without genotypes.**
+
+The Source Data workbook holds the fitness values, 1,965 of them across five carbon and stress
+conditions, but as **plot coordinates indexed by row number**. No sheet carrying the landscape
+names a substitution; the only mutation labels anywhere in the file are in the small validation
+panels of Figures 4c, 4d, 5e and 6b, each a handful of named variants measured in replicate.
+Supplementary Tables 1 to 5 are literature comparisons, regression statistics and primers.
+
+The Dryad deposit the Data availability statement points to does hold the processed data, but as
+a 3.7 GB combined table and four ~1.3 GB per-condition pre-enrichment files alongside the
+analysis notebooks. Recovering a labelled per-variant table means re-running the authors'
+clustering and fitness-estimation pipeline over multi-gigabyte raw reads.
+
+That is the consolidated Phase 4 reject condition — variants with no genotype — reached by a
+different route than usual: not a plate and well, but a row index in a figure's source data.
