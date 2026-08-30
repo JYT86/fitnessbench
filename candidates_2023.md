@@ -65,6 +65,9 @@ SRC:MED`, which is reproducible in a way the nature.com search box is not.
 | ACS journals | six ACS titles x the DMS vocabulary | 48, all screened |
 | PNAS | PNAS x the DMS vocabulary plus `"fitness landscape"` | 28, all screened |
 | Cell Press | six Cell Press titles x the DMS vocabulary | 30, all screened |
+| Science family | four Science titles x the DMS vocabulary plus `"fitness landscape"` | 24, all screened |
+| eLife, NAR, Genome Biol, EMBO, MSB, PLoS Biol, PLoS Genet | those seven titles x the DMS vocabulary | 47, all screened |
+| Abundance and massively parallel | `"VAMP-seq" OR "massively parallel" OR "abundance score"` + a variant clause | 382, top 100 screened |
 
 Screening is on title, abstract and data-availability statement. Supplementary files have
 **not** been opened for anything still marked a candidate, so variant counts below are the
@@ -311,3 +314,43 @@ clustering and fitness-estimation pipeline over multi-gigabyte raw reads.
 
 That is the consolidated Phase 4 reject condition — variants with no genotype — reached by a
 different route than usual: not a plate and well, but a row index in a figure's source data.
+
+## Fourth round — the last axes
+
+### Science family
+
+| Paper | DOI | Grade |
+|---|---|---|
+| Saturation mutagenesis of alpha-synuclein reveals a monomer fold that modulates aggregation | `10.1126/sciadv.adh3457` | Sci Adv, **open access**. Human, aggregation phenotype. The cleanest new candidate of this round |
+| A rugged yet easily navigable fitness landscape | `10.1126/science.adh3860` | Science, **not OA**. Genome-edited map of **>260,000 DHFR genotypes** under an antibiotic. Combinatorial rather than single-substitution, so it carries the same shape question as Tsuboyama's doubles |
+| Mapping the in vivo fitness landscape of a tethered ribosome | `10.1126/sciadv.ade8934` | **Out of scope** — the sequence varied is rRNA, not protein |
+
+### eLife, NAR, Genome Biology, EMBO, PLoS
+
+Forty-seven hits, and the great majority are tools: `satmut_utils`, `mutscan`, `Sequence UNET`,
+`DDMut`, `Introme`, `MBE`, `DIMPLE`, plus the *Atlas of Variant Effects* position paper and two
+benchmarking papers. The measurement leads are `10.1371/journal.pgen.1010972` (a large-scale
+variant effect map for an ultrarare disease gene) and `10.7554/elife.83442` (antibody binding
+affinity across Omicron BA.1 evolution).
+
+### Abundance and massively parallel
+
+382 hits, top 100 screened, and almost none are protein-variant work: the phrase belongs to
+splicing assays and massively parallel *reporter* assays, where the varied sequence is DNA or
+RNA rather than protein. `VAMP-seq` itself returns nothing new for 2023.
+
+## Is 2023 finished?
+
+**The search axes are exhausted; the curation queue is not.** Fourteen sweeps now cover the
+ProteinGym cross-reference, four vocabulary axes, five publisher families and three specialist
+phrasings, and the last three rounds returned progressively fewer measurement papers against
+more tooling. What remains for 2023 is curation work, not searching:
+
+- **Tier A, uncurated**: Chen (CreiLOV), Li (influenza polymerase), Gill (CXCR4/CCR5),
+  van Loggerenberg (HMBS), MacRae (Mla), Lo (OTC), Ghose (PNAS), plus the Cao Omicron RBD
+  mapping and BRCA2 exon 13 from round two, and alpha-synuclein from round four.
+- **Tier B, uncurated**: the Cell full-spike scan, H3N2 neuraminidase, XBB.1.5/BQ.1.1, the FERM
+  interaction scan, Virus Evolution and Zika.
+- **Cell Press group**, all needing the publisher route: AsCas12f, Hrd1, the GTPase allosteric map.
+
+Roughly twenty papers stand ready with their retrieval route already known.
