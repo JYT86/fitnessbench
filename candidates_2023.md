@@ -354,3 +354,47 @@ more tooling. What remains for 2023 is curation work, not searching:
 - **Cell Press group**, all needing the publisher route: AsCas12f, Hrd1, the GTPase allosteric map.
 
 Roughly twenty papers stand ready with their retrieval route already known.
+
+## Scope — enzymes and enzyme-adjacent, set 2026-08-31
+
+Set after this branch's datasets were already curated, and recorded here because nine of the
+twenty-two predate it.
+
+FitnessBench is in practice an enzyme benchmark: the `2025` branch is 112 of 144 datasets on
+catalytic activity, roughly twenty enzymes across twenty-three proteins. Nothing in `README.md`
+or `example_workflow.md` says so — the focus lived in the 2025 sweep queries, phrased around
+*machine learning guided enzyme engineering*, rather than in the documentation. The broader
+DMS-vocabulary sweeps this branch ran drifted off it with nothing to push back, which is why
+only 2 of this branch's 22 datasets sit under catalytic activity.
+
+**In scope**: catalysts, and proteins whose measured phenotype is catalytic machinery —
+nucleases, polymerases, helicases, ATP-driven transporters.
+
+**Out of scope**: fluorescent proteins, binding domains, ion channels, structural and scaffold
+proteins, viral surface glycoproteins.
+
+### What this means for what is already here
+
+Nothing is being removed. Every dataset on this branch is verified, validates cleanly and has
+no defect; the scope is a decision about what to curate next, not a judgment on work already
+done. But a reviewer should know which rows predate it, and no future sweep should read them
+as precedent:
+
+| Dataset | Standing |
+|---|---|
+| Weeks, RNase III, 3 datasets | In scope — an endoribonuclease |
+| Dewachter, FabZ / LpxC / MurA, 3 | In scope — a dehydratase, a deacetylase and a transferase, though read out by growth rather than catalysis |
+| Radford, DDX3X, 1 | In scope — a DEAD-box helicase and ATPase, read out by growth |
+| Jiang 2024 PRIME inherited from `main`, 6 | In scope — polymerase, nuclease, creatinase; the VHH binding rows are the exception |
+| **Meier, EfrC / EfrD, 6** | **Predates the scope.** An ABC transporter is ATP-driven, so it survives an enzyme-adjacent reading, but the measured phenotype is drug efflux rather than catalysis |
+| **Tan, spike, 2** | **Predates the scope.** A viral surface glycoprotein; expression and membrane fusion are explicitly out |
+| **Diabate, BRCA1, 1** | **Predates the scope.** BRCA1 has RING E3 ligase activity but the assay measures homology-directed repair, a pathway outcome rather than a catalytic rate |
+
+### What it means for the queue
+
+The uncurated 2023 queue was assembled without the scope rule and needs re-reading against it
+before any of it is worked. On a first pass the survivors are Chen's CreiLOV **fails** it (a
+fluorescent protein, same reasoning as GFP), while Li's influenza polymerase, MacRae's Mla
+system, the AsCas12f nuclease and the Hrd1 ligase all pass. The Cell full-spike scan, the
+neuraminidase and XBB antibody-escape sets, alpha-synuclein aggregation and the OTC, HMBS and
+CXCR4/CCR5 human-disease sets do not.
