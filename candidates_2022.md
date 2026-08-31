@@ -47,29 +47,79 @@ experimental signal, and publisher-restricted sweeps find what the vocabulary sw
 | Nature family, eight titles | 143, top 100 screened |
 | Cell Press, seven titles | 22, all screened |
 
-## Tier A — ProteinGym-confirmed, 2022 version of record
+## Scope — enzymes and enzyme-adjacent
 
-Ten publications, 17 assays. Counts are ProteinGym's and are a floor.
+Set on 2026-08-31, and it changes this shortlist substantially, so it comes before the tiers.
 
-| # | Paper | DOI | Assays | Mutants | OA | Notes |
-|---|---|---|---|---|---|---|
-| 1 | Somermeyer, *Heterogeneity of the GFP fitness landscape* | `10.7554/eLife.75842` | 3 | 89,426 | yes | eLife. Three GFP homologues, the largest item here and open |
-| 2 | Faure, *Mapping the energetic and allosteric landscapes of protein binding domains* | `10.1038/s41586-022-04586-4` | 2 | 70,342 | no | Nature. Doubles as well as singles, so it carries a scope question |
-| 3 | Seuma, *An atlas of amyloid aggregation* | `10.1038/s41467-022-34742-3` | 1 | 14,811 | yes | Nat Commun. Substitutions, insertions and deletions — only the substitutions convert |
-| 4 | Coyote-Maestas, *Determinants of trafficking, conduction and disease in a K+ channel* | `10.7554/eLife.76903` | 2 | 13,880 | yes | eLife. Two readouts on one library, the shape that gave Weeks three datasets |
-| 5 | Kwon, *Structure-function analysis of the SHOC2-MRAS-PP1C holophosphatase* | `10.1038/s41586-022-04928-2` | 1 | 10,972 | no | Nature |
-| 6 | Miller, *Allosteric inhibition of PPM1D phosphatase* | `10.1038/s41467-022-30463-9` | 1 | 7,889 | yes | Nat Commun |
-| 7 | Flynn, *Comprehensive fitness landscape of SARS-CoV-2 Mpro* | `10.7554/eLife.77433` | 1 | 5,725 | yes | eLife. `datasets_virus` |
-| 8 | Hobbs, *Saturation mutagenesis of a predicted ancestral Syk-family kinase* | `10.1002/pro.4411` | 1 | 4,670 | yes | Protein Sci |
-| 9 | Roychowdhury, *Microfluidic deep mutational scanning of the human executioner caspases* | `10.1038/s41420-021-00799-0` | 2 | 3,247 | yes | Cell Death Discov. Two caspases |
-| 10 | Erwood, *Saturation variant interpretation using CRISPR prime editing* | `10.1038/s41587-021-01201-1` | 3 | 965 | no | Nat Biotechnol. Smallest, and three genes, so each may sit near the 20-variant floor |
+FitnessBench is in practice an enzyme benchmark and always has been: the `2025` branch is
+**112 of 144 datasets on catalytic activity**, about twenty enzymes out of twenty-three
+proteins. Nothing in `README.md` or `example_workflow.md` ever said so — the focus lived in the
+2025 sweep queries, which were phrased around *machine learning guided enzyme engineering*, and
+not in the documentation. Broader DMS-vocabulary sweeps therefore drifted off it without
+anything pushing back.
 
-Seven of the ten are open access, which is a better starting position than the Cell Press group
-that stalled the 2023 queue.
+**In scope**: catalysts, and proteins whose measured phenotype is catalytic machinery —
+nucleases, polymerases, helicases, ATP-driven transporters.
 
-## Tier B — additive, not in ProteinGym
+**Out of scope**: fluorescent proteins, binding domains, ion channels, structural and scaffold
+proteins, viral surface glycoproteins.
 
-From the DMS, Nature-family and Cell Press sweeps. Heavily viral, as expected for the year.
+Green fluorescent protein is the clearest casualty and it is a deliberate one. Somermeyer's
+three-homologue landscape is the largest and most accessible item ProteinGym holds for 2022,
+but fluorescence reports chromophore maturation and folding rather than catalysis, the protein
+is the most thoroughly covered in this entire literature, and the same data already sits in the
+project's own `EvoAI/me12_features/` set alongside Sarkisyan's avGFP. Curating it would add a
+format, not a measurement.
+
+## Tier A — ProteinGym-confirmed, 2022 version of record, in scope
+
+Five publications, six assays, roughly 32,500 mutants. Four of the five are open access.
+
+| # | Paper | DOI | Protein | Mutants | OA |
+|---|---|---|---|---|---|
+| 1 | Kwon, *Structure-function analysis of the SHOC2-MRAS-PP1C holophosphatase* | `10.1038/s41586-022-04928-2` | PP1C holophosphatase complex | 10,972 | no |
+| 2 | Miller, *Allosteric inhibition of PPM1D phosphatase* | `10.1038/s41467-022-30463-9` | PPM1D serine/threonine phosphatase | 7,889 | yes |
+| 3 | Flynn, *Comprehensive fitness landscape of SARS-CoV-2 Mpro* | `10.7554/eLife.77433` | main protease | 5,725 | yes |
+| 4 | Hobbs, *Saturation mutagenesis of a predicted ancestral Syk-family kinase* | `10.1002/pro.4411` | ancestral Syk kinase | 4,670 | yes |
+| 5 | Roychowdhury, *Microfluidic deep mutational scanning of the human executioner caspases* | `10.1038/s41420-021-00799-0` | CASP3 and CASP7, two assays | 3,247 | yes |
+
+## Tier A — out of scope under the enzyme rule
+
+Recorded rather than deleted, so the decision is visible and reversible.
+
+| Paper | DOI | Why out |
+|---|---|---|
+| Somermeyer, GFP fitness landscape, 3 assays, 89,426 mutants | `10.7554/eLife.75842` | Fluorescent proteins. See the scope note above |
+| Faure, energetic and allosteric landscapes of protein binding domains | `10.1038/s41586-022-04586-4` | PSD95-PDZ3 and GRB2-SH3 are binding domains, not catalysts |
+| Coyote-Maestas, trafficking and conduction in a K+ channel | `10.7554/eLife.76903` | Kir2.1 is an ion channel; conduction is not catalysis and it is not ATP-driven |
+| Seuma, atlas of amyloid aggregation | `10.1038/s41467-022-34742-3` | Amyloid-beta aggregation, a structural phenotype |
+| Erwood, saturation variant interpretation by prime editing | `10.1038/s41587-021-01201-1` | BRCA2 and NPC1 — a recombination mediator and a cholesterol transporter, neither catalytic |
+
+## Tier B — additive, in scope
+
+The enzyme rule cuts hard here too: most of 2022's additive seam is coronavirus surface and
+antibody work, which is out. What survives is worth having.
+
+- `10.1016/j.chom.2022.08.003` — *Functional map of SARS-CoV-2 3CL protease*, Cell Host Microbe.
+  Note this is the **same enzyme** as Flynn's Mpro in Tier A, measured independently — two
+  papers on one protein, which is useful rather than duplicative.
+- `10.7554/elife.75555` — *Comprehensive interrogation of the ADAR2 deaminase domain*, eLife.
+- `10.1016/j.jbc.2022.102608` — *Deep mutational scanning and massively parallel kinetics of
+  plasminogen activator*, JBC. A protease, and the kinetics make it unusually rich.
+- `10.1093/molbev/msac187` — *High mutational sensitivity of the ccdA antitoxin*, Mol Biol Evol.
+  Borderline: an antitoxin is not a catalyst, but it acts on a gyrase-poisoning toxin. Check
+  before committing.
+
+### Out of scope from Tier B
+
+Everything coronavirus-surface: nucleocapsid escape, combinatorial RBD binding, ACE2 affinity
+and evolvability, spike NTD constraints, hemagglutinin evolutionary potential. Also the de novo
+fold stability study, the Bac7 antimicrobial peptide, the HIV-1 overlapping-helix study and the
+clinical variant interpretation set, none of which measures catalysis.
+
+## Original Tier B listing, before the scope rule
+
+Kept for the record.
 
 - `10.1016/j.cell.2022.08.010` — *Deep mutational scanning identifies SARS-CoV-2 Nucleocapsid
   escape mutations*, Cell.
