@@ -836,8 +836,22 @@ The paper's own **Source Data carries the same variants with a stated denominato
 `Fig 4a` is moclobemide (245 rows, 243 distinct codes, mutation profile 59/146/38 matching the
 GitHub file exactly) and `Fig4b` is metoclopramide (243 rows, a *superset* of GitHub's 169). Both
 give `Actual` min-max normalized with the best variant in the set at 1. That is a different
-quantity from the shipped datasets' fold-change against wild type, so if these ship they are two
-new datasets rather than extra rows on the existing nine.
+quantity from the shipped datasets' fold-change against wild type, so they ship as two new
+datasets rather than extra rows on the existing nine.
+
+**Shipped 2026-09-05**, 243 variants each, taking this paper to 11 datasets. Two Phase 7 checks
+land on the paper's own prose. The top-ranked moclobemide variant decodes to
+`V177S:I220S:A323F:R430L`, a quadruple carrying V177S and A323F — the first two mutations the
+paper names from its ISM rounds, which independently confirms the site order the four-letter code
+is read in. And the paper states its model was "trained on single mutant data (n = 77) from the
+HSS" and tested on "the withheld higher-order mutants ... (n ≈ 200)", which is exactly the split
+found on disk: 77-row train files that duplicate the curated hot-spot screen, and 243- and
+169-row test files of higher-order mutants that do not.
+
+One consequence worth knowing: neither dataset has a wild-type row, because the wild type was
+not measured in this set, so both carry an empty `wt_readout`. `validate.py` calls that an error,
+so the branch now reports three of them — the Alamos row and these two — all the same false
+positive.
 
 **What generalizes.** The audit was right that "measures a different library on the same enzyme"
 describes a dataset — but it never checked whether the library *was* different. A file listing
