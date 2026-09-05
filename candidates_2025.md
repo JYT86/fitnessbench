@@ -802,16 +802,47 @@ recorded here so the question can be answered against a real quantity.
 The 2026-08-27 audit left two follow-ups open, and one of them was confirmed live this
 session rather than re-argued:
 
-**Landwehr's combinatorial libraries are still there and still open.** The GitHub tree of
-`grantlandwehr/accelerated-enzyme-engineering` carries `data/HSS/` — seven
-`{drug}_train.xlsx` files, one each for cinchocaine, declopramide, itopride, procainamide,
-sulpiride, trimethobenzamide and troxipide — and `data/ML_validation/` with
-`metoclopramide` and `moclobemide` in train/test pairs. Eleven per-variant workbooks of
-about 10 KB each, on the same McbA wild type as the nine shipped datasets and a different
-library, which is a separate dataset rather than a rejection reason. The
-`curated_reduced_AAs/` files are subsets of the same two training sets under different
-codon or BLOSUM reductions, so they are re-slicings of data already counted, not new
-measurements. This is the cheapest yield currently visible anywhere in this file.
+**Landwehr's GitHub files — opened, and the audit's reading of them was wrong.** The
+2026-08-27 audit recorded them as "a separate dataset rather than a rejection reason" and this
+file called them the cheapest yield available. Both claims were made from the *file listing*.
+Opening the files says otherwise.
+
+`data/HSS/` holds seven `{drug}_train.xlsx` and `data/ML_validation/` two more, and every one of
+the nine is **77 rows of single mutants, not a combinatorial library**: 4 sites x 19
+substitutions plus the parent, the parent being wild-type McbA in every case. The four sites are
+per substrate, from that substrate's own hot-spot screen — moclobemide V177/I220/A323/R430,
+metoclopramide V177/T319/A323/A424, cinchocaine V177/A205/C232/R430, itopride E228/N316/A323/A424,
+declopramide T103/V177/A295/A424, and by value-matching against the shipped data procainamide
+C201/A266/A323/A424, sulpiride I220/A266/A323/R430, trimethobenzamide L225/E228/A323/R430,
+troxipide V177/A323/A424/R430.
+
+All four of those sites are inside the 64 the shipped hot-spot datasets already cover, and every
+label overlaps: 76/76 for each of the five substrates whose sites the SI states, and 19/19 exact
+value matches at every inferred site for the other four. For cinchocaine, itopride and
+declopramide the numbers are identical to rounding. **These files are ML training exports of data
+already in the repo.** Nothing to curate.
+
+The two `*_test.xlsx` files are the exception and are genuinely new: 243 multi-site moclobemide
+variants and 169 metoclopramide ones — doubles, triples and quadruples over those same four sites,
+with no overlap with anything shipped.
+
+**But not from GitHub.** The two ML_validation files are also the only two whose train values do
+*not* match the shipped data: the shipped/GitHub ratio runs 1.2 to 15.8 for moclobemide and 14.3
+to 25.0 for metoclopramide, so they sit on some processed scale that no single factor recovers,
+and the test sets inherit it. Phase 2 rejects that — a ratio with an unknown denominator is not a
+measurement.
+
+The paper's own **Source Data carries the same variants with a stated denominator**: sheet
+`Fig 4a` is moclobemide (245 rows, 243 distinct codes, mutation profile 59/146/38 matching the
+GitHub file exactly) and `Fig4b` is metoclopramide (243 rows, a *superset* of GitHub's 169). Both
+give `Actual` min-max normalized with the best variant in the set at 1. That is a different
+quantity from the shipped datasets' fold-change against wild type, so if these ship they are two
+new datasets rather than extra rows on the existing nine.
+
+**What generalizes.** The audit was right that "measures a different library on the same enzyme"
+describes a dataset — but it never checked whether the library *was* different. A file listing
+plus a plausible sentence is not evidence about contents; four column reads would have settled it.
+That is the same failure the audit itself diagnosed in the Singh remarks, committed one level up.
 
 **Estevam's exon-14-deleted MET background is unchanged** — still a deferral written as a
 rejection, still needs the Data availability statement chased before it can be committed to.
