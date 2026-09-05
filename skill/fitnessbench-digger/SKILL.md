@@ -230,9 +230,11 @@ has no Source Data statement at all, with its screening tables living inside the
 |---|---|---|
 | Nature, Nat Commun, Nat Methods, Nat Biotechnol | **Source Data** (per-figure numbers behind each plot — only when the paper says "Source data are provided as a Source Data file") → **Supplementary Data N** (xlsx/csv, standalone) → **Supplementary Information** (one PDF: Supplementary Figs/Tables/Notes) | Peer Review File, Reporting Summary, Description of Additional Supplementary Files |
 | Science, Sci Adv, Sci Transl Med | **Data SN** (standalone xlsx/zip, enumerated by the "Other Supplementary Material" line) → **Supplementary Materials** PDF (Materials and Methods, Figs SN, Tables SN) | — |
-| Cell Press | **Data SN / Table SN** (standalone) → supplemental PDF; methods are in STAR Methods in the main text | — |
+| Cell Press | **Data SN / Table SN** (standalone) → supplemental PDF; methods are in STAR Methods in the main text. **When STAR Methods names a Zenodo deposit, go there first** — it routinely holds the processed per-variant table while the article's own supplement holds only scripts and figure sources | — |
 | PNAS | **Dataset SN** (xlsx) → **SI Appendix** (one PDF holding everything else) | — |
 | eLife | per-figure **source data** files → **Supplementary file N** | — |
+| Nucleic Acids Res | one **`{articleid}_supplemental_files.zip`** holding everything together — the per-variant CSV, plasmid maps and the SI PDF in a single archive. The Data availability statement names a "Supplementary file N" that is a *member of that zip*, not a separate download, so the file it names is invisible until you unpack it | — |
+| Protein Science | the **Zenodo deposit** named in the Data availability statement, whose small per-figure workbooks (`Figure_N_data.xlsx`) carry the per-variant numbers — sitting beside raw-sequencing archives hundreds of times their size, so **filter the file list by size before downloading anything** | — |
 | ACS (JACS, ACS Catal., Biochemistry) | a single **Supporting Information** PDF; standalone xlsx only sometimes | — |
 | bioRxiv / preprint | one **Supplementary Material** blob, often unstructured | — |
 
@@ -250,6 +252,8 @@ they have to fetch it by hand:
 | Cell Press | a **Supplemental information** section at the foot of the article page |
 | PNAS | **Supporting Information** on the article page — SI Appendix and each Dataset SN listed separately |
 | eLife | an **Additional files** section near the foot, alongside **Data availability** |
+| Nucleic Acids Res | a **Supplementary data** link on the article page, resolving to the single `{articleid}_supplemental_files.zip` |
+| Protein Science | a **Supporting Information** section, but the numbers are usually in the Zenodo record the Data availability statement names |
 | ACS | a **Supporting Information** box linking the SI PDF; also at `pubs.acs.org/doi/suppl/<DOI>` |
 | bioRxiv | a **Supplementary Material** tab on the preprint page |
 
@@ -276,6 +280,8 @@ Known failure modes, each with a distinct signature:
 | `file` says `HTML document` for a `.pdf` | proof-of-work / captcha interstitial | use another mirror |
 | 4 KB file for a 4.1 MB supplement | same | check size against the publisher's stated size |
 | HTTP 404 on `ftp.ncbi.nlm.nih.gov/pub/pmc/oa_package/` | retired, still advertised by the OA service | use the Europe PMC route |
+| `fullTextXML` 404s although the record *has* a PMCID | a subscription article deposited in PMC without its XML released | `europepmc.org/articles/<pmcid>?pdf=render` — this recovers the full text of paywalled Science and Protein Science articles, and their Data availability statements with it |
+| the record has no PMCID at all, `inEPMC:"N"` | never deposited | nothing here will work, however the article is worded — go straight to 0d |
 | curl exit 35, `Connection reset by peer` | host unreachable from here | another mirror, not another flag |
 | `idconv` returns no record for the DOI | not deposited in PMC — common for subscription journals | go to the publisher's own supplementary URL |
 

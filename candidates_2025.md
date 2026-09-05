@@ -904,6 +904,115 @@ That is the same failure the audit itself diagnosed in the Singh remarks, commit
 **Estevam's exon-14-deleted MET background is unchanged** — still a deferral written as a
 rejection, still needs the Data availability statement chased before it can be committed to.
 
+## Tenth sweep — the never-swept journals, weighted to enzymes
+
+The venue audit behind the ninth sweep showed that every journal-specific sweep so far had been
+Nature-family, ACS, PNAS or Cell Press, and that several venues carrying enzyme work had never
+been queried at all. This sweep takes those, 2025 and 2026 together, and weights the query toward
+enzymes rather than proteins in general:
+
+`JOURNAL:"<J>" AND (PUB_YEAR:2025 OR PUB_YEAR:2026) AND SRC:MED AND (ABSTRACT:"enzyme" OR
+"enzymatic" OR "biocatalyst" OR "catalytic" OR "substrate specificity" OR "thermostability" OR
+"polymerase" OR "protease" OR "hydrolase" OR "oxidase") AND (ABSTRACT:"deep mutational scanning"
+OR "site-saturation mutagenesis" OR "saturation mutagenesis" OR "directed evolution" OR
+"variant library" OR "protein engineering" OR "enzyme engineering" OR "machine learning")`
+
+**289 hits across 20 journals**, every title screened, five chased to their data-availability
+statements and three of those opened further.
+
+| Journal | Hits | Verdict on the venue |
+|---|---|---|
+| Angew Chem Int Ed | 62 | the one-champion biocatalysis pattern, wall to wall |
+| Chem Sci | 32 | computational catalysis and ML method papers; almost no wet variant tables |
+| Protein Sci | 28 | **productive** — two real candidates, and its data lives on Zenodo |
+| Nucleic Acids Res | 21 | **productive** — enzyme evolution papers, but data often only in the SI PDF |
+| Chembiochem | 21 | reviews and small biocatalysis; nothing at library scale |
+| Biotechnol Bioeng | 21 | metabolic engineering; titles are pathway yields, not variant tables |
+| Enzyme Microb Technol | 19 | same |
+| Synth Syst Biotechnol | 18 | same — almost every hit is strain or pathway engineering |
+| Chem Commun, J Biotechnol, AEM, Microb Biotechnol, Metab Eng, Biotechnol Biofuels | 4-13 each | thin; nothing above the floor |
+| Sci Adv | 7 | **one strong candidate, unreachable** |
+| Protein Eng Des Sel | 5 | small |
+| Nat Chem Biol | 4 | two directed-evolution papers, neither with a PMC record |
+| Science | 3 | one candidate, rejected on inspection |
+| Nat Catal | 1 | already rejected in an earlier sweep |
+| Green Chem | 0 | — |
+
+**The venue lesson.** Weighting a query toward enzymes does not make the biotechnology journals
+productive. `Biotechnol Bioeng`, `Synth Syst Biotechnol`, `Enzyme Microb Technol` and `Metab Eng`
+together returned 64 hits and not one candidate: their subject is pathway and strain engineering,
+where the reported number is a titre and the protein work is a handful of rational mutants. That
+is a property of the field, not of the query, and those four are not worth re-sweeping.
+`Angew Chem` is the same story in a different register — 62 hits of elegant biocatalysis, each
+evolving to one named champion, exactly what the directed-evolution sweep predicted.
+
+### Rejected on inspection
+
+**Science 2025**, *Evolutionary-scale enzymology enables exploration of a rugged catalytic
+landscape*, `10.1126/science.adu1058` — **rejected, homolog panel.** The headline is attractive:
+kcat, KM and kcat/KM measured by microfluidics for hundreds of adenylate kinase variants, with all
+kinetics deposited at Zenodo `10.5281/zenodo.15022270`. But the library is **193 orthologs** with
+"an average pairwise sequence identity of 42%", and the only true mutants are LID-domain swap
+chimeras and a short cysteine series. No shared wild type, so no `mutant` column can be written —
+the same shape that sank the Cas12a orthologs and the PET-hydrolase panel. Worth recording because
+the abstract reads like the single best enzyme dataset of the year.
+
+**Protein Sci 2026**, *High-throughput mutational analysis of F1-ATPase*, `10.1002/pro.70699` —
+**rejected.** Data availability is "available from the corresponding author upon reasonable
+request", and the saturation covers two residues (βE190, βY307).
+
+### Open, and why each is stuck
+
+**Sci Adv 2026**, *The fitness landscape of a form II rubisco in a photosynthetic bacterium guides
+engineering of oxygen tolerance*, `10.1126/sciadv.aee9222` — **the best candidate this sweep found,
+and unreachable from here.** A barcoded library of **15,000 single-site and multi-site variants** of
+a *Gallionella* form II rubisco, scored by growth-coupled selection in *Synechocystis* sp. PCC 6803
+— one wild type, bacterial, well above the floor, and a second rubisco to sit beside Wysocki's
+RbcL. Europe PMC has the record but `inEPMC:"N"`, `hasSuppl:"N"`, subscription only; there is no
+route to the supplement from here at all. This one needs a hand-off.
+
+**NAR 2026**, *Deep learning-guided dual-fitness evolution of T7 RNA polymerase*,
+`10.1093/nar/gkag259` — **promising, needs PDF extraction.** T7 RNAP is already in the repo from
+Jiang 2024, so a second property on the same protein would be worth having, and "dual-fitness"
+means two readouts (Tm and activity). The catch is the data availability statement: "All data
+described are contained within the article." The supplemental zip holds three PDFs and no
+spreadsheet — but `SI_NAR.pdf` carries **249 distinct mutation labels**, with pages 25 to 29 holding
+177 to 459 mutation-like tokens each, which is a real variant table in typeset form. Per the
+Somvilla lesson, that is a reason to attempt extraction, not to reject.
+
+**Protein Sci 2025**, *Deep mutational scanning reveals a de novo disulfide bond and combinatorial
+mutations for engineering thermostable myoglobin*, `10.1002/pro.70112` — **ready to curate, human
+tree.** Over 10,000 human myoglobin variants by yeast surface display and sorting, with display
+level used as a stability proxy. The Zenodo deposit `10658344` holds `Figure_2_data.xlsx`, whose
+`Figure_2A` sheet is **2,577 per-variant rows** with two replicate fitness columns and a cell count,
+and whose `Figure_2B` gives the mean with a missense/nonsense classification. Human, so
+`datasets_human/`, which is why it sits below the rubisco despite being the one that is actually
+reachable.
+
+Also noted, not chased: *Promiscuity-Guided Enzyme Evolution via Substrate Multiplexed Screening*,
+`10.1002/anie.202600007`, which is the same SUMS method as the tryptophan-decarboxylase paper
+already on the Open tab and may share its "upon reasonable request" problem.
+
+### What this sweep taught the skill file
+
+Three venues file their data somewhere `0b` did not predict, and the rows have been added:
+
+- **Nucleic Acids Res** ships one `{articleid}_supplemental_files.zip` holding everything at once —
+  the per-variant CSV, the plasmid maps and the SI PDF together. The Data availability statement
+  names a "Supplementary file 1" that is a *member of that zip*, so the file it names cannot be
+  found until the archive is unpacked. Both NAR papers seen so far behave this way.
+- **Protein Science** puts the numbers in the Zenodo record named in Data availability, as small
+  `Figure_N_data.xlsx` workbooks sitting beside multi-gigabyte raw-sequencing archives — 6 GB of
+  Illumina reads next to a 293 KB spreadsheet in the myoglobin deposit. Filter by size first.
+- **Cell Press** already had this failure recorded in prose from Teo 2025 but not in the table; the
+  row now says to check a STAR-Methods Zenodo deposit before the article's own supplement.
+
+And one retrieval row: **`fullTextXML` can 404 for an article that does have a PMCID**, when a
+subscription paper is deposited without its XML released. `europepmc.org/articles/<pmcid>?pdf=render`
+recovered the full text of both the Science and the Protein Science papers above, including their
+data-availability statements. The complementary case — no PMCID at all and `inEPMC:"N"`, as for the
+Sci Adv rubisco — has no route and should go straight to 0d.
+
 ## A note on this file's name
 
 `candidates_2025.md` now holds a 2026 sweep, and the tracker beside it is
