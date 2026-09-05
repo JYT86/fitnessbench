@@ -666,7 +666,7 @@ re-running verbatim against 2026 before this year is called done.
 | Paper | DOI | Verdict |
 |---|---|---|
 | **Vanella 2026**, *Decoding the substrate specificity landscape of a promiscuous enzyme through multi-substrate mutational scanning*, Nat Commun | `10.1038/s41467-026-69913-z` | **Curated — 5 datasets, 5,800 variants each.** See below |
-| **Jansen 2026**, *Mapping the phenotypic landscape of a transcriptional repressor using deep mutational scanning and growth-based quantitative sequencing*, NAR | `10.1093/nar/gkag206` | **Strong.** CymR, a TetR-family repressor from *Pseudomonas putida*, 202 aa; 7,887 variants over 24 conditions (± tetracycline × three ligands) by GROQ-Seq. Per-variant data is Supplementary file 1, a CSV, with Supplementary Table S3 as its column legend. **Only the ~3,819 substitutions are curatable** — the ~4,040 insertions and ~201 deletions cannot be written as `{WT}{position}{MUT}` and are out of scope for the format, not for the paper |
+| **Jansen 2026**, *Mapping the phenotypic landscape of a transcriptional repressor using deep mutational scanning and growth-based quantitative sequencing*, NAR | `10.1093/nar/gkag206` | **Curated — 3 datasets, 9,557 variants each.** See below |
 | Echinocandin resistance in *S. cerevisiae*, Genetics | `10.1093/genetics/iyag055` | **Open.** Fks1 (beta-1,3-glucan synthase), 465 single substitutions across three hotspots confidently classified, bulk-competition DMS against anidulafungin, caspofungin and micafungin plus a no-drug control — four conditions on one WT. No formal data-availability statement in the full text; the selection coefficients are presumably in the eleven supplementary tables, which is a Phase 0 chase rather than a decided fact |
 | Urease functional and catalytic landscape, *H. pylori*, Gut Microbes | `10.1080/19490976.2026.2653575` | **Deprioritized.** UreB, 58 alanine-scan point mutants — over the floor — but the readouts are a spread of expression, growth, colonization and binding assays rather than one quantity across the panel, and there is no data-availability statement at all |
 
@@ -727,6 +727,49 @@ substrate as 0.93 (D-Ala), 0.96 (D-Phe), 0.96 (D-Met), 0.93 (D-Asn), 0.94 (D-Gln
 from the shipped rows gives 0.939, 0.969, 0.968, 0.943, 0.950 — agreeing to within 0.01 on a
 slightly smaller variant set than the paper used. The stated median log2 fitness per substrate
 (-0.33, -0.28, -0.28, -0.34, -0.35) likewise re-derives to -0.326, -0.290, -0.305, -0.355, -0.362.
+
+**Jansen 2026**, *Mapping the phenotypic landscape of a transcriptional repressor using deep
+mutational scanning and growth-based quantitative sequencing*, Nucleic Acids Research,
+`10.1093/nar/gkag206` — **3 datasets, 9,557 variants each**, on CymR, a TetR-family repressor from
+*Pseudomonas putida*, 203 aa. One GROQ-Seq library — barcoded variants in *E. coli* whose
+CymR-controlled promoter drives a `tetA`-mScarlet-I fusion, so tetracycline selection turns
+repressor function into growth — scored against three inducers, giving one dataset per ligand
+under the new `Activity/TranscriptionalRegulation/DMS/`. Readout is log10 fold induction
+(Ginf/G0) from the paper's own Hill fit; higher is better and no inversion was needed.
+
+**The supplement is far richer than the abstract implies.** `cymr_variant_table.csv`, inside
+`gkag206_supplemental_files.zip`, has 54 columns: for each of three ligands a Hill fit gives
+basal output, saturating output, EC50 and a Hill coefficient, plus Gaussian-process-smoothed
+restatements and inversion probabilities. Thirteen of those are curatable measurements; three
+were taken. It also ships a full amino-acid sequence per variant *and* a `mutation_codes` column,
+so Phase 3 and Phase 4 verify against each other for free — all 9,557 derived labels agree with
+the source's own codes.
+
+**Multi-site variants are the bulk of the yield here.** Singles are 3,662 of the 9,557; the rest
+are 5,310 doubles, 525 triples and 58 higher. The paper frames its library as single-mutant
+coverage and analyses it that way, so taking the multis is a departure from its framing — but
+they are the same measurement on the same parent, which is what the format calls more rows, and
+they are the only epistasis signal available.
+
+**Two findings worth carrying.**
+
+*The wild type is not the wild type.* The assayed repressor carries S110G and A171V relative to
+UniProt `O33453`, which the paper notes were "previously reported to improve the dynamic range".
+The construct is a known engineered parent, so `wt_readout` describes that parent and a positive
+`normalized-score` says nothing about natural CymR. The two differences were found by alignment
+before the paper's sentence was located, which is the order the check is supposed to run in.
+
+*The paper and its own supplement disagree on the protein's length.* The text says the CDS "spans
+202 amino acids, including the initiating methionine" and designs "201 positions × 19
+substitutions" for 3,819 variants; the sequences the same supplement ships are 203 residues, and
+so is `O33453`. The datasets follow the sequences. The discrepancy does not change any residue
+number, and the coverage re-derives either way: 3,662 singles is 95.4% of 202 × 19 and 95.9% of
+the paper's own 3,819, against its stated "more than 95% of all possible substitutions".
+
+Not extracted: the 11,671 insertion and deletion variants, which cannot be written as
+`{WT}{position}{MUT}` at all; the other ten Hill-fit readouts; the Gaussian-process columns; and
+the inversion probabilities, which are posterior probabilities from a model rather than
+measurements.
 
 ### Also in the 2026 lists, by tree
 
