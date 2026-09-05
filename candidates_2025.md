@@ -641,3 +641,184 @@ that was opened and found wanting. A clause-5 rejection should say what was look
 that re-reading it later is cheaper than redoing the search — "Supplementary Data 5 holds
 only the AtHMT map" would have been checkable in seconds; "no sequence is given in the
 paper" was not.
+
+## Eighth sweep — 2026, the year nobody had looked at
+
+Every sweep above is `PUB_YEAR:2025`. The branch is named for that year and so is this
+file, but the calendar moved: this sweep was run on **2026-09-04**, so roughly eight
+months of literature had accumulated that no query in this file could have reached. That
+is a larger gap than any of the vocabulary axes the earlier sweeps worried about, and it
+costs nothing to close — the sweeps that worked need only their year changed.
+
+Two queries, both Europe PMC, both `SRC:MED AND OPEN_ACCESS:Y AND PUB_YEAR:2026`:
+
+| Query | Hits |
+|---|---|
+| `ABSTRACT:("deep mutational scanning" OR "site-saturation mutagenesis" OR "variant effect map")` | **66** |
+| `ABSTRACT:("enzyme engineering" OR "protein engineering" OR "machine learning-guided") AND ABSTRACT:"variants"` | **45** |
+
+Both are relevance-ordered and were read to a `pageSize` of 40, so the lists below are the
+top slice rather than an enumeration — the third, sixth and seventh sweeps are worth
+re-running verbatim against 2026 before this year is called done.
+
+### Chased to a data-availability statement
+
+| Paper | DOI | Verdict |
+|---|---|---|
+| **Vanella 2026**, *Decoding the substrate specificity landscape of a promiscuous enzyme through multi-substrate mutational scanning*, Nat Commun | `10.1038/s41467-026-69913-z` | **Curated — 5 datasets, 5,800 variants each.** See below |
+| **Jansen 2026**, *Mapping the phenotypic landscape of a transcriptional repressor using deep mutational scanning and growth-based quantitative sequencing*, NAR | `10.1093/nar/gkag206` | **Strong.** CymR, a TetR-family repressor from *Pseudomonas putida*, 202 aa; 7,887 variants over 24 conditions (± tetracycline × three ligands) by GROQ-Seq. Per-variant data is Supplementary file 1, a CSV, with Supplementary Table S3 as its column legend. **Only the ~3,819 substitutions are curatable** — the ~4,040 insertions and ~201 deletions cannot be written as `{WT}{position}{MUT}` and are out of scope for the format, not for the paper |
+| Echinocandin resistance in *S. cerevisiae*, Genetics | `10.1093/genetics/iyag055` | **Open.** Fks1 (beta-1,3-glucan synthase), 465 single substitutions across three hotspots confidently classified, bulk-competition DMS against anidulafungin, caspofungin and micafungin plus a no-drug control — four conditions on one WT. No formal data-availability statement in the full text; the selection coefficients are presumably in the eleven supplementary tables, which is a Phase 0 chase rather than a decided fact |
+| Urease functional and catalytic landscape, *H. pylori*, Gut Microbes | `10.1080/19490976.2026.2653575` | **Deprioritized.** UreB, 58 alanine-scan point mutants — over the floor — but the readouts are a spread of expression, growth, colonization and binding assays rather than one quantity across the panel, and there is no data-availability statement at all |
+
+### Curated from this sweep
+
+**Vanella 2026**, *Decoding the substrate specificity landscape of a promiscuous enzyme through
+multi-substrate mutational scanning*, Nature Communications, `10.1038/s41467-026-69913-z` —
+**5 datasets, 5,800 variants each**, on D-amino acid oxidase (DAOx) from *Rhodotorula gracilis*,
+365 aa. One EP-Seq library — yeast surface display on *S. cerevisiae* EBY100, single-cell
+tyramide proximity labeling of the H2O2 the enzyme releases, FACS into four bins, barcode
+sequencing — scored against five D-amino acid substrates each at its own Km, giving one dataset
+per substrate under `Activity/CatalyticActivity/DMS/`. Readout is the source's
+expression-normalized activity fitness, with wild type at 1.0 by the definition of the score;
+there is no wild-type row.
+
+**Three things about this paper worth carrying forward.**
+
+*The Zenodo deposit is the source, and the article's own Source Data is the one that is wrong.*
+Source Data sheet `Fig. 2B` holds 5,821 missense rows and Supplementary Table 3 states that same
+5,821 as the set shared by all five substrate screens — but **26 of its labels put a substitution
+at a position whose wild-type residue does not match** (`A144N` where 144 is Q, `H129C` where 129
+is G, and 24 more), and the Zenodo `Fitness_scores_dataset.xlsx` carries 5,800 rows of which all
+5,800 verify. The two files also differ by 20 further labels that verify but appear only in
+Source Data. This is the inverse of the Jiang 2025 lesson: there, Source Data held the real table
+and the files labelled "Supplementary Data" did not. **Run the label check against every candidate
+source before choosing between them** — it is the only thing that distinguishes them, and it is
+cheap.
+
+*The sequence question was settled by the previous paper's deposit, not this one's.* The scan
+covers positions 2-365 and UniProt `P80324` is 368 aa, so whether the construct carries the native
+C-terminal `SKL` decides `seq_len`. This paper's SI has no construct sequence at all. Ref 19 —
+Vanella 2024, `10.1038/s41467-024-45630-3`, the EP-Seq paper whose plasmid and library this work
+reuses — says the library targeted "codons 2 to 365" and deposits `DAOx_ref.fa` at Zenodo
+`10.5281/zenodo.8388902`. Translating it gives a 396-aa ORF: DAOx 1-365, then
+`LESRGPFEGKPIPNPLLGLDSTRTGHHHHHH` — an XhoI scar, a V5 tag and a 6xHis. So `SKL` (the PTS1
+peroxisomal targeting signal) is genuinely absent from the displayed construct, and `seq_len` is
+365. **When a paper reuses a previous paper's plasmid, that paper's deposit is a Phase 3 source**,
+and it is often the only place the construct is actually written down. The article's own prose
+corroborates it arithmetically: stop codons "beyond position 356" are said to lose "only the last
+~10 amino acids", which is true of a 365-residue construct and not of a 368-residue one.
+
+*Do not fetch a Zenodo record blindly.* Both deposits list their files through
+`https://zenodo.org/api/records/<id>`, and record `8388902` includes a 2 GB PacBio FASTQ and a
+14 GB Illumina zip beside the 2 KB `DAOx_ref.fa` that was actually wanted. Filter the `files`
+array by size and extension before downloading anything.
+
+**Not extracted, and why.** The ten Sp-score columns are the authors' own z-scores of fitness
+differences between substrate pairs — curatable, a new `Selectivity/SubstrateSpecificity/`
+property, and left for a later decision rather than shipped unasked. The expression fitness
+column is a measurement from ref 19, not from this paper, so Phase 1 excludes it under this
+paper's name. Synonymous (432) and nonsense (330) variants are not amino acid substitutions. The
+single-clone Amplex Red validation (18 variants), the purified-enzyme kinetics (5 to 6) and the
+Fig. 7C combinatorial set (15) are all under the floor — the first of those is instead what
+Phase 7 used.
+
+**Phase 7 re-derivation.** Supplementary Table 3 states the between-replicate Pearson r per
+substrate as 0.93 (D-Ala), 0.96 (D-Phe), 0.96 (D-Met), 0.93 (D-Asn), 0.94 (D-Gln). Recomputing
+from the shipped rows gives 0.939, 0.969, 0.968, 0.943, 0.950 — agreeing to within 0.01 on a
+slightly smaller variant set than the paper used. The stated median log2 fitness per substrate
+(-0.33, -0.28, -0.28, -0.34, -0.35) likewise re-derives to -0.326, -0.290, -0.305, -0.355, -0.362.
+
+### Also in the 2026 lists, by tree
+
+Human and viral scans are as abundant in 2026 as the third sweep found them in 2025, and
+drop below cellular non-human work by the same rule. Noted here so a later pass can see
+they were found: TYK2 DMS (`10.7554/eLife.110149`), IAPP amyloid formation
+(`10.1038/s41467-026-70611-z`), tapasin (`10.1016/j.jbc.2026.111400`) for `datasets_human/`;
+HIV-1 Vif x APOBEC3G epistasis (`10.1126/sciadv.aed4872`), influenza HA subtype constraints
+(`10.1093/ve/veag018`) and the Omicron JN.1/XEC RBD scan
+(`10.1080/22221751.2026.2686472`) for `datasets_virus/`.
+
+Worth a look on a later pass, not chased here: substrate-selective Hsp104 variants from a
+high-throughput screen (Mol Cell, `10.1016/j.molcel.2026.04.015`), *Fast analysis and
+engineering of protein function by microbe-independent deep assembly and screening* (Mol
+Syst Biol, `10.1038/s44320-026-00210-z`), and phage-assisted evolution of allosteric
+protein switches (Nat Commun, `10.1038/s41467-026-71717-0`).
+
+One hit is not a candidate but is already familiar: the EnzEngDB paper
+(`10.1093/nar/gkaf1142`) is the publication behind the `EnzymeEngineeringDB/` clone named
+in `CLAUDE.md`. It is a compilation of other people's measurements, so Phase 1 excludes it
+under its own name — its value here is the bulk-conversion route already recorded there.
+
+## Ninth sweep — the display axis, and a verdict on it
+
+The directed-evolution sweep listed `"phage display"`, `"PACE"`, `"ancestral sequence
+reconstruction"` and `"iterative saturation mutagenesis"` as not yet run, and guessed the
+phage/PACE axis was the more promising. Run here for 2025 and 2026 together:
+
+`ABSTRACT:("phage-assisted continuous evolution" OR "phage display" OR "yeast surface
+display") AND ABSTRACT:("deep sequencing" OR "next-generation sequencing" OR "enrichment")
+AND (PUB_YEAR:2025 OR PUB_YEAR:2026) AND SRC:MED AND OPEN_ACCESS:Y` — **38 hits.**
+
+**The guess was wrong, and the axis is close to dead for this format.** Essentially all 38
+are antibody, nanobody or peptide *discovery* from naive or synthetic repertoires: the
+sequences that come out are not substitutions of a shared wild type, so they fail the same
+half of the work-item definition that sank the Cas12a orthologs and the PET-hydrolase
+panel. Deep sequencing is present and quantitative in many of them, which is what made the
+axis look promising, but a library with no parent has nothing to write in the `mutant`
+column. The one paper here already known to be different — the Abeta conformational
+antibody campaign, `10.3389/fimmu.2025.1655893` — is different precisely because it mutates
+a named parent clone, and it is already on the Open (maybes) tab.
+
+### An attempted query that must not be recorded as a sweep
+
+`("iterative saturation mutagenesis" OR "combinatorial active-site saturation" OR
+"CASTing" OR "ancestral sequence reconstruction")` was run **unscoped** and returned 9,406
+hits of tundish flow, investment casting and denture clasps — Europe PMC matched `CASTing`
+as free text. An earlier attempt at the PACE axis failed the same way, matching `PACE`
+against prime-editing papers. Both were discarded.
+
+So the ASR and ISM/CASTing axes are **still not swept**, and the fourth sweep's lesson
+applies to my own work: an unrecorded or malformed query should not be entered in the
+tracker as if it were one of the others. What the polluted results did show in passing is
+that ASR papers mostly resurrect a handful of ancestors and compare them — a homolog panel
+under another name — so the axis is worth scoping properly but not worth much optimism.
+
+## Preprints — sized, not swept
+
+`ABSTRACT:("deep mutational scanning" OR "site-saturation mutagenesis" OR "machine
+learning-guided") AND SRC:PPR AND (PUB_YEAR:2025 OR PUB_YEAR:2026)` — **230 hits**, of
+which the first 25 were read. Visible already: ML-guided olivetolic acid cyclase
+engineering in yeast, ML dual optimization of yeast alcohol dehydrogenase substrate
+specificity and thermostability, directed evolution of Fe-nitrogenase for CO2 reduction,
+and continuous site-directed mutagenesis and selection in *E. coli*.
+
+This is a sizing probe, not a sweep. Every earlier sweep used `SRC:MED` deliberately, which
+excludes the bioRxiv/Research Square source, so **whether preprints are in scope is a
+policy question that has never been asked** — not a gap in anyone's querying. The number is
+recorded here so the question can be answered against a real quantity.
+
+## Leads re-verified rather than re-searched — 2026-09-04
+
+The 2026-08-27 audit left two follow-ups open, and one of them was confirmed live this
+session rather than re-argued:
+
+**Landwehr's combinatorial libraries are still there and still open.** The GitHub tree of
+`grantlandwehr/accelerated-enzyme-engineering` carries `data/HSS/` — seven
+`{drug}_train.xlsx` files, one each for cinchocaine, declopramide, itopride, procainamide,
+sulpiride, trimethobenzamide and troxipide — and `data/ML_validation/` with
+`metoclopramide` and `moclobemide` in train/test pairs. Eleven per-variant workbooks of
+about 10 KB each, on the same McbA wild type as the nine shipped datasets and a different
+library, which is a separate dataset rather than a rejection reason. The
+`curated_reduced_AAs/` files are subsets of the same two training sets under different
+codon or BLOSUM reductions, so they are re-slicings of data already counted, not new
+measurements. This is the cheapest yield currently visible anywhere in this file.
+
+**Estevam's exon-14-deleted MET background is unchanged** — still a deferral written as a
+rejection, still needs the Data availability statement chased before it can be committed to.
+
+## A note on this file's name
+
+`candidates_2025.md` now holds a 2026 sweep, and the tracker beside it is
+`FitnessBench_2025_literature_search.xlsx` on a branch called `2025`. The year in all three
+names has stopped describing the contents. Renaming touches the tracker's own pointer back
+to this file and the branch both, so it is left as it stands and flagged here.
