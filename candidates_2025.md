@@ -1134,6 +1134,68 @@ recovered the full text of both the Science and the Protein Science papers above
 data-availability statements. The complementary case — no PMCID at all and `inEPMC:"N"`, as for the
 Sci Adv rubisco — has no route and should go straight to 0d.
 
+
+## Eleventh sweep — 2025 only, enzymes, everything not already ruled on
+
+The first sweep run with the enzyme scope in view rather than implied by query phrasing, and the
+first to exclude prior verdicts programmatically: every DOI already on the Curated, Rejected or
+Open tabs, and every DOI in a shipped `reference.csv`, was filtered out before ranking, so the 82
+papers already decided could not be re-offered.
+
+`(enzyme nouns) AND (library-scale method) AND PUB_YEAR:2025 AND SRC:MED AND OPEN_ACCESS:Y` —
+**188 hits, 174 new after filtering**, ranked by signals of a large per-variant enzyme dataset
+(assay vocabulary, plus any variant count the abstract states).
+
+### Curated
+
+**Prywes 2025**, *A map of the rubisco biochemical landscape*, Nature 638,
+`10.1038/s41586-024-08455-0` — **2 datasets, 8,760 variants each**, on the Form II rubisco large
+subunit of *Rhodospirillum rubrum*, 466 aa, in `Activity/CatalyticActivity/DMS/`. A growth-coupled
+selection in engineered *E. coli*, where rubisco carboxylation rescues a phosphoribulokinase-
+dependent strain, scored **8,760 of the 8,835 possible single amino acid substitutions — 99% of
+the protein**. Readouts are carboxylation fitness and relative Vmax, both normalized so wild type
+is 1 and catalytically dead mutants are 0.
+
+**Watch the year.** The DOI reads `s41586-`**`024`**`-08455-0` and the version of record is Nature
+638 (2025). This is the preprint-year trap the 2022 branch documents, in the DOI rather than in a
+ProteinGym field, and it belongs on this branch.
+
+**Phase 3 needed no reconstruction.** The supplement ships `position` and `WTresidue` columns
+beside every label, so the sequence falls out of the file, and it matches NCBI `WP_011390153.1` at
+all 462 covered positions with no offset. Positions 1, 2, 465 and 466 carry no mutation, so
+`sequence` is the full 466-residue protein rather than truncated at the library's edge — the
+question Vanella's `SKL` tail made worth asking every time. The library is contiguous over
+positions 3-464 with 447 of 462 positions carrying all 19 substitutions.
+
+**Two sources disagree, and the smaller one is right.** The data availability statement names
+`github.com/SavageLab/rubiscodms`, but the publisher's Supplementary Data 2 carries the same
+readouts and is the version of record. They are not identical: GitHub holds nine mutants the
+supplement lacks (A77T, A179T, A179V, F126D, G110P, K310A, N111V, S368G, V24Q) plus a wild-type
+row. The supplement's 8,760 is the number the paper itself reports, so this follows the supplement
+and records the difference.
+
+**Phase 7, twice, exactly.** 8,760 of 8,835 is 99.15%, against the paper's "more than 99%". And
+the nine replicate enrichment columns give 36 pairwise Pearson coefficients averaging **0.9815**,
+against the paper's "an average pairwise Pearson coefficient of 0.98".
+
+**The third readout is left open, deliberately.** Apparent CO2 affinity `K_C` is the quantity the
+paper is really about and a different measurement from velocity, so it wants its own directory —
+`Activity/SubstrateAffinity/`, expressed as `1/K_C` in mM^-1 so higher is better. It also **must
+not be shipped unfiltered**: the paper estimates affinity for only 65% of variants, and
+`Km_qbcov <= 1.0` reproduces its stated 5,687 exactly, as 5,686 mutants plus the wild type, on the
+GitHub deposit. An unfiltered `K_C` column would pass every validator in this repository and be
+wrong, which is why the filter is recorded on the Open tab with the rest of the decision.
+
+Also worth noting for units: the wild-type `Km_median` is 0.149, and R. rubrum rubisco's literature
+K_C is 149 uM, which is what pins the column to **mM CO2** rather than to a ratio.
+
+### Housekeeping from the same round
+
+The Abeta conformational-antibody lead (`10.3389/fimmu.2025.1655893`) was retired from the Open tab
+to Rejected: an antibody is a binding domain, so the enzyme scope excludes it and the NGS-parsing
+problem that was blocking it no longer matters.
+
+
 ## A note on this file's name
 
 `candidates_2025.md` now holds a 2026 sweep, and the tracker beside it is

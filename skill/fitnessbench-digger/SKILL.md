@@ -531,6 +531,9 @@ one to make by curating past it.
 not yours — you are here to lay out the options accurately, with the facts attached that the choice
 depends on. Four kinds of candidate are `no` on their face:
 
+- **outside the enzyme scope**, by the protein or by the readout, per the section above. Mark it
+  `no — outside the enzyme scope` and name which half fails. This one is checked first because it
+  is the cheapest: it needs no counting and no file.
 - **not an experimental measurement.** Predicted ΔΔG, docking scores, simulation output — anything a
   computation produced rather than an assay. FitnessBench holds measurements; a prediction column is
   not a weak dataset, it is a different kind of thing. Mark it `no` whatever its row count.
