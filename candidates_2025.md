@@ -972,13 +972,35 @@ RbcL. Europe PMC has the record but `inEPMC:"N"`, `hasSuppl:"N"`, subscription o
 route to the supplement from here at all. This one needs a hand-off.
 
 **NAR 2026**, *Deep learning-guided dual-fitness evolution of T7 RNA polymerase*,
-`10.1093/nar/gkag259` — **promising, needs PDF extraction.** T7 RNAP is already in the repo from
-Jiang 2024, so a second property on the same protein would be worth having, and "dual-fitness"
-means two readouts (Tm and activity). The catch is the data availability statement: "All data
-described are contained within the article." The supplemental zip holds three PDFs and no
-spreadsheet — but `SI_NAR.pdf` carries **249 distinct mutation labels**, with pages 25 to 29 holding
-177 to 459 mutation-like tokens each, which is a real variant table in typeset form. Per the
-Somvilla lesson, that is a reason to attempt extraction, not to reject.
+`10.1093/nar/gkag259` — **curated, 2 datasets, 164 variants each**, into
+`datasets_virus/Stability/ThermalStability/ML/` and
+`datasets_virus/Activity/CatalyticActivity/ML/`. The Somvilla lesson held: the data availability
+statement says only "All data described are contained within the article", the supplemental zip
+holds three PDFs and no spreadsheet, and the numbers came out of the SI PDF cleanly anyway.
+
+**The table is split across two tables and joined on an index.** `Table S3` maps an index
+(`R2-1` … `R5-40`) to a genotype; `Table S4` gives Tm and 52 °C activity against the same index.
+Neither is usable alone — which is why the mutation-density scan found labels on pages 25-29 and
+none on 30-33, and why a first glance suggests the results table has no genotypes.
+
+**Plain text extraction was not good enough, twice.** Reading the PDF as lines and pairing each
+index with the following line silently dropped `R5-30` to `R5-39` — the 12- to 14-site mutants,
+whose long genotype strings wrap. Widening to "accumulate until the next index" then over-collected,
+inventing variants with 30 substitutions. Only the appendix's method — words with coordinates,
+columns cut at fixed `x` ranges, wrapped cells reattached as orphans — produced a table whose row
+index is contiguous within every round in *both* tables. **The contiguity assert is what caught
+both failures**; without it the first pass looked perfectly plausible and was missing a sixth of the
+data.
+
+One genuine gap survives the extraction: `Table S3` defines `R4-30` and `Table S4` reports no result
+for it, so 165 defined mutants give 164 rows. Page 32 runs `R4-29` straight into `R5-1`.
+
+**Two Phase 7 findings.** The paper reports **two different wild-type melting temperatures** — 46.9 °C
+by CD and calorimetry, 42.1 °C by the incubation assay — and puts neither in Table S4, which is why
+`wt_readout` is empty rather than typed. Against the 46.9 °C figure the best variant here, 57.7 °C,
+is 10.8 °C above wild type, matching the paper's stated ">10 °C". The sequence needed no work at
+all: T7 RNAP is already in this repo from Jiang 2024, and all 26 distinct substitutions verify
+against that 883-residue sequence.
 
 **Protein Sci 2025**, *Deep mutational scanning reveals a de novo disulfide bond and combinatorial
 mutations for engineering thermostable myoglobin*, `10.1002/pro.70112` — **curated, 1 dataset, 2,350
