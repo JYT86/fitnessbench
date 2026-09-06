@@ -981,13 +981,40 @@ spreadsheet — but `SI_NAR.pdf` carries **249 distinct mutation labels**, with 
 Somvilla lesson, that is a reason to attempt extraction, not to reject.
 
 **Protein Sci 2025**, *Deep mutational scanning reveals a de novo disulfide bond and combinatorial
-mutations for engineering thermostable myoglobin*, `10.1002/pro.70112` — **ready to curate, human
-tree.** Over 10,000 human myoglobin variants by yeast surface display and sorting, with display
-level used as a stability proxy. The Zenodo deposit `10658344` holds `Figure_2_data.xlsx`, whose
-`Figure_2A` sheet is **2,577 per-variant rows** with two replicate fitness columns and a cell count,
-and whose `Figure_2B` gives the mean with a missense/nonsense classification. Human, so
-`datasets_human/`, which is why it sits below the rubisco despite being the one that is actually
-reachable.
+mutations for engineering thermostable myoglobin*, `10.1002/pro.70112` — **curated, 1 dataset, 2,350
+variants**, at `datasets_human/Expression/SurfaceDisplay/DMS/`. Over 10,000 human myoglobin variants
+were screened by yeast surface display and FACS; the Zenodo deposit `10658344` holds
+`Figure_2_data.xlsx`, whose `Figure_2B` sheet classifies 2,578 scored variants as 2,350 missense,
+119 nonsense and 109 synonymous.
+
+**A new category, `Expression/`, and why not `Stability/`.** What was measured is surface display
+level. What the paper claims is a thermostability proxy, validated against eleven NanoDSF melting
+temperatures. The skill's rule is to name a level for what was measured, so the directory says
+`SurfaceDisplay` and the `readout` string carries the proxy claim. Vanella 2024's expression scores,
+the same assay from the same lab, belong here when that lead is worked.
+
+**Three things worth carrying.**
+
+*The labels are numbered against the fusion, not the protein.* `AA_Mutation` runs from 137 to 290,
+because the construct is an Aga2p fusion; the `Figure_2E` sheet gives the myoglobin numbering (1 to
+155) for the same rows, and the offset is exactly **136**. It is uniquely determined — no other
+offset in ±300 makes all the labels verify — and it was confirmed independently against the
+`Figure_4E` NanoDSF labels, which use the same convention. Renumbered, the sequence is identical to
+UniProt `P02144` at all 154 residues and all 2,350 labels verify with zero failures, every position
+carrying at least three substitutions.
+
+*The synonymous variants are the wild type.* All 109 encode wild-type myoglobin through alternate
+codons, so they are repeat measurements of one protein and collapse into a single WT row rather than
+being dropped. That gives a real `wt_readout` of 0.0225 instead of an empty field, and their spread
+of 0.29 log units is the assay's own reproducibility statement.
+
+*Phase 7 re-derives twice.* The paper states nonsense variants at "0.52 ± 0.13" and synonymous at
+"0.03 ± 0.07"; recomputing from the deposited file gives **−0.525 ± 0.121** and **+0.023 ± 0.056**.
+The sign on the first is missing from the paper's PDF text, not from the data.
+
+Not extracted: the `Figure_4E` NanoDSF melting temperatures (ten variants plus wild type) and the
+`Figure_6C` combinatorial set (sixteen, identified only as `Var1`–`Var16` with no genotype in the
+deposited file) — both under the twenty-variant floor.
 
 Also noted, not chased: *Promiscuity-Guided Enzyme Evolution via Substrate Multiplexed Screening*,
 `10.1002/anie.202600007`, which is the same SUMS method as the tryptophan-decarboxylase paper
