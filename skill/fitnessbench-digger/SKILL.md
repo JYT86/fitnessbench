@@ -501,9 +501,35 @@ variant series, and for each, the reaction × quantity grid.* Two numbers that s
 work-item count and the number of filled cells across those grids — and if they do not, you have
 either split by table or split by protein, and neither is the axis.
 
+### The benchmark's scope — check this per work item, not per sweep
+
+FitnessBench is an enzyme benchmark. That was true long before it was written down, and for a
+while it lived only in how the sweep queries were phrased, which meant a sweep worded around
+DMS vocabulary rather than enzymes drifted off it with nothing to push back. It is a gate here so
+that it is tested against the protein in front of you.
+
+**In scope**: catalysts, and proteins whose measured phenotype is catalytic machinery —
+nucleases, polymerases, helicases, ATP-driven transporters.
+
+**Out of scope**: fluorescent proteins, binding domains, ion channels, structural and scaffold
+proteins, viral surface glycoproteins.
+
+Two traps, both of which have already cost a curation:
+
+- **A protein can be interesting, well measured and still out.** A transcriptional repressor with
+  9,557 verified variants is a DNA-binding regulatory protein, not a catalyst. Data quality is not
+  the test.
+- **Ask what the readout reports, not only what the protein is.** Fluorescence reports chromophore
+  maturation and folding; a yeast surface-display level reports folding and abundance. Neither
+  reports catalysis, so an oxygen-binding globin scored by display level is out on both counts.
+
+Mark such a candidate `no — outside the enzyme scope`, and say which half fails, the protein or
+the readout. The scope can be widened, but that is the user's decision to take deliberately, not
+one to make by curating past it.
+
 **Enumerate everything in scope; decide nothing.** Which of them become datasets is the user's call,
 not yours — you are here to lay out the options accurately, with the facts attached that the choice
-depends on. Three kinds of candidate are `no` on their face:
+depends on. Four kinds of candidate are `no` on their face:
 
 - **not an experimental measurement.** Predicted ΔΔG, docking scores, simulation output — anything a
   computation produced rather than an assay. FitnessBench holds measurements; a prediction column is
@@ -519,8 +545,8 @@ would also have been the first of its property is beside the point, and naming t
 though it were the objection puts a cost on precisely the thing the hierarchy exists to do.
 
 **Gate — do not continue until:** each item has a name, an intended category/property directory, the
-file and sheet-or-table its numbers live in, and a stated reason it is (or is not) the authors' own
-experimental data.
+file and sheet-or-table its numbers live in, a stated reason it is (or is not) the authors' own
+experimental data, and a verdict on the enzyme scope for its protein *and* its readout.
 
 ### Present the table, then let the user pick
 
@@ -541,6 +567,7 @@ answers "could this become a dataset at all", never "should it". There are exact
 
 | `no` because | |
 |---|---|
+| outside the enzyme scope | not a catalyst, or a readout that does not report catalysis |
 | not an experimental measurement | a predicted or simulated column |
 | no per-variant numbers anywhere | nothing to extract |
 | fewer than 20 variants | `no — N variants` |
@@ -1191,6 +1218,7 @@ in scratch, use it, drop it.
 Reject the work item, record it in the `remark` of a dataset shipped from the same paper
 (Phase 6), report it, and move to the next:
 
+- the protein or its readout is outside the enzyme scope (Phase 1)
 - the data is only in a figure, or is not public (Phase 0–1)
 - the property, units, or direction cannot be established (Phase 2)
 - the sequence cannot be verified, or the numbering convention is ambiguous or absent (Phase 3)

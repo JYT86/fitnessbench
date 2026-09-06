@@ -4,6 +4,65 @@ Screening notes for the `2025` branch — papers published in 2025 that may yiel
 FitnessBench datasets. Nothing here is curated yet; this is the shortlist that
 step 1 of `example_workflow.md` should start from.
 
+## Scope — enzymes and enzyme-adjacent
+
+Set on 2026-08-31 on the `2022` and `2023` branches, and **propagated here on 2026-09-06**, late:
+it should have arrived with the other branches, and its absence cost this branch two curations
+before anyone noticed.
+
+FitnessBench is in practice an enzyme benchmark and always has been: this branch is around 112 of
+144 datasets on catalytic activity, about twenty enzymes out of twenty-three proteins. Nothing in
+`README.md` or `example_workflow.md` ever said so — the focus lived in the 2025 sweep queries,
+which were phrased around *machine learning guided enzyme engineering*, and not in the
+documentation. Broader DMS-vocabulary sweeps therefore drifted off it without anything pushing
+back.
+
+**In scope**: catalysts, and proteins whose measured phenotype is catalytic machinery —
+nucleases, polymerases, helicases, ATP-driven transporters.
+
+**Out of scope**: fluorescent proteins, binding domains, ion channels, structural and scaffold
+proteins, viral surface glycoproteins.
+
+### What this cost on this branch
+
+The eighth to tenth sweeps ran without the scope in view and two of their curations failed it,
+both now reverted and recorded on the tracker's Rejected tab:
+
+| Paper | Why it failed | Recovered |
+|---|---|---|
+| Jansen 2026, CymR | a TetR-family transcriptional repressor — a DNA-binding regulatory protein, not a catalyst | 3 datasets, 9,557 variants each |
+| Kung 2025, human myoglobin | an oxygen-binding heme protein, and the readout is surface display level, which reports folding and abundance rather than catalysis | 1 dataset, 2,350 variants |
+
+Myoglobin is close to the GFP case the scope note singles out — fluorescence "reports chromophore
+maturation and folding rather than catalysis" — and display level reports the same thing. Neither
+was a quality failure: the CymR extraction verified against the source's own `mutation_codes`
+column, and the myoglobin sequence matched `P02144` exactly with the paper's own statistics
+re-deriving. They are scope rejections, and worth revisiting only if the scope widens.
+
+**The lesson is where the scope lives.** It was recorded in the sibling branches' candidate files
+and nowhere else — not in `README.md`, not in `CLAUDE.md`, not in the skill. A curator working
+only from this branch had no way to see it, which is exactly the failure mode the scope note
+itself diagnoses. It is now also a Phase 1 gate in `skill/fitnessbench-digger/SKILL.md`, so it is
+checked per work item rather than depending on how a sweep query happened to be phrased.
+
+### A deliberate exception: three 2026 papers on the 2025 branch
+
+The branches are one per publication year — `2022`, `2023`, `2024`, `2025`, each cut from `main` —
+and this file's own first line says *papers published in 2025*. The eighth sweep deliberately went
+past that, because by 2026-09 the 2025 literature was a year stale and no branch existed for the
+current year. Three 2026 papers were curated here as a result, and **they stay here by decision
+rather than by oversight**:
+
+| Paper | Datasets | Status |
+|---|---|---|
+| Vanella 2026, DAOx | 5 | in scope, kept |
+| Jiang 2026, T7 RNA polymerase | 2 | in scope, kept |
+| Jansen 2026, CymR | 3 | reverted, out of scope |
+
+Anyone cutting a `2026` branch later should take Vanella and Jiang from here rather than
+re-curating them, and should read the eighth, ninth and tenth sweeps below, which cover 2026 as
+well as 2025.
+
 ## Where these came from
 
 **First sweep.** Two nature.com searches, both restricted to `date_range=2025-2025`,
@@ -666,7 +725,7 @@ re-running verbatim against 2026 before this year is called done.
 | Paper | DOI | Verdict |
 |---|---|---|
 | **Vanella 2026**, *Decoding the substrate specificity landscape of a promiscuous enzyme through multi-substrate mutational scanning*, Nat Commun | `10.1038/s41467-026-69913-z` | **Curated — 5 datasets, 5,800 variants each.** See below |
-| **Jansen 2026**, *Mapping the phenotypic landscape of a transcriptional repressor using deep mutational scanning and growth-based quantitative sequencing*, NAR | `10.1093/nar/gkag206` | **Curated — 3 datasets, 9,557 variants each.** See below |
+| **Jansen 2026**, *Mapping the phenotypic landscape of a transcriptional repressor using deep mutational scanning and growth-based quantitative sequencing*, NAR | `10.1093/nar/gkag206` | **Curated, then reverted as out of the enzyme scope.** See below |
 | Echinocandin resistance in *S. cerevisiae*, Genetics | `10.1093/genetics/iyag055` | **Open.** Fks1 (beta-1,3-glucan synthase), 465 single substitutions across three hotspots confidently classified, bulk-competition DMS against anidulafungin, caspofungin and micafungin plus a no-drug control — four conditions on one WT. No formal data-availability statement in the full text; the selection coefficients are presumably in the eleven supplementary tables, which is a Phase 0 chase rather than a decided fact |
 | Urease functional and catalytic landscape, *H. pylori*, Gut Microbes | `10.1080/19490976.2026.2653575` | **Deprioritized.** UreB, 58 alanine-scan point mutants — over the floor — but the readouts are a spread of expression, growth, colonization and binding assays rather than one quantity across the panel, and there is no data-availability statement at all |
 
@@ -730,7 +789,13 @@ slightly smaller variant set than the paper used. The stated median log2 fitness
 
 **Jansen 2026**, *Mapping the phenotypic landscape of a transcriptional repressor using deep
 mutational scanning and growth-based quantitative sequencing*, Nucleic Acids Research,
-`10.1093/nar/gkag206` — **3 datasets, 9,557 variants each**, on CymR, a TetR-family repressor from
+`10.1093/nar/gkag206` — **curated, then reverted on 2026-09-06 as out of the enzyme scope.** CymR is
+a TetR-family transcriptional repressor: a DNA-binding regulatory protein, not a catalyst and not
+catalytic machinery. Nothing below is a quality objection — the extraction verified against the
+source's own `mutation_codes` column throughout — and the work is recorded here in full so that it
+can be recovered cheaply if the scope ever widens to regulatory proteins.
+
+What it would have been: **3 datasets, 9,557 variants each**, on CymR from
 *Pseudomonas putida*, 203 aa. One GROQ-Seq library — barcoded variants in *E. coli* whose
 CymR-controlled promoter drives a `tetA`-mScarlet-I fusion, so tetracycline selection turns
 repressor function into growth — scored against three inducers, giving one dataset per ligand
@@ -1003,7 +1068,14 @@ all: T7 RNAP is already in this repo from Jiang 2024, and all 26 distinct substi
 against that 883-residue sequence.
 
 **Protein Sci 2025**, *Deep mutational scanning reveals a de novo disulfide bond and combinatorial
-mutations for engineering thermostable myoglobin*, `10.1002/pro.70112` — **curated, 1 dataset, 2,350
+mutations for engineering thermostable myoglobin*, `10.1002/pro.70112` — **curated, then reverted on
+2026-09-06 as out of the enzyme scope.** Myoglobin is an oxygen-binding heme protein rather than a
+catalyst, and the readout compounds it: surface display level reports folding and abundance, which
+is the same objection the scope note makes to GFP. The `Expression/SurfaceDisplay/` category created
+for it was removed with it. Again not a quality objection — the sequence matched `P02144` exactly
+and the paper's own statistics re-derived — so the detail below stands if the scope widens.
+
+What it would have been: **1 dataset, 2,350
 variants**, at `datasets_human/Expression/SurfaceDisplay/DMS/`. Over 10,000 human myoglobin variants
 were screened by yeast surface display and FACS; the Zenodo deposit `10658344` holds
 `Figure_2_data.xlsx`, whose `Figure_2B` sheet classifies 2,578 scored variants as 2,350 missense,
