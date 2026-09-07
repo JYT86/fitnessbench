@@ -1654,6 +1654,95 @@ detection". Wysocki's rubisco is the precedent, at up to 79%.
 the skill file's rule, so it takes the directory and the filename slot.
 
 
+## Thirteenth sweep - MaveDB, and the four axes nobody had queried
+
+Two of these were on the record as unswept; two are new, and one of the new ones came out of
+today's curation rather than out of a vocabulary list.
+
+### MaveDB, swept directly for the first time
+
+The EnvZ curation showed that a repository can hold data no literature query surfaces, so MaveDB
+was swept as a source in its own right. `POST /api/v1/score-sets/search` accepts
+`targetOrganismNames`, so the enzyme scope's organism half can be pushed into the query: of the
+100 organisms MaveDB holds, **72 are in scope for `datasets/`** - bacteria, archaea, yeast and
+plants, excluding human, mouse, chicken, fish, fly, viruses and artificial sequences - covering
+**608 published score sets**, every one paged out and grouped by its linked publication.
+
+**The result is a clean null, and that is worth having on the record.** Those 608 score sets come
+from 450 distinct publications, and after excluding everything already decided, exactly **two** are
+from 2024 or later:
+
+| DOI | Year | Why not |
+|---|---|---|
+| `10.1101/2024.04.26.591310` | 2024 | 500 *human* protein domains, and the wrong year |
+| `10.1101/2025.03.21.644421` | 2025 | LetA, a lipid **transporter**; version of record is a 2026 Nature paper |
+
+Everything else in scope is 2009-2021. The single largest block - 510 score sets deposited on
+2023-07-04, all `<target> trypsin digestion` / `chymotrypsin digestion` / `combined scores` with no
+linked publication - is the mega-scale proteolysis stability corpus, a 2023 paper measuring folding
+free energies of small domains. Wrong year for this branch, and mostly not enzymes.
+
+So MaveDB's non-human enzyme holdings are **almost entirely pre-2021**, and its one 2025 enzyme
+deposit is the EnvZ record already curated above. Nobody needs to sweep it again for this branch.
+
+### Four literature axes, `PUB_YEAR:2025 AND SRC:MED`, no open-access filter
+
+| Axis | Query centre | Hits | New | Enzyme-scoped, non-review |
+|---|---|---|---|---|
+| A | ancestral sequence reconstruction / iterative saturation / CASTing | 17 | 17 | 17 |
+| B | droplet microfluidics / ultrahigh-throughput / FADS | 26 | 23 | 17 |
+| C | fitness landscape / epistasis / combinatorial library | 23 | 19 | 14 |
+| D | papers naming MaveDB, Zenodo or figshare | 35 | 35 | 5 |
+
+**Axis A finally closes an item the ninth sweep left open.** That sweep ran the ASR/ISM/CASTing
+query unscoped, got 9,406 hits of tundish flow and denture clasps because Europe PMC matched
+`CASTing` as free text, and correctly refused to record it as a sweep. Scoped with
+`AND ABSTRACT:"enzyme"` it returns **17 papers**, and the ninth sweep's guess was right: they are
+semi-rational redesigns and ancestor panels - a leucine dehydrogenase, an inositol-1-phosphate
+synthase, a dCMP deaminase - none library-scale. The axis is now swept and closed.
+
+**Axis B is the one that was worth running**, because it is the world the NucB paper came from and
+no query had ever touched it. It is nonetheless mostly *methods*: hydrogel-bead compartments,
+double-emulsion picoreactors, a droplet printer coupled to mass spectrometry. Papers about how to
+build the screen, not tables of what it measured.
+
+**Axes C and D matched the wrong fields**, and that is the useful thing to record about them.
+"Fitness landscape" and "epistasis" pull in inhibitor design and synthetic chemistry - a
+thermodynamic cycle for competitive inhibition, delta-cyclodextrin synthesis, SARS-CoV-2 protease
+inhibitors. Naming a data repository in an abstract turns out to be something *bioinformatics tool*
+papers do - ProtNote, DeepES, aMLProt, a solenoid detector - not something data papers do. Neither
+axis is worth re-running.
+
+### One candidate opened in full, and rejected on reproducibility
+
+`10.1186/s13036-025-00482-3`, *Droplet microfluidic screening to engineer angiotensin-converting
+enzyme 2 (ACE2) catalytic activity*, J Biol Eng 2025 - from axis B, and the only hit across the
+four axes with a real per-variant table behind it. Additional File 3 holds **622 single
+substitutions** in human ACE2, positions 19-614, with log enrichment from each of three droplet
+sorts. ACE2 is a peptidase, so the scope admits it, and 622 clears the floor comfortably.
+
+**The three sorts do not agree.**
+
+| | Pearson *r* |
+|---|---|
+| sort 1 vs sort 2 | 0.074 |
+| sort 1 vs sort 3 | 0.006 |
+| sort 2 vs sort 3 | **-0.029** |
+
+Three sorts of one library correlating at zero means the per-variant numbers are not a measurement,
+and averaging does not rescue them: the spread of the per-variant means is 1.17x the median
+within-variant scatter. The paper is candid - it reports "large variability in mutational enrichment
+across the three replicates" and uses the columns as a *consensus filter* to pick six mutants rather
+than as a landscape. Those six do rank high by the mean, but they were selected from these same
+three columns, so that is circular rather than confirming. Rejected, with the correlations recorded
+so the ruling can be revisited on evidence. 24 of the 622 labels are nonsense variants and would
+have needed dropping regardless.
+
+This is the second time today that a per-variant table which would have passed every check in this
+repository failed a reproducibility test instead - the EnvZ 37 C arm was the first. Neither was
+caught by the validator, and neither could be.
+
+
 ## A note on this file's name
 
 `candidates_2025.md` now holds a 2026 sweep, and the tracker beside it is
