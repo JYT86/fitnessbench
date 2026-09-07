@@ -1225,6 +1225,38 @@ to Rejected: an antibody is a binding domain, so the enzyme scope excludes it an
 problem that was blocking it no longer matters.
 
 
+## Parked: three leads that are not 2025 papers
+
+Worked through on 2026-09-07. Six leads stood on the Open tab; checking each against its Europe PMC
+record before spending any more time on it turned up that **half of them are not 2025 papers**, and
+that two of the three "blocked" notes were stale. They move to a new **Parked (other years)** tab in
+the tracker rather than to Rejected — nothing is wrong with these papers except the branch.
+
+| Lead | DOI | Record says | Was recorded as |
+|---|---|---|---|
+| Vanella 2024, DAOx EP-Seq | `10.1038/s41467-024-45630-3` | Nat Commun **2024**, reachable | "belongs on the 2024 branch" — correct |
+| Fks1 echinocandin DMS | `10.1093/genetics/iyag055` | Genetics **2026**, `inEPMC:Y`, `hasSuppl:Y` | "a Phase 0 data-availability chase" — **stale**, it fetches cleanly |
+| Form II rubisco, Gallionella | `10.1126/sciadv.aee9222` | Sci Adv **2026**, `inEPMC:N`, paywalled | "needs the article dropped in by hand" — true, but moot |
+
+Two lessons worth keeping.
+
+**Check the year before checking the paywall.** The Gallionella rubisco was on the list as the one
+item needing a human to fetch a PDF. It is a 2026 paper, so fetching it would have repeated on this
+branch exactly the mistake the eighth sweep already made — and this time knowingly. The publication
+year is one field of the same Europe PMC call that reports `inEPMC`, and it costs nothing to read.
+
+**A blocking note decays faster than the finding it summarizes.** Fks1 was recorded as needing a
+data-availability chase; by the time anyone came back to it the article was in PMC, open access,
+supplement and all. The note was right when written and wrong when read. This is the same failure
+mode the 2026-08-27 audit found in the `remark` fields — a recorded conclusion outliving the state
+of the world it described — and the cheap defence is the same: re-run the one query that produced
+the note before acting on it.
+
+Fks1 in particular is now the strongest single lead on the whole list — 465 single substitutions
+across three hotspots, four conditions on one wild type, in scope and well above the floor. It is
+waiting on a `2026` branch, not on any technical problem.
+
+
 ## A note on this file's name
 
 `candidates_2025.md` now holds a 2026 sweep, and the tracker beside it is
