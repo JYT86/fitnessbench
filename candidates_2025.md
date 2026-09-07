@@ -1257,6 +1257,55 @@ across three hotspots, four conditions on one wild type, in scope and well above
 waiting on a `2026` branch, not on any technical problem.
 
 
+## Rejected on shape: the class A beta-lactamase gatekeeper screen
+
+`10.1016/j.jbc.2025.110347`, *A glycine at position 105 leads to clavulanic acid and avibactam
+resistance in class A β-lactamases*, J Biol Chem 2025. This one sat on the Open tab for weeks with
+the note "19 substitutions + WT, one row under the floor — worth a second look if the bar is
+'genuine deep-sequencing data' rather than 'library-scale'". Worked up properly on 2026-09-07, and
+rejected.
+
+**The data is real, and better than the note suggested.** Supplementary Data 2 is a 256 KB legacy
+`.xls` (needs `xlrd`, which reads BIFF where `openpyxl` will not), five sheets, one per enzyme. Each
+sheet is seven condition blocks — ampicillin, carbenicillin, meropenem, ceftriaxone, clavulanic
+acid, sulbactam, avibactam — each block three replicates of raw unselected and selected counts with
+per-replicate fitness, then an averaged fitness with an error and a significance call. Nothing about
+it is a figure scraped back into numbers.
+
+**It is the shape that fails.** Counting rather than estimating: 35 datasets, 651 variant rows,
+mean 18.6, and not one reaches 20.
+
+| Enzyme | WT at 105 | Usable substitutions, per condition |
+|---|---|---|
+| BlaC | Ile | 19, 17, 19, 19, 19, 19, 19 |
+| CTX-M-14 | Tyr | 19 × 7 |
+| KPC-2 | Trp | 16, 17, 19, 19, 19, 16, 15 |
+| NmcA | His | 19 × 7 |
+| TEM-1 | Tyr | 19 × 7 |
+
+The shortfalls are not gaps in the file. Fitness is undefined wherever the selected count is zero,
+so KPC-2 under avibactam genuinely has 15 measurable substitutions — the enzyme is killed by the
+drug, which is the experiment working.
+
+Three reasons past the count, and the count is the weakest of them.
+
+**A one-position scan is not a landscape.** Every file would hold 19 sequences differing at a single
+residue, and the `sequence` column would render that identically to a 5,000-variant DMS. A model
+scoring it is ranking 20 amino acids at one site.
+
+**It would distort the repository more than it fills it.** 35 files against the current 156 is 22%
+of the dataset count, for 651 of 599,881 variants — 0.11%. Every per-dataset average on the Summary
+tab moves, in exchange for almost no data.
+
+**Phase 3 would be five alignments, not one lookup.** Ambler 105 is a structural-alignment number,
+not a sequence index; BlaC, CTX-M-14, KPC-2, NmcA and TEM-1 each need their own mapping, and each is
+an opportunity to place the substitution on the wrong residue with nothing downstream able to catch
+it.
+
+Revisit only if the floor is ever redefined as "genuine deep-sequencing data" rather than
+library-scale coverage. That is a defensible bar, and this paper would be the first thing through it.
+
+
 ## A note on this file's name
 
 `candidates_2025.md` now holds a 2026 sweep, and the tracker beside it is
