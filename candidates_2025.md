@@ -1743,6 +1743,86 @@ repository failed a reproducibility test instead - the EnvZ 37 C arm was the fir
 caught by the validator, and neither could be.
 
 
+## Audit of four journals, and the paper the vocabulary was hiding
+
+Prompted by a direct question - had ACS Catalysis, Protein Eng Des Sel, Biotechnol Bioeng and
+Enzyme Microb Technol really been swept? All four had been: ACS Catalysis in the fourth and seventh
+sweeps, the other three in the tenth. But "swept" is not the same as "swept well", so each was
+re-queried with a deliberately **looser** net - any of `mutant`, `variant`, `mutagenesis`,
+`directed evolution`, `protein engineering`, `enzyme engineering`, `screening`, `library` in the
+abstract, with no enzyme-noun conjunction and no open-access filter - and every hit screened.
+
+| Journal | all 2025 output | loose net | undecided with any library-scale signal | verdict |
+|---|---|---|---|---|
+| ACS Catalysis | 230 | 30 | 4 | **one real miss** |
+| Protein Eng Des Sel | 22 | 9 | 1 | clean; a small journal whose 2025 output is mostly antibodies and nanobodies |
+| Biotechnol Bioeng | 267 | 48 | 3 | clean; the best hit is the AAV *rep* DMS already on record as closed |
+| Enzyme Microb Technol | 130 | 33 | 3 | clean; semi-rational work, the largest 28 mutants |
+
+**Three of four confirmed, and one caught something.** That is the useful outcome: the tenth
+sweep's verdicts on the biotechnology journals hold up under a looser query, so they are genuinely
+unproductive rather than under-queried. ACS Catalysis was different.
+
+### The miss, and why it happened
+
+The seventh sweep queried ACS on `deep mutational scanning`, `site-saturation mutagenesis`,
+`directed evolution`, `variant effect map`, `massively parallel mutagenesis`, `enzyme engineering`
+and `protein engineering`. **A computational design paper uses none of those phrases.** FuncLib,
+PROSS, Rosetta, ProteinMPNN and RFdiffusion have never appeared in any query on this branch, and
+`10.1021/acscatal.5c02412` fell straight through the gap.
+
+## Curated: Munch 2025, MthUPO designed peroxygenases
+
+*Computationally Designed Peroxygenases That Exhibit Diverse and Selective Terpene
+Oxyfunctionalization*, ACS Catalysis 2025. **8 datasets, 396 variants**, in a new
+`Activity/CatalyticActivity/FuncLib/`. MthUPO, the unspecific peroxygenase of *Myceliophthora
+thermophila*, a 245-residue expression construct - the first fungal entry on this branch outside
+*S. cerevisiae*.
+
+**The data was never behind anything.** The article is CC-BY and its data availability statement
+names a Harvard Dataverse deposit, `10.7910/DVN/ZPKEAI`, **CC0**, holding "raw data for all
+activities found in the screening process and the sequences of the 50 FuncLib designs" - 16
+spreadsheets, all of them fetched through the Dataverse API.
+
+**Phase 3 is the best-checked on this branch.** The deposit gives, for every design, *both* its full
+245-residue sequence *and* its residue at each of the ten designed positions (F59, L60, F63, L86,
+A153, F154, Y156, G157, S159, A161). Three things were checked rather than assumed: the ten
+positions carry exactly the residues their column headers name in the wild-type sequence; applying
+each design's residue columns to that wild type reproduces its own deposited sequence, for all 50
+designs with no exception; and all 50 sequences are distinct, each with exactly four substitutions.
+When a source states the same thing two ways, checking them against each other costs nothing and is
+worth more than any external accession.
+
+**A label convention that had to be verified.** Some files number the panel `Design 1`-`Design 50`,
+others `Var 1`-`Var 50`, and one uses bare integers. Assuming these coincide would have silently
+mislabelled entire datasets. Geraniol carries both conventions in different sheets, and on the 46
+designs present in both the values agree to floating point with zero disagreements - so the mapping
+is established, not guessed.
+
+**Phase 7, twice, exactly.** The paper says "the most active design per terpene substrate showed
+enhancements ranging from **2.2-fold to 7.1-fold** relative to the wild type"; the eight shipped
+maxima run **2.197 to 7.053**. It also says that "while some substrates had only a single design
+exhibiting a >=2-fold increase in activity, the top-performing substrate had **26** such designs";
+counting across the eight files gives a minimum of **1** ((R)-limonene) and a maximum of **26**
+(nerol). Two independent claims, both landing on the nose.
+
+**Wild type is measured, not assumed.** Each substrate file carries explicit `wt` replicate rows -
+between one and four of them - and `wt_readout` is their mean. Rows labelled `LV` (empty-vector
+control), `empty`, and the pre-computed `wt average` / `LV average` summaries are dropped.
+
+**What is deliberately left behind.** The ABTS, DMP and NBD model-substrate screens are keyed by
+microplate well rather than by design, so mapping them needs a plate-scheme cross-walk that would
+mislabel every row if taken wrong; not attempted. splitGFP measures expression, not activity. And
+the per-product regio- and stereoselectivity fractions sitting beside each activity column are a
+different quantity wanting their own directory - the more interesting omission of the two, since
+they are the paper's most striking result, regioselectivity for 3-hydroxy-beta-damascone rising from
+3% to 46%. `datasets/Selectivity/` already exists if that is ever wanted.
+
+**One caveat for anyone using these.** This is a designed panel, not a mutagenesis library: FuncLib
+enumerated low-energy active-site combinations and 50 were built. The distribution should not be
+read as a sample of sequence space, and the remark says so.
+
+
 ## A note on this file's name
 
 `candidates_2025.md` now holds a 2026 sweep, and the tracker beside it is
