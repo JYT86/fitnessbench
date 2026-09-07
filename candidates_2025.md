@@ -1412,6 +1412,63 @@ that can only ever pass.
 labelling something a known false positive is that it stops being looked at.
 
 
+## Audit: what `OPEN_ACCESS:Y` actually cost — 2026-09-07
+
+Six of the eleven sweeps above carried an open-access filter: the third, fourth, fifth, sixth,
+eighth, ninth and eleventh all restrict to `OPEN_ACCESS:Y` or say "open access" in their recorded
+method. Only the seventh, tenth and the preprint probe ran without it. That is a systematic blind
+spot nobody had sized, so this sizes it.
+
+**A caveat that has to come first.** The exact boolean of several earlier sweeps was not recorded
+verbatim — the eleventh, for instance, is written down as "(enzyme nouns) AND (library-scale
+method)". The queries below are *reconstructions*, and they are broader than the originals: the
+eleventh-sweep reconstruction returns 915 open-access hits against the 188 actually recorded. So
+the **rates** are indicative of what this filter does to this kind of query, not an audit of what
+each historical sweep missed. The reachability counts underneath them are exact.
+
+| Reconstructed family, `PUB_YEAR:2025 AND SRC:MED` | all | `OPEN_ACCESS:Y` | `OPEN_ACCESS:N` | hidden |
+|---|---|---|---|---|
+| DMS phrasing, all publishers | 644 | 498 | 146 | 23% |
+| enzyme × library-scale method | 1,819 | 915 | 904 | 50% |
+| PNAS | 103 | 101 | 2 | **2%** |
+| ACS five journals | 207 | 76 | 131 | **63%** |
+| Cell Press | 144 | 101 | 43 | 30% |
+
+**The filter was mostly excluding papers that are readable anyway.** This is the finding that
+matters, and it is exact rather than reconstructed. Of the 146 closed-access hits in the DMS family,
+**104 have a PMCID and `inEPMC:"Y"`** — Europe PMC holds the full text right now — and 66 have
+supplementary files. Only 42 are genuinely dark. `OPEN_ACCESS:Y` is a licence flag, not a
+reachability flag, and treating the two as the same thing is what caused the blind spot. In the
+broader enzyme family the ratio inverts (61 reachable of 904), because that query drags in a long
+tail of subscription-only reviews from journals no sweep should be reading anyway.
+
+**Of the genuinely dark papers, the best two have open preprints.**
+
+| Paper | Route |
+|---|---|
+| *Engineering highly active nuclease enzymes with machine learning and high-throughput screening*, Cell Syst, `10.1016/j.cels.2025.101236` | bioRxiv `10.1101/2024.03.21.585615` — **open** |
+| *Evaluation of machine learning-assisted directed evolution across diverse combinatorial landscapes*, Cell Syst, `10.1016/j.cels.2025.101387` | bioRxiv `10.1101/2024.10.24.619774` — **open** |
+
+Both are Cell Systems, both 2025, both `inEPMC:"N"` — so the sixth sweep's open-access filter is
+exactly what hid them. The nuclease paper (TeleProt) is in scope on its face and worth a Phase 0.
+The second is an *analysis over 16 existing* fitness landscapes rather than a new measurement, so
+it is more likely a source of already-published data than a candidate, but it should be read before
+that is asserted.
+
+Two more from the dark set are worth a look and neither needs anyone's library card, only time:
+`10.1002/bit.70041`, a DMS of the AAV *rep* gene covering all single codon substitutions at ~300
+sites — library-scale, and Rep is a helicase/endonuclease so it clears the enzyme scope, though its
+readout is virion packaging rather than catalysis; and `10.1093/protein/gzaf011`, TEV protease
+engineered by enzyme-substrate co-display on yeast. The remainder of the ranked dark list is
+semi-rational design of a handful of mutants, strain engineering, or reviews that scored well only
+because review abstracts are dense in the vocabulary the ranker rewards.
+
+**What to change.** Drop `OPEN_ACCESS:Y` from the sweep template and filter on `inEPMC` instead,
+which is what the queries were trying to express. When a paper really is dark, check for a bioRxiv
+version before recording it as unreachable — `TITLE:"..." AND SRC:PPR` finds them, and two of the
+two best candidates here had one.
+
+
 ## A note on this file's name
 
 `candidates_2025.md` now holds a 2026 sweep, and the tracker beside it is
