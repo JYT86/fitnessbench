@@ -1,3 +1,9 @@
 datasets/*/reference.csv merge=union
 datasets_human/*/reference.csv merge=union
 datasets_virus/*/reference.csv merge=union
+
+# original_datasets/ and papers/ must stay byte-identical to what the publisher shipped.
+# core.autocrlf is true on Windows, which was silently stripping CR from every text source on
+# commit -- a MaveDB CSV lost 1,202 bytes that way. -text disables all conversion.
+original_datasets/** -text
+papers/** -text
