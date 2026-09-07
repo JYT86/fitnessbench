@@ -1533,6 +1533,74 @@ on embargo expiry and only needs re-checking; `10.1002/bit.70041` (AAV *rep* DMS
 pointer to published data than a new measurement) are genuinely closed.
 
 
+## Curated: Ghose 2025, EnvZ histidine kinase across temperatures
+
+`10.1016/j.celrep.2025.116446`, Cell Reports 2025 — the stronger of the two papers the twelfth
+sweep recovered. **2 datasets, 1,140 variants each**, in `Activity/CatalyticActivity/DMS/`.
+
+**Curated from the deposit, not the article.** The paper is CC-BY and `cell.com` still refuses it to
+an automated fetch, so the article was never read. What made this curatable anyway is that its data
+availability statement names a MaveDB accession, `urn:mavedb:00001240-a`, and MaveDB carries the
+authors' own method text alongside the numbers. Every claim in the remarks rests on that deposit;
+the remarks say so, because it is a weaker provenance than a paper read end to end.
+
+**Phase 3 fell out of the deposit.** MaveDB's target is the 60-residue EnvZ DHp domain with labels
+numbered 1–60 inside it. Those 60 residues occur exactly once in UniProt P0AEJ4, the 450-residue
+*E. coli* K-12 EnvZ, at **residues 230–289** — the very positions the deposit names. So the offset
+is +229, every label was rewritten into full-length numbering, and the shipped `sequence` is the
+whole 450-residue protein rather than the mutated domain, following the Prywes precedent. All 1,200
+wild-type residues checked against that sequence with no mismatch.
+
+**The scope call.** EnvZ activity is read as GFP expression downstream of its cognate regulator
+OmpR. That is a transcriptional output, and the Jansen CymR curation was reverted on scope for
+being transcriptional — but the distinction holds: CymR *is* a transcriptional regulator, a
+DNA-binding protein, while EnvZ is a kinase and the reporter is how its catalysis is observed. The
+protein decides the scope, not the instrument. Filed under catalytic activity, with the indirect,
+non-baseline-subtracted readout stated in the remark.
+
+### One of the three temperatures was dropped, and this is why
+
+The experiment ran at 30 °C, 37 °C and 42 °C, and the obvious move was three datasets. The
+experiment ships its own control against that: **59 nonsense variants**, which truncate the kinase
+and must be dead.
+
+| | wild-type `score` | median nonsense `score` | substitutions on the dead side |
+|---|---|---|---|
+| 30 °C | 3.73 | 2.26 | 13% |
+| 42 °C | 3.73 | 2.15 | 10% |
+| **37 °C** | **3.639** | **3.754** | **50%** |
+
+At 37 °C a truncated EnvZ scores *higher* than the intact one, and half the substitutions fall on
+the dead side of the nonsense median — the signature of a column carrying no signal.
+`fold_induction` does not rescue it: there it does separate wild type (73.3) from nonsense (1.18),
+but puts the median substitution at 1.16, indistinguishable from dead, which would make nearly every
+mutation lethal at 37 °C and contradict the paper's own headline of high mutational tolerance. The
+37 °C file is also the only one of the three carrying full float precision rather than values
+rounded to two decimals, so it looks to have been processed differently. Without the methods that
+cannot be resolved, so it is left out.
+
+**What flagged it was not the control, it was a correlation that made no sense.** The paper says
+temperature-associated changes in activity are rare, which should mean the three arms agree closely.
+They did not: Pearson *r* was 0.21 between 30 °C and 37 °C. Chasing that discrepancy rather than
+recording it as noise is what turned up the inverted control. The two surviving arms correlate at
+0.49 (Spearman 0.60), which is unremarkable for a DMS with this dynamic range.
+
+**A second thing the arithmetic caught.** `score` never leaves 0.8–4.7 in any arm, and 10 rows at
+30 °C and 41 at 42 °C sit at exactly 0.8. Those are the ends of the sorting range, not measurements,
+and the remark says a variant at the floor should be read as "at or below it".
+
+**Recorded but not used**, because it cannot be pinned down without the paper: `fold_induction`.
+It is the baseline-controlled quantity and would arguably be the better readout, but it is not the
+deposit's designated score and it does not equal `10**(score - mean_off)` across the file — 112 of
+1,201 rows at 30 °C, 631 of 1,200 at 42 °C. What it is exactly is unknown, so it stays unshipped
+rather than guessed at.
+
+Worth noting for anyone re-checking: the MaveDB record's linked publication is
+`10.1073/pnas.2221163120`, an earlier paper from the same laboratory, not the Cell Reports paper.
+The DOI recorded in `reference.csv` is the Cell Reports one, since that is the paper whose data
+availability statement names the accession.
+
+
 ## A note on this file's name
 
 `candidates_2025.md` now holds a 2026 sweep, and the tracker beside it is
