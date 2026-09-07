@@ -1178,16 +1178,45 @@ and records the difference.
 the nine replicate enrichment columns give 36 pairwise Pearson coefficients averaging **0.9815**,
 against the paper's "an average pairwise Pearson coefficient of 0.98".
 
-**The third readout is left open, deliberately.** Apparent CO2 affinity `K_C` is the quantity the
-paper is really about and a different measurement from velocity, so it wants its own directory —
-`Activity/SubstrateAffinity/`, expressed as `1/K_C` in mM^-1 so higher is better. It also **must
-not be shipped unfiltered**: the paper estimates affinity for only 65% of variants, and
-`Km_qbcov <= 1.0` reproduces its stated 5,687 exactly, as 5,686 mutants plus the wild type, on the
-GitHub deposit. An unfiltered `K_C` column would pass every validator in this repository and be
-wrong, which is why the filter is recorded on the Open tab with the rest of the decision.
+**The third readout, shipped 2026-09-07.** Apparent CO2 affinity `K_C` is the quantity the paper is
+really about and a different measurement from velocity, so it got its own directory —
+`Activity/SubstrateAffinity/DMS/`, **5,667 variants**, expressed as `1/K_C` in mM^-1 so higher is
+better. Michaelis constants live here rather than under `datasets/Binding/` on purpose: `K_C` is a
+kinetic parameter of the catalytic cycle, and `Binding/` holds equilibrium affinities of binding
+domains.
 
-Also worth noting for units: the wild-type `Km_median` is 0.149, and R. rubrum rubisco's literature
-K_C is 149 uM, which is what pins the column to **mM CO2** rather than to a ratio.
+**It could not be shipped unfiltered, and the filter is the paper's own.** The full text does not
+merely report a coverage figure, it states the cut: it focuses "on the 65% of the mutants (5,687)
+that had a coefficient of variation under 1". That is `Km_qbcov`, and `< 1` and `<= 1` select the
+same rows — there are no exact ones. An unfiltered `Km_median` column would pass every validator in
+this repository and be wrong, because 2,921 of its values are ones the paper itself declines to
+interpret.
+
+**Where 5,667 differs from the paper's 5,687, and why that is not an error.** The GitHub deposit
+reproduces 5,687 exactly, as 5,686 mutants plus its wild-type row; the publisher's supplement gives
+5,667. Chasing the 20 rows down turned up something the earlier write-up on this page got wrong.
+**The two files are separate runs of the paper's 1,100-fold bootstrap, not copies of one table.**
+On the 8,760 rows they share, *every* `Km_median`, `Vmax_median` and coefficient-of-variation value
+differs slightly — median relative difference 0.9% and 0.7% for the two medians — and 72 labels sit
+close enough to the cut that the resampling puts them on opposite sides of it. So the gap decomposes
+cleanly: 4 rows are GitHub-only and pass (A77T, A179T, A179V, and the wild type), and the other 16
+are net bootstrap noise across the threshold, 44 passing only on GitHub against 28 passing only on
+the supplement. All three readouts here come from the one supplement file so that a variant's
+fitness, velocity and affinity are the same bootstrap run — which is worth more than matching a
+headline count from a file the other two did not come from. The shipped remarks on the two sibling
+datasets were corrected in the same commit; they had described the difference as nine mutants and a
+wild-type row, which was true but incomplete.
+
+**`wt_readout` here is an assumption, not a measurement,** and the remark says so. The Methods fit
+each mutant's affinity ratiometrically "with the wild-type KC set to the literature value of 149
+μM", so 6.711409 mM^-1 is 1/0.149 mM — the value the fit was built on. It is also what pins the
+column to **mM CO2** rather than to a ratio, since the deposit's wild-type `Km_median` is 0.149
+against a literature K_C of 149 uM.
+
+**A sanity check the format makes easy to state.** The wild type sits at the 87th percentile of the
+shipped column, and 731 of 5,667 variants bind CO2 more tightly than it — a distribution where most
+substitutions hurt and a minority help, which is what a saturation library of a highly optimized
+enzyme should look like.
 
 ### Housekeeping from the same round
 
