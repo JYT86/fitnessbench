@@ -1372,6 +1372,46 @@ library styles to span a range of predicted activity, so they are not a random s
 space.
 
 
+## The five validator errors were one bug in the validator
+
+Carried on this page for weeks as "known false positives the skill permits" — five `wt_readout is
+empty` errors across three trees, on the Alamos ENTRAPseq dataset, the two Landwehr McbA
+combinatorial datasets and the two Jiang T7 RNA polymerase datasets. They were not false positives
+and they were not tolerable. They were `validate.py` contradicting itself.
+
+`REFERENCE_REQUIRED` demanded every column except `remark` be non-empty. The check at the bottom of
+`check_reference` handles an empty `wt_readout` explicitly, for the case where a dataset has no
+wild-type row and the readout is defined against the parent by the paper's own normalization:
+
+```python
+elif printed:          # <- only reached when wt_readout is non-empty
+```
+
+The blanket rule made that branch unreachable, so the shape it was written to permit could never
+occur. `wt_readout` now joins `remark` outside `REFERENCE_REQUIRED`, and the narrower check governs
+it alone — matching the WT row when there is one, numeric wherever printed, empty only when there is
+no WT row to derive it from. **0 errors and 0 warnings across all three trees, with no dataset
+touched.** Fixed on `add-validation` as `849935f`, where the validator lives; nothing on this branch
+changed.
+
+**The test that mattered did not fit the harness.** Every existing case in `test_validate.py` has
+the shape *corrupt the data, assert the validator rejects it*. The regression test for this fix is
+the opposite: *present legitimate data, assert the validator accepts it*. That needed a new
+`ACCEPTED` list — because a validator that rejects good data is exactly as broken as one that
+accepts bad data, and the suite had no way to say so. Two further cases guard the exemption from
+becoming a hole: `wt_readout` must still be present when a WT row exists to check it against, and
+must still be a number wherever it is printed.
+
+The new case was watched fail. Against the unpatched `validate.py` the suite reports 25 checks and 1
+failure, on exactly that case; against the patched one, 25 and 0. Per the repository's own standard,
+a check nobody has watched fail is not evidence of anything — and that cuts both ways for a check
+that can only ever pass.
+
+**Worth noting how long this sat.** The errors were recorded, counted, re-counted as they grew from
+3 to 5, and written into the skill file as permitted. Nobody opened the validator. The cost of
+labelling something a known false positive is that it stops being looked at.
+
+
 ## A note on this file's name
 
 `candidates_2025.md` now holds a 2026 sweep, and the tracker beside it is
