@@ -27,8 +27,12 @@ REFERENCE_COLUMNS = [
     "wt_readout", "assay_method", "n_variants", "doi", "remark",
 ]
 
-# remark records only deviations from the source, so it is allowed to be empty
-REFERENCE_REQUIRED = [c for c in REFERENCE_COLUMNS if c != "remark"]
+# remark records only deviations from the source, so it is allowed to be empty, and
+# wt_readout is blank by design when a dataset has no
+# wild-type row -- the check further down is the one that governs it, requiring it to match the
+# WT row when there is one, to be numeric whenever it is printed, and permitting it to be empty
+# only when there is no WT row to derive it from. Listing it here made that branch unreachable.
+REFERENCE_REQUIRED = [c for c in REFERENCE_COLUMNS if c not in ("remark", "wt_readout")]
 
 AMINO_ACIDS = set("ACDEFGHIKLMNPQRSTVWY")
 MUTATION_RE = re.compile(r"([A-Z])(\d+)([A-Z])")

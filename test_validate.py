@@ -26,6 +26,12 @@ DATASETS = os.path.join(HERE, "datasets")
 CATEGORY = "Stability"
 TARGET = "ThermalStability/PRIME/Jiang 2024-PRIME-Creatinase-thermalstability-Tm.csv"
 
+# a dataset with no WT row at all. Its wt_readout comes from the paper's own normalization
+# rather than from a row in the file -- the case the blanket "every column must be filled"
+# rule used to make impossible to express.
+WTLESS_CATEGORY = "Activity"
+WTLESS_TARGET = "CatalyticActivity/PRIME/Jiang 2024-PRIME-TgoD4K-catalyticactivity-FANA_rate.csv"
+
 
 def read_csv(path: str) -> tuple[list[str], list[dict]]:
     with open(path, newline="", encoding="utf-8") as fh:
@@ -61,6 +67,18 @@ def edit_reference(root: str, fn) -> None:
     for row in rows:
         if row["filename"] == TARGET:
             fn(row)
+    write_csv(path, header, rows)
+
+
+def edit_wtless_reference(root: str, fn) -> None:
+    path = os.path.join(root, WTLESS_CATEGORY, "reference.csv")
+    header, rows = read_csv(path)
+    seen = False
+    for row in rows:
+        if row["filename"] == WTLESS_TARGET:
+            fn(row)
+            seen = True
+    assert seen, f"{WTLESS_TARGET} is no longer listed in {WTLESS_CATEGORY}/reference.csv"
     write_csv(path, header, rows)
 
 
@@ -222,10 +240,27 @@ CASES = [
     ("required reference field left empty",
      lambda r: edit_reference(r, lambda row: row.update(assay_method="")),
      "assay_method is empty"),
+    # wt_readout sits outside REFERENCE_REQUIRED on purpose, so these two are what stop that
+    # exemption becoming a hole: it must still be there when a WT row exists to check it
+    # against, and must still be a number wherever it is printed at all.
+    ("wt_readout left empty although the dataset has a WT row",
+     lambda r: edit_reference(r, lambda row: row.update(wt_readout="")),
+     "is not numeric"),
+    ("wt_readout is not a number",
+     lambda r: edit_wtless_reference(r, lambda row: row.update(wt_readout="see paper")),
+     "is not numeric"),
     ("dataset missing from reference.csv", drop_reference_row,
      "no row in reference.csv"),
     ("dataset with no paper or source data", strand_provenance,
      "starts with"),
+]
+
+
+# corruption is not the only way to be wrong. A validator that rejects legitimate data is as
+# broken as one that accepts corrupt data, and this is the shape that used to be rejected.
+ACCEPTED = [
+    ("wt_readout empty on a dataset with no WT row",
+     lambda r: edit_wtless_reference(r, lambda row: row.update(wt_readout=""))),
 ]
 
 
@@ -266,7 +301,21 @@ def main() -> int:
         else:
             print(f"pass  {name}")
 
-    print(f"\n{len(CASES) + 1} check(s), {failures} failure(s)")
+    for name, edit in ACCEPTED:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = os.path.join(tmp, "datasets")
+            shutil.copytree(DATASETS, root)
+            edit(root)
+            code, out = run_validator(root)
+
+        if code != 0:
+            print(f"FAIL  {name}: validator rejected legitimate data:")
+            print(out)
+            failures += 1
+        else:
+            print(f"pass  {name}")
+
+    print(f"\n{len(CASES) + len(ACCEPTED) + 1} check(s), {failures} failure(s)")
     return 1 if failures else 0
 
 
