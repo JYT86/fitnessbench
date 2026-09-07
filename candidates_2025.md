@@ -1601,6 +1601,59 @@ The DOI recorded in `reference.csv` is the Cell Reports one, since that is the p
 availability statement names the accession.
 
 
+## Curated: Thomas 2025, the NucB nuclease campaign — the largest paper on this branch
+
+`10.1016/j.cels.2025.101236`, Cell Systems 2025, the other paper the twelfth sweep recovered.
+**4 datasets, 58,137 variants**, in a new `Activity/CatalyticActivity/TeleProt/`. NucB, the
+biofilm-dispersing nuclease of *Bacillus licheniformis*, 142 residues, **byte-identical to UniProt
+F1BV52** — the cleanest Phase 3 on this branch, no tag, no truncation, no reconstruction.
+
+**The article was never opened, and it did not need to be.** cell.com refuses the CC-BY PDF to an
+automated fetch. But the trail from the paper's own pointer — `github.com/google-deepmind/
+nuclease_design`, Apache-2.0 — led through `constants.py` to a public bucket,
+`storage.googleapis.com/nuclease_design`, holding the whole campaign.
+
+**The advertised dataset is not the best dataset in the deposit.** The abstract headlines "a dataset
+of 55,000 nuclease variants, one of the most extensive genotype-phenotype enzyme activity landscapes
+to date", and `landscape.csv` duly has 55,760 rows. Its activity column is a **four-level ordinal** —
+`non-functional` (33,890), `activity > 0` (11,099), `activity > WT` (10,572), `activity > A73R`
+(199). Z-scoring that would have produced 55,760 rows carrying four distinct values, the same
+degeneracy that disqualified TDC's Tyr column at 1/2000th the scale. The bucket's
+`processed_data/g1–g4.csv` hold the **continuous enrichment factors** the ordinal was thresholded
+from, and those are what shipped.
+
+**Phase 7, exactly.** The union of genotypes across the four generation files is **55,759 distinct
+mutants** — precisely `landscape.csv`'s 55,759 mutants plus its one wild type, 100% overlap, none
+missing in either direction. The four files reconstruct the paper's headline set and improve its
+resolution at the same time.
+
+### The gate choice, and a recommendation that was wrong
+
+Each generation was sorted at several stringencies, and the plan was one dataset per generation at
+the most stringent gate, on the reasoning that it would give the widest dynamic range. **The data
+says the opposite.**
+
+| Generation | most stringent gate | zeros | separates the deposit's own "beats WT" labels? |
+|---|---|---|---|
+| g3 | `ef_2_99` | 16,530 / 18,618 (89%) | **no** |
+| g4 | `ef_4_99.5` | 14,027 / 15,404 (91%) | **no** |
+
+A stringent gate recovers almost nothing, so most variants are simply absent from the output and
+their enrichment factor collapses to zero. The gate actually shipped for each generation is the one
+with the fewest zeros and the most distinct values that still separates those labels: `ef_3_high_g1`,
+`ef_1_86_g2`, `ef_1_59_g3`, `ef_1_70_g4`. The others are left unshipped rather than averaged,
+because a mean across stringencies is not a quantity the experiment measured.
+
+**Zeros are censored, not measured**, and this is the thing to read before using these files. Even
+at the best gate, 58% of g1, 55% of g2, 23% of g3 and 29% of g4 are exactly zero — the variant was
+never seen in the sorted output, rather than measured as having no activity. They are kept, because
+dropping them would bias each file toward what survived selection, but a zero means "at or below
+detection". Wysocki's rubisco is the precedent, at up to 79%.
+
+**Model token.** `TeleProt` is the paper's own named platform, which outranks `DMS` and `ML` under
+the skill file's rule, so it takes the directory and the filename slot.
+
+
 ## A note on this file's name
 
 `candidates_2025.md` now holds a 2026 sweep, and the tracker beside it is
