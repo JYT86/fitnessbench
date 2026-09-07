@@ -282,6 +282,8 @@ Known failure modes, each with a distinct signature:
 | HTTP 404 on `ftp.ncbi.nlm.nih.gov/pub/pmc/oa_package/` | retired, still advertised by the OA service | use the Europe PMC route |
 | `fullTextXML` 404s although the record *has* a PMCID | a subscription article deposited in PMC without its XML released | `europepmc.org/articles/<pmcid>?pdf=render` — this recovers the full text of paywalled Science and Protein Science articles, and their Data availability statements with it |
 | the record has no PMCID at all, `inEPMC:"N"` | never deposited | nothing here will work, however the article is worded — go straight to 0d |
+| `OPEN_ACCESS:"N"` and `inEPMC:"N"`, but the paper is recent and from a major publisher | **the flag is often wrong.** Europe PMC reports its own holdings and licence record, not the article's actual status | ask **Unpaywall** — `api.unpaywall.org/v2/<doi>?email=<addr>` — which gives `is_oa`, `oa_status` and a direct `url_for_pdf`. Two 2025 Cell papers flagged closed here are CC-BY gold and hybrid |
+| the open-access PDF is at `cell.com` or `biorxiv.org` and returns **403** | Cloudflare blocks automated agents regardless of licence | this one is genuinely a hand-off: the file is free to the user in a browser, so give them the exact URL rather than grinding on mirrors |
 | curl exit 35, `Connection reset by peer` | host unreachable from here | another mirror, not another flag |
 | `idconv` returns no record for the DOI | not deposited in PMC — common for subscription journals | go to the publisher's own supplementary URL |
 

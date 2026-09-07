@@ -1469,6 +1469,70 @@ version before recording it as unreachable — `TITLE:"..." AND SRC:PPR` finds t
 two best candidates here had one.
 
 
+## Twelfth sweep — sweeps 3, 6 and 11 re-run without the open-access filter
+
+The audit above said the filter was worth removing; this removes it. Each family was re-queried
+with `OPEN_ACCESS:N` — precisely the population the original sweep could not see — every record
+paged out in full, prior verdicts excluded, and the remainder scored for enzyme scope and
+library scale with reviews screened out by `pubType`.
+
+Sweeps 4/7 and 5 were not re-run and did not need to be: the seventh sweep's recorded query
+already carries no open-access clause, so ACS was covered, and PNAS hides two papers in total.
+
+| Sweep | closed-access hits | new | screened out | scored |
+|---|---|---|---|---|
+| 3 — DMS phrasing, all publishers | 146 | 142 | 47 no enzyme noun, 41 reviews | 54 |
+| 6 — Cell Press | 44 | 44 | 31 no enzyme noun, 4 reviews | 9 |
+| 11 — enzyme × library-scale | 904 | 901 | 223 reviews | 678 |
+
+**The yield is two papers, and the tail is as thin as the tenth sweep predicted.** Nearly
+everything scoring above the noise is semi-rational design of a handful of mutants, one-champion
+biocatalysis, or a *Methods in Enzymology* chapter. Representative of the rest: nattokinase
+residue 131, a single position; a glucose oxidase paper whose "single-point saturation mutation"
+is a shortlist from computational screening; a penicillin G acylase study whose 1,130 "variants"
+are 4D-QSAR *predictions* rather than measurements. The engineered-Mannichase chapter
+(`10.1016/bs.mie.2025.08.007`) is readable and in scope but ends at one champion, LolT-V4, at
+60-fold — the pattern the directed-evolution sweep named.
+
+### The two that matter
+
+**`10.1016/j.cels.2025.101236`** — *Engineering highly active nuclease enzymes with machine
+learning and high-throughput screening*, Cell Systems 2025. The abstract states it outright:
+**"We have released a dataset of 55,000 nuclease variants, one of the most extensive
+genotype-phenotype enzyme activity landscapes to date."** A nuclease is squarely in the enzyme
+scope, the readout is catalytic activity, and 55,000 would make it among the largest single
+datasets in this repository. Authors are Google Research (Thomas, Belanger, Colwell) with a
+droplet-microfluidics screen.
+
+**`10.1016/j.celrep.2025.116446`** — *Multi-environment deep mutational scanning reveals the
+distribution of temperature-sensitive variants in a bacterial kinase*, Cell Reports 2025. A real
+DMS of an enzyme across **multiple temperatures** — several conditions on one wild type, which
+is several datasets — and the paper's own point is that single-condition landscapes hide
+condition-dependent effects. It appeared in both the sweep 3 and sweep 6 re-runs.
+
+### The finding that outlasts these two papers
+
+**Europe PMC's `OPEN_ACCESS` flag misclassified both of them.** Each is recorded as
+`OPEN_ACCESS:"N"`, `inEPMC:"N"`, `pmcid=None`. Crossref lists both as carrying
+`creativecommons.org/licenses/by/4.0/` on the version of record, and Unpaywall confirms it:
+the Cell Reports paper is `oa_status: gold` with a direct PDF URL, the Cell Systems paper
+`oa_status: hybrid`. Neither is behind a paywall at all. The flag describes *Europe PMC's
+holdings*, not the article's licence, and six sweeps treated the two as the same thing.
+
+`api.unpaywall.org/v2/<doi>?email=<addr>` is the authoritative check and costs one request. It
+is now a row in the skill file's 0c table, together with the second half of the lesson: both PDFs
+return **403** to an automated fetch, because `cell.com` and `biorxiv.org` block agents
+irrespective of licence. That is the rare case that is genuinely a hand-off — the file is free to
+a person with a browser, so the right move is to hand over the exact URL rather than grind
+through mirrors.
+
+Three others were checked the same way and are **not** worth a hand-off: `10.1093/protein/gzaf011`
+(TEV protease, PEDS) has `PMC13010152` already assigned but `live: False`, so it will free itself
+on embargo expiry and only needs re-checking; `10.1002/bit.70041` (AAV *rep* DMS) and
+`10.1016/j.cels.2025.101387` (an evaluation across 16 *existing* landscapes, so more likely a
+pointer to published data than a new measurement) are genuinely closed.
+
+
 ## A note on this file's name
 
 `candidates_2025.md` now holds a 2026 sweep, and the tracker beside it is
