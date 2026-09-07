@@ -1823,6 +1823,65 @@ enumerated low-energy active-site combinations and 50 were built. The distributi
 read as a sample of sequence space, and the remark says so.
 
 
+## Fourteenth sweep - the computational-design vocabulary, and why 2025 can now be closed
+
+The MthUPO paper exposed a vocabulary gap rather than a one-off miss: **no query on this branch had
+ever contained the words computational design.** This sweep closes it.
+
+`(FuncLib OR PROSS OR Rosetta OR ProteinMPNN OR RFdiffusion OR "computational design" OR
+"computationally designed" OR "computational enzyme design" OR "designed variants" OR "enzyme
+design" OR "de novo design" OR "deep learning-guided" OR "machine learning-guided design") AND
+(enzyme nouns) AND PUB_YEAR:2025 AND SRC:MED` - no open-access filter - **162 hits, 158 new after
+excluding prior verdicts, 103 enzyme-scoped and non-review.**
+
+**The field has a characteristic size, and it is small.** Every candidate above the noise is a panel
+of tens: 33 designs of a phenylalanine ammonia-lyase, 18 sites of a GH11 xylanase, small
+semi-rational sets for an omega-transaminase, a dCMP deaminase, a cutinase, an alpha-galactosidase.
+Computational design does not produce library-scale tables, because the point of the method is to
+avoid needing one. The MthUPO paper at 50 designs across 8 substrates is at the top of what this
+literature yields, which is why it was worth catching and why the rest of the sweep is thin.
+
+Two were opened in full.
+
+**`10.1111/febs.70121`** (FEBS J, BindScan) looked like the best of them - Table S3 carries kcat,
+KM and kcat/KM for **51 mutants** of Sf-beta-glycosidase across 37 positions, comfortably above the
+floor. **Rejected: those 51 are not this paper's measurements.** They are a benchmark taken from an
+earlier publication, reference [47]; this paper contributes the scoring metric and a 2,900-variant
+*virtual* saturation library that was never built. Curating it would have attributed another
+laboratory's kinetics to this DOI - a failure mode none of the mechanical checks would catch, since
+the table itself is perfectly well-formed.
+
+**`10.1021/jacs.4c09428`** (JACS, FuncLib-stabilised Kemp eliminase) is left **open rather than
+rejected**, because it sits exactly on the boundary. Michaelis profiles were determined for the 20
+top-ranked designs, with denaturation temperatures alongside, so it is two or three readouts on one
+parent - but 20 is the floor itself rather than a margin above it, and the numbers are in
+supporting-information PDF tables. Its abstract's larger figures do not translate into rows: the
+combinatorial library spanned 8,000 variants and roughly 800 were colony-screened, but only those 20
+were quantified.
+
+### Is 2025 done?
+
+On the evidence gathered here, **yes, for enzyme engineering campaigns.** The case rests on four
+things rather than on having run a lot of queries:
+
+- **Fourteen sweeps across journal-restricted and cross-journal axes**, with the open-access filter
+  now removed from every family where it had been applied.
+- **Four journals re-audited under a deliberately looser query** after a direct challenge - ACS
+  Catalysis, Protein Eng Des Sel, Biotechnol Bioeng, Enzyme Microb Technol. Three confirmed clean,
+  which matters more than the one that was not: it shows the earlier verdicts were not artefacts of
+  tight querying.
+- **The last two vocabulary gaps closed** - ASR/ISM/CASTing in the thirteenth sweep, computational
+  design in this one - each of which had a specific reason for having been missed and each of which
+  is now recorded as swept.
+- **MaveDB swept as a source in its own right**, returning nothing for 2025 beyond what is curated.
+
+What is honestly *not* done, and is a scope question rather than a search failure: **preprints**
+(`SRC:PPR`, roughly 230 hits for 2025, deliberately excluded by every sweep's `SRC:MED`) and
+**2026**, which needs its own branch. The LetA record found in MaveDB is the standing argument for
+the preprint question - a 2025 preprint whose version of record is a 2026 Nature paper is invisible
+to both this branch and a future 2026 one under the current conventions.
+
+
 ## A note on this file's name
 
 `candidates_2025.md` now holds a 2026 sweep, and the tracker beside it is
