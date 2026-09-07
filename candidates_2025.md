@@ -1306,6 +1306,72 @@ Revisit only if the floor is ever redefined as "genuine deep-sequencing data" ra
 library-scale coverage. That is a defensible bar, and this paper would be the first thing through it.
 
 
+## Curated: McDonald 2025, tryptophan decarboxylase (RgnTDC)
+
+`10.1002/pro.70356`, *Active site diversification of a non-canonical amino acid decarboxylase by
+merging substrate multiplexed screening with computationally guided recombination*, Protein Science
+2025. **6 datasets, 27 variants each**, in `Activity/CatalyticActivity/SUMS/`. The last item on the
+Open tab, and it came off it because the blocking note was wrong.
+
+**"Upon reasonable request" was true and irrelevant.** The data availability statement does put the
+per-variant numbers for the screening libraries behind an email. But the supporting-information PDF
+carries a complete, quantified 27-variant validation panel that nobody had opened — Supplementary
+Table 2 for the mutation profiles, Supplementary Table 3 for fold activities against twelve
+tryptophan analogues. The lesson is the one the Protein Science row in the skill file already half
+records: **read the supplement before believing the availability statement**, in either direction.
+
+**Two tables that only work together.** Table 2 is a well-plate manifest — one column per mutated
+site (`F98 V99 L339 W349 L355 I343`, note the order, `I343` last) with a letter where a substitution
+landed and a blank where it did not. Table 3 is fold activity keyed by the same `V01`-`V27` names.
+Neither is a dataset alone. Both were extracted from the PDF by word coordinates with every letter
+and number required to land within a few points of a known column centre, the same discipline that
+caught the two silent failures in the T7 RNA polymerase tables.
+
+**Phase 3 was unusually clean, and worth the paragraph.** The supplement prints the protein sequence
+outright — but the first regex to look for it returned the *DNA*, because `ACGT` is a subset of the
+amino-acid alphabet and the nucleotide string was longer. Splitting on the "DNA Sequence" heading
+first fixes it. What comes back is the 498-residue C-His construct, and its **first 490 residues are
+UniProt A7B1V0 exactly**, with the remainder the `LEHHHHHH` tag. All six mutated positions sit well
+inside the native part, so the tagged construct was kept — it is what was on the bench — and the
+choice moves no label. Every one of the six positions carries the residue its column header claims.
+
+**Six of twelve substrate columns shipped.** Fold activity is reported to one decimal place, and in
+half the columns that is not enough resolution to separate 27 variants:
+
+| Shipped | distinct values | | Dropped | distinct values |
+|---|---|---|---|---|
+| 5-OEt | 19 | | 4-CN | 5 (19 rows at 0.1) |
+| 5-NO2 | 18 | | 4-Br | 5 |
+| 6-COOMe | 11 | | β-Me | 5 (20 rows share one) |
+| 5-CONH2 | 9 | | 7-I | 5 (21 rows share one) |
+| Trp | 9 | | Phe | 2 |
+| 4-OMe | 7 | | Tyr | **2** — 26 zeros and a single 0.1 |
+
+The cut is **seven or more distinct values**, i.e. more than a quarter of the panel resolving.
+Dropping 4-CN is the uncomfortable one, because V04's 41-fold on 4-cyanotryptophan is a headline
+result — but 19 of its 27 rows sit at 0.1, and one outlier would carry the entire z-score. A Tyr
+dataset would have passed every check in this repository while containing no information at all,
+which is the same failure the rubisco `K_C` filter guards against, in a different disguise.
+
+**Phase 7, four times.** The paper says it "curated a set of 27 diverse, activated variants" — 27.
+It says V04 gave "41-fold and 3.5-fold improvements in 4-CN- and 4-OMe-tryptamine production" —
+the extracted table gives 40.6 and 3.5. It says "the best 5-NO2-Trp is V05 (23-fold), while the best
+5-OEt-Trp is V01 (22-fold)" — the two shipped columns peak at 23.4 on V05 and 22.4 on V01. And it
+says those two variants "contain 3 active site mutations, with only the L339M mutation in common":
+V05 is `L339M:I343K:W349M`-shaped with three, V01 carries four substitutions of which three are at
+active-site positions, and `L339M` is in both. That last one initially read as a contradiction
+until the supplement's own annotation — "active site in bold, **I343 underlined**" — made clear that
+`F98` is counted outside the active site.
+
+**What is deliberately left behind**, recorded in the remark: the six unresolved substrate columns;
+the single-site saturation sub-library and the recombination libraries, whose per-variant numbers
+really are only available on request; and the steady-state kinetics, which cover the wild type and a
+few variants rather than this panel. Also recorded there, because it matters for how the
+distribution should be read: **these 27 are a curated panel, not a library** — chosen across three
+library styles to span a range of predicted activity, so they are not a random sample of sequence
+space.
+
+
 ## A note on this file's name
 
 `candidates_2025.md` now holds a 2026 sweep, and the tracker beside it is
