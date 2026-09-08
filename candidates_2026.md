@@ -64,7 +64,7 @@ Nothing blocks it but the branch.
 
 **Curated.** Durand *et al.*, Genetics 2026, `10.1093/genetics/iyag055`, published online 2026-03-02
 by Crossref, so a 2026 paper on the year rule. Twelve datasets under
-`Fitness/GrowthFitness/DMS/`, 1,470 variant rows on one wild type — UniProt **P38631**, Fks1,
+`Fitness/GrowthFitness/DMS/`, 1,740 variant rows on one wild type — UniProt **P38631**, Fks1,
 1,876 aa, whose three hotspot windows match the paper's positions exactly with no repair.
 
 The numbers came from the **GitHub deposit the Data availability statement names**
