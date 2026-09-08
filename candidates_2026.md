@@ -532,6 +532,60 @@ Two of the 84 are worth naming now, being the best-shaped things left:
 - **`10.1021/acscatal.5c06523`** — cytochrome P450 BM3, site-saturation, ACS Catalysis.
 
 
+## Fourth pass — a journal-keyed 2026 sweep, run as a control
+
+Every 2026 sweep so far has been **vocabulary-scoped**: queries over abstracts across all of
+MEDLINE. The journal-keyed sweep on the `2025` branch covered 20 venues for 2025 and 2026 together,
+but the 2026 population is spread over **522 journals**, so the obvious worry was that
+vocabulary-scoping systematically misses whole venues.
+
+Run as a control on the 14 highest-volume journals that no query has ever named:
+
+`JOURNAL:"<J>" AND PUB_YEAR:2026 AND SRC:MED AND <enzyme terms> AND <library-scale terms>`
+
+**131 hits across the 14, of which 38 had not been seen by any vocabulary sweep.** Every one of the
+38 was read.
+
+| Journal | Hits | New |
+|---|---|---|
+| Int J Biol Macromol | 24 | 9 |
+| J Agric Food Chem | 33 | 7 |
+| Int J Mol Sci | 7 | 5 |
+| Molecules | 5 | 4 |
+| Bioresource Technol | 22 | 3 |
+| Scientific Reports | 4 | 3 |
+| Food Chemistry | 4 | 3 |
+| J Biol Chem | 6 | 2 |
+| JACS, Appl Microbiol Biotechnol | 16 | 1 each |
+| ACS Catal, Appl Biochem Biotechnol, Microb Cell Fact, Biochem Eng J | 12 | 0 |
+
+**The 38 are almost entirely an artefact of one query term.** This sweep added
+`"high-throughput screening"` to the library-scale list, and in these venues that phrase means
+*small-molecule inhibitor screening*, not variant libraries: dengue NS5 methyltransferase
+inhibitors, butyrylcholinesterase inhibitors from natural products, a CD38 inhibitor from a
+DNA-encoded library, ligand fishing on immobilised lipase. The word "screening" carries two
+unrelated meanings and only one of them is ours.
+
+**One real candidate came out of it.** `10.1021/acs.jafc.6c04485`, *Co-Evolution of the Activity and
+Thermostability of (R)-Transaminase AcTA*, J Agric Food Chem: **25 combinatorial variants
+experimentally tested, 18 of them improved over wild type**. All measured, above the floor, one
+wild type. It is on the fetch list at priority 1. Six other engineering papers from the same sweep
+are champion-shaped and were rejected on their abstracts: two nitrilases, a β-glucosidase, a nitrile
+hydratase, a tryptophan synthase whose 10⁴–10⁵ library is screened by biosensor but reported as one
+clone, and an ene reductase with a single A303N substitution.
+
+**The control's verdict: vocabulary-scoping was not systematically missing venues.** One candidate
+from 14 never-named journals, against four from the vocabulary sweeps, is not evidence that the
+axis was wrong. It is worth doing once, which it now has been, and not worth repeating per journal.
+
+## The fetch list
+
+`fetch_requests_2026.csv` — **87 papers**, one row each, sorted by priority: the DOI, a resolver URL,
+the publisher, where on that publisher's page the supplement lives, what to ask for, why it is
+wanted, and the largest variant count its abstract states. Priority 1 is the top 20 by shape.
+Of the 87, ACS accounts for 28 and Elsevier 25, which is why so little of 2026 was reachable.
+
+
 ## Method notes worth carrying, learned on the 2025 branch
 
 **`OPEN_ACCESS` is a licence flag, not a reachability flag.** Europe PMC reports its own holdings.
