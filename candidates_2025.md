@@ -1882,6 +1882,113 @@ the preprint question - a 2025 preprint whose version of record is a 2026 Nature
 to both this branch and a future 2026 one under the current conventions.
 
 
+## 2025, closed - 2026-09-08
+
+**24 papers, 176 datasets, 660,856 variants.** All three trees validate at 0 errors and 0 warnings.
+The Open tab is empty.
+
+| Tree | Datasets | Variants |
+|---|---|---|
+| `datasets` | 135 | 328,913 |
+| `datasets_human` | 14 | 61,070 |
+| `datasets_virus` | 27 | 270,873 |
+
+The last two open leads were closed **by decision rather than on evidence**, and the Rejected tab
+says so in those words. The TEV protease campaign (`10.1093/protein/gzaf011`) was never assessed
+because PMC13010152 does not release until 2026-09-26; it is worth reopening then, and Phase 3
+would start half-done since a verified 242-residue TEVp sequence is already in `datasets_virus`
+from Huber 2025. The FuncLib Kemp eliminase (`10.1021/jacs.4c09428`) was worked up in full first -
+about 25 variants and four readouts, with the FuncLib mutation codes successfully decoded against
+the allowed sequence space - and closed because no protein sequence appears anywhere in the paper
+or its 82-page supplement, so the parent would have to be chased into an earlier publication.
+
+### A correction to this file, found while closing
+
+The section above headed *A deliberate exception: three 2026 papers on the 2025 branch* is wrong on
+both counts. Checking every curated DOI against Crossref rather than against its filename gives:
+
+| Paper | Recorded as | Actually published | Status |
+|---|---|---|---|
+| Vanella, DAOx | 2026 | Nat Commun **2026** | off-year, documented |
+| Jiang, T7 RNA polymerase | 2026 | Nucleic Acids Res **2026** | off-year, documented |
+| Jansen, CymR | 2026 | 2026 | reverted on scope, moot |
+| **Wysocki, Form I rubisco** | 2026 on the tracker, 2025 in filenames | online **2025-12-22**, print issue Jan 2026 | **not off-year**; tracker corrected to 2025 |
+| **Jiang, PRIME multi-protein** | 2024 | Sci Adv **2024-11-29** | **off-year, undocumented until now** |
+
+So the exception is not three 2026 papers. It is **two 2026 papers and one 2024 paper** - the
+latter, `10.1126/sciadv.adr2641`, contributing 6 datasets and 353 variants across `datasets` and
+`datasets_virus` and never having been declared an exception at all. Wysocki was the opposite
+mistake: recorded as off-year when it is not, because the tracker followed the print issue and the
+filenames followed the online date. **The online publication date is the one this branch should
+use** - it is what makes Prywes a 2025 paper despite an `s41586-024` DOI, and it is what makes
+Wysocki 2025 despite a January 2026 issue.
+
+## What was picked up for other years
+
+None of this was searched for. It fell out of sweeps aimed at 2025, and it is recorded on the
+**Parked (other years)** tracker tab so that opening a 2024, 2023 or 2026 branch does not start
+from nothing.
+
+**2026 - three leads, one of them strong.**
+
+- **Fks1 echinocandin DMS**, `10.1093/genetics/iyag055`, Genetics 2026. The best single lead on the
+  whole list: 465 single substitutions across three hotspots, four conditions on one wild type,
+  fully reachable, in scope, well above the floor. Waiting on a branch, nothing else.
+- **Form II rubisco (Gallionella)**, `10.1126/sciadv.aee9222`, Sci Adv 2026. 15,000 single- and
+  multi-site variants by growth-coupled selection in *Synechocystis*. Paywalled and `inEPMC:"N"`,
+  so it needs a hand-off - but check Unpaywall first, since that flag has already been wrong twice.
+- **LetA**, `10.1038/s41586-025-09990-0`, Nature 2026. 8,967 variants sitting in MaveDB
+  (`urn:mavedb:00001252-a`), downloadable today. Two cautions: it is a lipid transporter, and the
+  scope admits transporters only when ATP-driven; and its preprint is 2025 while its version of
+  record is 2026, so it falls between branches under the current convention.
+
+**2024 - one lead, and one paper already here.**
+
+- **Vanella 2024**, `10.1038/s41467-024-45630-3`, the EP-Seq paper behind Vanella 2026. Phase 3 is
+  already settled from that work: DAOx, 365 aa, P80324 1-365, confirmed against the plasmid at
+  Zenodo `10.5281/zenodo.8388902` - whose record also holds a 2 GB PacBio FASTQ and a 14 GB Illumina
+  zip, so filter the file list by size. It is also where the surface-display expression scores
+  excluded from Vanella 2026 properly belong.
+- **Jiang 2024** is already curated *on this branch*, as described above.
+
+**2023 - one very large block.** MaveDB holds 518 score sets and **949,551 variants** all deposited
+on 2023-07-04 with no linked publication, every one named `<target> trypsin digestion`,
+`chymotrypsin digestion` or `combined scores`. This is the mega-scale proteolysis corpus: folding
+free energies of small domains. Mostly not enzymes, and stability rather than activity, but it is
+enormous and machine-readable and it belongs to a 2023 branch. Recorded chiefly so nobody spends a
+sweep discovering it.
+
+**2009-2020 - a back-catalogue no branch covers.** The MaveDB sweep enumerated every published
+score set on the 72 organisms in scope for `datasets/`. Beyond the rows above there is nothing
+post-2023, but there are 26 publications and 87 score sets before 2022. The enzyme ones, largest
+first:
+
+| DOI | Year | Protein | Variants |
+|---|---|---|---|
+| `10.1093/molbev/msu081` | 2014 | TEM-1 beta-lactamase | 47,642 (4 sets) |
+| `10.1016/j.cell.2015.01.035` | 2015 | TEM-1 beta-lactamase | 34,979 (7 sets) |
+| `10.1073/pnas.0901246106` | 2009 | TEM-15/17/19 beta-lactamases | 14,785 (4 sets) |
+| `10.7554/eLife.53476` | 2020 | DHFR vs a quality-control protease | 6,303 (2 sets) |
+| `10.1021/acssynbio.8b00486` | 2019 | PyKS | 5,746 |
+| `10.1016/j.jmb.2019.04.030` | 2019 | TEM-1, insertions and deletions | 5,066 (2 sets) |
+| `10.1038/s41598-017-17081-y` | 2017 | *S. pyogenes* Cas9 | 4,940 (2 sets) |
+
+Two non-enzyme entries are worth knowing about anyway because of their size:
+`10.1016/j.cub.2014.09.072` (536,476 variants, pairwise epistasis across a whole domain) and
+`10.1534/genetics.116.188037` (241,274, the *SUL1* promoter - regulatory, not protein).
+
+**Four beta-lactamase datasets across three papers is the striking pattern here.** TEM-1 is the
+most-scanned enzyme in MaveDB and this benchmark has none of it, purely because every one of those
+papers is pre-2022.
+
+### What is still not swept, for any year
+
+**Preprints.** Every sweep on this branch used `SRC:MED`, which excludes bioRxiv and Research
+Square. The 2025 population was sized at roughly 230 hits and never worked. LetA is the standing
+argument for settling the question: a 2025 preprint with a 2026 version of record is invisible to
+both branches under the current convention.
+
+
 ## A note on this file's name
 
 `candidates_2025.md` now holds a 2026 sweep, and the tracker beside it is
