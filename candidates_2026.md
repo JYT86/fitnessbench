@@ -104,8 +104,17 @@ A barcoded library of **15,000 single-site and multi-site variants** scored by g
 selection in *Synechocystis* sp. PCC 6803. One wild type, bacterial, far above the floor, and a
 third rubisco to sit beside Prywes and Wysocki.
 
-Europe PMC has the record but `inEPMC:"N"`, `hasSuppl:"N"`, subscription only. **Check Unpaywall
-before concluding it needs a hand-off** — see the method note below.
+Chased on 2026-09-08 and **it is a hand-off, not a dead end**. Unpaywall reports it **gold OA**,
+contradicting Europe PMC's `inEPMC:"N"`. But every automated route stops short of the per-variant
+table: there is no Europe PMC deposit; the PMC id Unpaywall names (`PMC13544237`) 404s on
+`fullTextXML` and 500s on `?pdf=render`; the bioRxiv preprint is `10.64898/2025.12.07.690893`
+(Hoffmann *et al.*, KTH, deposited 2025-12-08, CC-BY-NC); and the Zenodo record
+**`10.5281/zenodo.20308544`** holds *only* the 9.8 MB Supplementary Information PDF — no fitness
+table.
+
+**What to ask for**: the standalone **Data S1…S*N*** files from the *Supplementary Materials*
+section of `science.org/doi/10.1126/sciadv.aee9222`. On the Science family that is where a
+15,000-variant table would be; the SI PDF on Zenodo is the other slot and does not carry it.
 
 ### 3. LetA intermembrane lipid transporter
 
@@ -172,15 +181,11 @@ identified by ribonucleoprotein mutational scanning*, Nature Biotechnology 2026.
 unambiguous: "we mapped **comprehensive sequence-function landscapes** of a TnpB ribonucleoprotein
 using **deep mutational scanning**", finding activating mutations in both the RNA and the protein,
 then building a combinatorial library from them. TnpB is an RNA-guided endonuclease, so it is in
-scope as catalytic machinery. Unpaywall: hybrid OA, publisher landing page only.
-
-**`10.1016/j.jbc.2026.113212`** — *Noncatalytic surface electrostatic networks tune thermolability
-in uracil-DNA glycosylase*, J Biol Chem 2026. A single-site variant library across **48
-non-catalytic positions**, pooled thermal-shift assays resolving 16 hotspots, then **high-throughput
-functional screening of 480 single mutants** yielding 114 clones and **54 unique characterised
-variants**, nine of them with measured melting-temperature shifts. Two readouts on one wild type —
-activity and thermolability. `PMC13316540`, `inEPMC:"Y"`, `hasSuppl:"Y"`, and a direct publisher PDF
-at `jbc.org`. The most immediately workable of the four.
+scope as catalytic machinery, and it is prokaryotic, so clear of the human and viral exclusion.
+Unpaywall: **hybrid OA, publisher landing page only** — no PDF url, no PMC deposit, `hasSuppl:"N"`.
+Crossref puts it online 2026-03-11. **Needs a hand-off**: the article PDF plus any *Supplementary
+Data* from the Nature-family **Supplementary information** section, to establish whether the
+mutational landscape is deposited per variant at all.
 
 ### Worth a look, but probably not
 
@@ -189,6 +194,43 @@ positions 146, 189, 192 and 305, "nearly 100 variants each", read by continuous 
 Reachable (`PMC13343204`, supplement present, direct PMC PDF). The question is whether substitution
 tolerance at four positions was reported per variant or only as summary tolerances; if pooled it
 clears the floor, if reported per position it is four scans of nineteen.
+
+### Worked up, then skipped by decision — not a data defect
+
+**`10.1016/j.jbc.2026.113212`** — Simões *et al.*, *Noncatalytic surface electrostatic networks
+tune thermolability in uracil-DNA glycosylase*, J Biol Chem 2026. `PMC13316540`, CC-BY, article PDF
+and supplement both fetch cleanly.
+
+**Skipped on 2026-09-08 at the user's direction, with the curation already worked up to the point
+of writing.** Nothing about the data disqualified it, so a later run can pick this up from here
+rather than starting over. Nothing was staged and no files were written.
+
+What is there, verified:
+
+| | |
+|---|---|
+| Work item | UDG_7 melting temperature, one wild type, one measurement |
+| Source | `mmc2.xlsx` › **Table S6**, in the Europe PMC supplementary bundle for `PMC13316540` |
+| Rows | **54 unique single substitutions across 20 positions**, matching the abstract's count |
+| Readout | average Tm from fluorescence-based unfolding of individually purified protein, 36.4–42.4 °C |
+| Usable | 51 — three (`R201L`, `R201E`, `R201D` in the paper's numbering) are reported `ND`, no cooperative transition |
+| Wild type | GenBank **`WP_135029980.1`**, *Micrococcus flavus*, 225 aa — bacterial, so clear of the human and viral exclusion |
+| Numbering | the paper's native numbering begins at **residue 2** of the accession; a **+1 offset resolves all 20 positions at once**, the clean Phase 3c case |
+| WT row | none — the wild type's Tm is given only in prose, as "approximately 42.5 °C", and is not tabulated |
+
+**The orientation was decided and is worth keeping.** This campaign engineers thermo*lability* — a
+lower Tm is the desired product, for sharper inactivation in PCR carryover control — so the readout
+would be **`-Tm (degC)`**, negated, which is the reverse of every other dataset in
+`Stability/ThermalStability/`. That reversal is the interesting thing about the paper and the
+reason it is worth recording rather than forgetting.
+
+**Not curatable from this paper, whatever happens to Table S6.** Table S3's melting temperatures are
+per *position* — the pooled 19-member library at a site, not a genotype. Table S5's three-temperature
+screen is binary (✔/✘) and keyed to clone number rather than to a substitution. The 24-member
+natural UDG diversity panel is a homolog panel with no single wild type. And the article's Data
+availability statement says only "available upon a reasonable request", which would have been a
+dead end — the numbers are in the supplement regardless, which is the general lesson.
+
 
 ### Rejected on the abstract
 
