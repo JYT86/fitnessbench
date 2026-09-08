@@ -112,9 +112,8 @@ table: there is no Europe PMC deposit; the PMC id Unpaywall names (`PMC13544237`
 **`10.5281/zenodo.20308544`** holds *only* the 9.8 MB Supplementary Information PDF — no fitness
 table.
 
-**What to ask for**: the standalone **Data S1…S*N*** files from the *Supplementary Materials*
-section of `science.org/doi/10.1126/sciadv.aee9222`. On the Science family that is where a
-15,000-variant table would be; the SI PDF on Zenodo is the other slot and does not carry it.
+**Superseded**: no hand-off is needed. The per-variant fitness table is public on GitHub at
+`ute-hoffmann/CbbMLargeLibrary` — see *Two hand-offs dissolved* below.
 
 ### 3. LetA intermembrane lipid transporter
 
@@ -183,9 +182,9 @@ using **deep mutational scanning**", finding activating mutations in both the RN
 then building a combinatorial library from them. TnpB is an RNA-guided endonuclease, so it is in
 scope as catalytic machinery, and it is prokaryotic, so clear of the human and viral exclusion.
 Unpaywall: **hybrid OA, publisher landing page only** — no PDF url, no PMC deposit, `hasSuppl:"N"`.
-Crossref puts it online 2026-03-11. **Needs a hand-off**: the article PDF plus any *Supplementary
-Data* from the Nature-family **Supplementary information** section, to establish whether the
-mutational landscape is deposited per variant at all.
+Crossref puts it online 2026-03-11. **Superseded**: the mutational landscape is public on GitHub at
+`SavageLab/tnpb_dms` — see *Two hand-offs dissolved* below. Only the article PDF is still missing,
+and it is not needed to start.
 
 ### Worth a look, but probably not
 
@@ -314,6 +313,63 @@ per-variant resistance values are tabulated or only plotted.
 
 Preprints remain unswept for every year: all queries still use `SRC:MED`. Whether preprints are in
 scope has never been decided, and the LetA lead is the standing cost of leaving it open.
+
+
+## Two hand-offs dissolved — 2026-09-08, by searching GitHub for the author and the gene
+
+Both papers that were about to be handed to the user for manual download turned out to have their
+per-variant data public on GitHub. Neither article says so in a way any query would surface: the
+rubisco paper is behind Science's paywall, and the TnpB paper is a Nature Biotechnology landing page
+with no PMC deposit. **Neither needs a hand-off.**
+
+### Form II rubisco — `ute-hoffmann/CbbMLargeLibrary`
+
+`10.1126/sciadv.aee9222`. Found by searching GitHub for the **first author's surname and the gene
+name** — Hoffmann, and *cbbM*, which is what a Form II rubisco gene is called. The repository README
+carries the paper's exact title and a figure-by-figure index of which file backs which panel.
+
+The table is **`EDA_output/SuppTable_all_fitness_values_wide.csv`** (7.3 MB, **39,386 variants**),
+with a long form beside it:
+
+| Column | |
+|---|---|
+| `sgRNA_target` | the variant label, e.g. `A164C`; higher-order variants carry several |
+| `number_muts` | 1 for the single-site scan, higher for the combinatorial library |
+| `norm_CL_N2`, `norm_CL_O2`, `norm_LD` | normalized weighted mean fitness in **three growth conditions** |
+| `p_fit_adj_WT_*` | adjusted p-value against wild type, per condition |
+
+So **three datasets on one wild type**, and far more than the 15,000 the abstract advertises, because
+the deposit includes the combinatorial library and higher-order variants. The prediction columns
+(`EVcoup_predict`, `DeepSeq_predict`, `MSA_Transform`, `proteinNPT_predict`, `additive_score`) are
+computed, not measured, and are out of scope by the Phase 1 rule.
+
+The Zenodo record `10.5281/zenodo.20308544` holds only the SI PDF and **403s to automated agents on
+both its API and its normal download URL** — it was a dead end in both senses, and is not needed.
+
+### TnpB — `SavageLab/tnpb_dms`
+
+`10.1038/s41587-026-03059-7`. The README names the paper's exact title and its preprint
+(`10.1101/2025.02.11.637750`). The data is one workbook,
+**`notebooks/supptable/SupplementaryTables2_Enrichments_20251010.xlsx`** (2.6 MB, six sheets):
+
+| Sheet | Rows | |
+|---|---|---|
+| `protein_DMS_library_enrichment` | **7,611** | the single-site protein scan — carries a `WT` row and `OriginalAA` / `NewAA` / `Position` columns, so labels need no reconstruction |
+| `comboLib_strain1_4hrs`, `strain2_4hrs`, `strain1_8hrs`, `strain2_8hrs` | ~5,700 each | the combinatorial library, two strains × two timepoints, multi-mutants joined with `_` |
+| `reRNA_library_enrichment` | 576 | **out of scope** — these are RNA variants of the reRNA guide, not protein substitutions, and cannot be written against a protein sequence |
+
+Readout is `Avg_log2Enrich_Norm` with per-replicate medians and p-values. A `dead` row sits beside
+`WT` as a negative control and is not a variant. Potentially **five datasets** on one wild type,
+though whether the four combinatorial arms are one work item or four turns on whether the strains
+and timepoints are separate selections — a Phase 2 question, not a Phase 1 one.
+
+### The lesson, which is a sharpening of one already on the record
+
+The 2025 branch learned to **follow the deposit, not the article**, but looked for deposits the
+*paper* names. Both of these were found instead by **searching GitHub for the first author's surname
+and the protein or gene name**, without reading either article — and in the rubisco case the gene
+name that worked (*cbbM*) never appears in the title or abstract. When a paper is paywalled, that
+search costs one request and should come **before** any hand-off is offered, not after.
 
 
 ## Method notes worth carrying, learned on the 2025 branch
