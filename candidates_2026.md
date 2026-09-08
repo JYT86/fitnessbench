@@ -305,9 +305,41 @@ trajectories**, grouped into four classes by their first mutation, then compared
 phenotypic dimensions. A bacterial enzyme, well clear of the human and viral exclusion, and the
 epistasis structure is exactly what this benchmark is short of.
 
-**Unpaywall says `is_oa=false`** — genuinely closed, not a mis-flag, and no PMC deposit. Needs the
-article PDF and its supplementary tables before anything can be judged, in particular whether
-per-variant resistance values are tabulated or only plotted.
+**CURATED 2026-09-08, four datasets.** Unpaywall was right that it is genuinely closed, with no PMC
+deposit and no public repository — the Data availability statement says only "available in the
+manuscript and its Supplementary Information", so the user supplied the article, the supplement and
+the Source Data file by hand. This is the one paper this branch could not have reached on its own.
+
+Four datasets under `Activity/AntibioticResistance/DE/`, one per antibiotic, on UniProt-equivalent
+`WP_004199234.1` (KPC-2, 293 aa): ceftazidime with **39 variants** from all 18 evolutionary lines,
+and cefotaxime, cefoxitin and imipenem with **34 each** from the 14 lines the Source Data covers.
+Genotypes are cumulative trajectory points carrying one to six substitutions, so the file holds the
+epistasis the paper is about. Readout is **log2 MIC**, because the assay is a twofold dilution
+series and the raw values are spaced geometrically.
+
+**The paper's residue numbering could not be used.** It is not a constant offset from the sequence
+— the gap runs 0, +1, +2 and +3 at different positions — and it is internally inconsistent: the
+single nucleotide change `c587a` is printed as **S196Y** in line H5 and **S197Y** in line L3. Every
+mutation is however also given as a nucleotide change, so the labels were derived from the
+*bla*KPC-2 coding sequence (GenBank `AY034847`, which translates exactly to the 293-residue
+protein). **61 of the 62 printed nucleotide positions carry the stated wild-type base**, every
+derived residue identity matches the paper's own, and the label check comes back empty. Both
+apparent failures were transcription slips of mine off the image, and the coding sequence caught
+both.
+
+**Supplementary Table 2 is an image, not text.** It had to be rendered and read visually, which is
+not a reading to trust on its own — so it was checked against the cumulative non-synonymous
+mutation counts in the Source Data, which **agree for all 48 line-and-round combinations**, and
+against the Source Data's own ceftazidime MICs, which agree in **47 of 48**.
+
+The 48th is a genuine conflict between the paper's two files: **line S1, round 3, is 2048 in
+Supplementary Table 2 and 1024 in the Source Data**. These files follow Supplementary Table 2
+throughout, that being the only source covering all 18 lines, and the disagreement is in `remark`.
+
+**Phase 7 reproduces exactly.** The paper reports that round one gave "consistently large MIC
+increases (16- and 32-fold)"; recomputing every round-one founder from the shipped file gives fold
+values of exactly {16, 32} and nothing else. The abstract's count of 40 distinct substitutions comes
+out at **39**, which is recorded rather than reconciled.
 
 ### What this sweep did not cover
 
