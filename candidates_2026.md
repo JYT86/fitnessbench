@@ -109,6 +109,71 @@ papers that became 12 datasets and 58,533 variants.
 
 Nothing else on this branch has been queried at all.
 
+## First sweep — 2026-09-08, the eighth sweep redone without the filter
+
+Four families, `PUB_YEAR:2026 AND SRC:MED`, **no open-access clause**, every hit paged out rather
+than read to a `pageSize` of 40, and the 94 DOIs already decided on the `2025` branch or named
+above excluded before ranking.
+
+| Family | Hits | New | Enzyme-scoped, non-review |
+|---|---|---|---|
+| 8a. DMS phrasing (the eighth sweep's own query) | 122 | 118 | 38 |
+| 8b. engineering + variants (the eighth sweep's own query) | 118 | 116 | 64 |
+| 11'. enzyme × library-scale method | 1,949 | 1,943 | 1,466 |
+| 14'. computational design vocabulary | 90 | 90 | 70 |
+
+**1,529 distinct papers.** The eighth sweep saw 111. That is the cost of the two decisions it made —
+the open-access clause and the 40-result cutoff — and it is the reason this branch starts with a
+backlog rather than a blank page.
+
+**Europe PMC's `isOpenAccess` was wrong on six of the eight papers checked.** Running each through
+Unpaywall: seven of eight are open access, including four that Europe PMC reports as
+`isOpenAccess:"N"`, `inEPMC:"N"`, `pmcid=None`. One of them, the human DNase I paper, has a PMC
+record (`PMC12847522`) that Europe PMC does not know about. Only the ACS Synthetic Biology SMART
+paper is genuinely closed. **Check Unpaywall before believing any reachability verdict.**
+
+### Worth taking
+
+**`10.1038/s41587-026-03059-7`** — *Engineered TnpB genome editors for plants and human cells
+identified by ribonucleoprotein mutational scanning*, Nature Biotechnology 2026. The abstract is
+unambiguous: "we mapped **comprehensive sequence-function landscapes** of a TnpB ribonucleoprotein
+using **deep mutational scanning**", finding activating mutations in both the RNA and the protein,
+then building a combinatorial library from them. TnpB is an RNA-guided endonuclease, so it is in
+scope as catalytic machinery. Unpaywall: hybrid OA, publisher landing page only.
+
+**`10.1016/j.jbc.2026.113212`** — *Noncatalytic surface electrostatic networks tune thermolability
+in uracil-DNA glycosylase*, J Biol Chem 2026. A single-site variant library across **48
+non-catalytic positions**, pooled thermal-shift assays resolving 16 hotspots, then **high-throughput
+functional screening of 480 single mutants** yielding 114 clones and **54 unique characterised
+variants**, nine of them with measured melting-temperature shifts. Two readouts on one wild type —
+activity and thermolability. `PMC13316540`, `inEPMC:"Y"`, `hasSuppl:"Y"`, and a direct publisher PDF
+at `jbc.org`. The most immediately workable of the four.
+
+### Worth a look, but probably not
+
+**`10.1002/cbic.70459`** — *Trylons*, ChemBioChem 2026. Four saturation libraries of NylC at
+positions 146, 189, 192 and 305, "nearly 100 variants each", read by continuous light scattering.
+Reachable (`PMC13343204`, supplement present, direct PMC PDF). The question is whether substitution
+tolerance at four positions was reported per variant or only as summary tolerances; if pooled it
+clears the floor, if reported per position it is four scans of nineteen.
+
+### Rejected on the abstract
+
+**`10.1016/j.jbc.2026.113393`**, PlyC endolysin — "After screening **18,000 mutants**, the lead
+candidate identified was the point mutant PlyCA N211H." A one-champion campaign wearing a large
+number: 18,000 screened, one winner and one rational combination characterised. This is the exact
+shape the `2025` branch rejected repeatedly, and the large screening figure is what makes it look
+otherwise in a ranked list.
+
+**`10.1007/s13205-026-04693-3`**, human DNase I — a library of 1,051 variants screened, one double
+mutant (N78T, V90N) reported at 4.1-fold. Same shape. Worth reopening only if the deposit turns out
+to hold the screen rather than the winner.
+
+**`10.1200/po-25-00609`**, PIK3CA/AKT1/PTEN in breast cancer — ranked first by the scorer on 29,157
+"variants" and 51,767 tumours. Clinical genomic profiling, not a variant library of one wild type.
+A reminder that the ranker rewards large numbers regardless of what they count.
+
+
 ## Method notes worth carrying, learned on the 2025 branch
 
 **`OPEN_ACCESS` is a licence flag, not a reachability flag.** Europe PMC reports its own holdings.
