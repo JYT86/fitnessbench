@@ -95,7 +95,7 @@ libraries (P40989, 1,895 aa), 2 × 5 — 20 further datasets on two more wild ty
 normalized screen. The homolog hotspot libraries are excluded as a homolog panel.
 
 
-### 2. Form II rubisco fitness landscape (*Gallionella* sp.)
+### 2. Form II rubisco fitness landscape (*Gallionella* sp.) — CURATED, 3 datasets
 
 `10.1126/sciadv.aee9222`, *The fitness landscape of a form II rubisco in a photosynthetic bacterium
 guides engineering of oxygen tolerance*, Science Advances 2026.
@@ -114,6 +114,52 @@ table.
 
 **Superseded**: no hand-off is needed. The per-variant fitness table is public on GitHub at
 `ute-hoffmann/CbbMLargeLibrary` — see *Two hand-offs dissolved* below.
+
+**Curated 2026-09-08, three datasets, 41,799 variant rows** — the largest item on this branch.
+`Fitness/GrowthFitness/DMS/`, one per growth condition, **13,933 variants each** on a single 484-residue
+construct. Built entirely from `ute-hoffmann/CbbMLargeLibrary`; the article itself was never opened,
+which is the third time on this project that the deposit beat the PDF.
+
+The three conditions are defined in the deposit's own analysis notebook, not guessed:
+
+| | |
+|---|---|
+| `CL_N2` | constant light 300 µE, 5% CO2, 95% N2, **0% O2** |
+| `CL_O2` | constant light 300 µE, 5% CO2, 75% N2, **20% O2** |
+| `LD` | light-dark cycles, 5% CO2, 75% N2, 20% O2 |
+
+**Three things the notebook settled that no amount of staring at the table would have.**
+
+*The sequence carries a Strep-tag, and the numbering is against it.* The deposited construct begins
+`MWSHPQFEKGSGSG`, and the notebook says outright that "amino acid numbering ... are based on the
+sequence including the N-Strep tag". The label check confirms it: **all 1,225 distinct substitution
+labels verify against the 484-residue tagged construct at offset 0**, and 1,194 of them fail against
+the untagged 470-residue form. The repo even ships a file pairing the two numberings, differing by 14.
+
+*The row labelled `WT` is not the wild type.* It is the library's **pre-engineering parent, two
+substitutions from wild-type Gallionella CbbM**, which the notebook calls WT "for reasons of
+simplicity". This is exactly the case `CLAUDE.md` warns about, and it is only visible in the code.
+Against UniProt **D9SHP6** (*G. capsiferriformans* ES-2, 470 aa) the untagged construct differs at
+six positions — two being the engineered exchanges, the rest presumably isolate differences that
+cannot be resolved from what is deposited.
+
+*The zero point is not a non-growing control.* Fitness is normalized so the parent is 1.0 and **the
+median K214 substitution is 0.0** — K214 being the carbamylated lysine required for catalysis, so
+anything below zero is by the authors' own reading catalytically dead. A reader treating 0 as
+"neutral" would misread the whole file.
+
+**Phase 7 is honest rather than clean.** The parent lands at **exactly 1.000000** in all three
+conditions. The K214 anchor does not: its median lands at **+0.011, −0.092 and −0.005** rather than
+zero, a small residual the source does not explain, recorded in `remark` rather than smoothed away.
+The library design reconciles — 72 mutated positions against the stated 67 saturated plus 7
+combinatorial, sharing two.
+
+Of the 39,386 rows in the supplementary table only **13,966 carry a measurement**; the rest are
+variants the paper's models scored but which were never built, and dropping them is the single
+biggest decision in this curation. A further 32 rows carry a `STOP` token and are dropped as
+truncations. The article PDF is not redistributed — Science Advances blocks retrieval and the PMC
+record its DOI advertises 404s.
+
 
 ### 3. LetA intermembrane lipid transporter
 
