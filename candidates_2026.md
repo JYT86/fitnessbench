@@ -249,6 +249,73 @@ to hold the screen rather than the winner.
 A reminder that the ranker rewards large numbers regardless of what they count.
 
 
+## Second sweep — 2026-09-08, deeper into the backlog, plus two axes never run at 2026
+
+The first sweep found 1,529 papers and examined about eight of them. This one goes back to the same
+population with a sharper triage, and adds the two axes the `2025` branch swept but never re-ran for
+2026.
+
+| Family | Hits | New | Enzyme-scoped |
+|---|---|---|---|
+| 8a, 8b, 11, 14 (as before) | 2,279 | 2,260 | 1,627 |
+| **A. ancestral reconstruction / iterative saturation / CASTing** | **31** | 31 | 28 |
+| **B. droplet microfluidics / ultrahigh-throughput / FADS** | **22** | 22 | 13 |
+
+**2,170 distinct papers**, of which **1,541** are enzyme-scoped, undecided and not reviews. Every hit
+is now kept with its abstract, so the population can be re-triaged without re-querying.
+
+### The triage, and what it cost to get right
+
+Filtering on *"the abstract states a library size of at least 20, with no one-champion phrasing and
+no human or clinical vocabulary"* reduces 1,541 to **six**. All six were opened and all six are `no`:
+
+| Paper | Count in context | Verdict |
+|---|---|---|
+| `10.1016/j.foodres.2026.119535`, methionine adenosyltransferase | "18 selected candidates from 209 mutants" | the 209 are **virtual** FoldX/Rosetta mutants; 18 were built. Predictions, and below the floor as measured |
+| `10.1038/s41586-025-09746-w`, **computational design of metallohydrolases**, Nature | "from an initial set of 96 designs tested" | 96 **de novo** designs — unrelated sequences, no shared wild type. The same half of the work-item definition that sinks a homolog panel |
+| `10.1002/anie.1402106`, ML photoenzyme evolution | "by screening only 40 variants" | 40 measured, but the paper's own point is a 4-mutation champion from a FRISM round. Genuinely closed |
+| `10.1038/s41559-025-02804-6`, **KPC-2 carbapenemase**, Nat Ecol Evol | "we identified 40 different substitutions" | **the one worth chasing** — see below |
+| `10.1371/journal.pone.0335829`, free-energy benchmarking | "for the 38 single mutants of" | computed FEP over *published* mutations of staphylococcal nuclease and T4 lysozyme. Not the authors' measurement |
+| `10.1002/bit.70239`, *Bacillus subtilis* SDR | "four of the constructed 31 variants" | 31 built, four highlighted. Europe PMC advertises a PMCID and `hasSuppl:"Y"`, but `fullTextXML` 404s and the supplementary bundle is not a zip — the record is a stub |
+
+A softer cut — library-scale vocabulary and reachable in PMC with a supplement, regardless of any
+stated count — gives 118 candidates and 32 reachable. Reading them confirms the shape of the year:
+2026 enzyme engineering is overwhelmingly semi-rational campaigns reporting one champion.
+
+### `10.1021/acscatal.5c08164` — rejected, and the reason is a warning about the tooling
+
+The GH42 β-galactosidase paper from *Bifidobacterium breve* reached the top of the first ranking on
+an apparent **121 variants**. It has no such library. The scorer had matched **"Arg121 variants"** —
+a *residue number* glued to the word that follows it. The paper is site-saturation at the single
+residue Arg121, plus a handful of alanine-scan points in the water tunnel: **one position, and one
+position is not a landscape**, which is the same ground the β-lactamase gatekeeper was rejected on.
+
+**Any count regex over abstracts must reject a number with a letter glued to its left.**
+`Arg121 variants`, `R121 variants` and `position 121 variants` all read as library sizes otherwise,
+and protein papers are made of such strings. The first correction over-shot in the other direction —
+excluding any count preceded by a letter *after* stripping whitespace kills `of 209 mutants` too,
+and took the list to zero. The test has to be the character **immediately abutting the digits**,
+with a separate check for a preceding residue or position word.
+
+### The one lead worth a hand-off
+
+**`10.1038/s41559-025-02804-6`** — *Cryptic phenotypic variation emerges rapidly during the adaptive
+evolution of a carbapenemase*, Nature Ecology & Evolution 2026. Directed evolution of **Klebsiella
+pneumoniae carbapenemase-2** toward ceftazidime: **40 different substitutions across 18 mutational
+trajectories**, grouped into four classes by their first mutation, then compared across several
+phenotypic dimensions. A bacterial enzyme, well clear of the human and viral exclusion, and the
+epistasis structure is exactly what this benchmark is short of.
+
+**Unpaywall says `is_oa=false`** — genuinely closed, not a mis-flag, and no PMC deposit. Needs the
+article PDF and its supplementary tables before anything can be judged, in particular whether
+per-variant resistance values are tabulated or only plotted.
+
+### What this sweep did not cover
+
+Preprints remain unswept for every year: all queries still use `SRC:MED`. Whether preprints are in
+scope has never been decided, and the LetA lead is the standing cost of leaving it open.
+
+
 ## Method notes worth carrying, learned on the 2025 branch
 
 **`OPEN_ACCESS` is a licence flag, not a reachability flag.** Europe PMC reports its own holdings.
