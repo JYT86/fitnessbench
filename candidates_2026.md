@@ -48,7 +48,7 @@ rejection available: it needs no counting and no file.
 None of these were searched for. They fell out of sweeps aimed at 2025 and are recorded on that
 branch's **Parked (other years)** tracker tab.
 
-### 1. Fks1 echinocandin resistance DMS — the strongest lead
+### 1. Fks1 echinocandin resistance DMS — CURATED 2026-09-08, 12 datasets
 
 `10.1093/genetics/iyag055`, *Mutational landscape and molecular bases of echinocandin resistance
 in Saccharomyces cerevisiae*, Genetics 2026.
@@ -61,6 +61,39 @@ conditions on one wild type, so four datasets. `PMC13147539`, `inEPMC:"Y"`, `isO
 It was on the 2025 Open tab for weeks recorded as "a Phase 0 data-availability chase". That note
 was **stale** — by the time anyone returned to it the article was in PMC, open, supplement and all.
 Nothing blocks it but the branch.
+
+**Curated.** Durand *et al.*, Genetics 2026, `10.1093/genetics/iyag055`, published online 2026-03-02
+by Crossref, so a 2026 paper on the year rule. Twelve datasets under
+`Fitness/GrowthFitness/DMS/`, 1,470 variant rows on one wild type — UniProt **P38631**, Fks1,
+1,876 aa, whose three hotspot windows match the paper's positions exactly with no repair.
+
+The numbers came from the **GitHub deposit the Data availability statement names**
+(`Landrylab/Durand_et_al_2026` › `results/df/avg_scores.csv`), not from the article — the third
+time on this project that following the deposit beat opening the PDF.
+
+**Three hotspots could not be pooled.** gyōza centres each library on its own silent-mutant median,
+and the paper says hotspot 2's coefficients are shifted by too few engineerable silent mutants. The
+data shows it: wild type scores −0.11 in the hotspot 1 library and −0.81 in the hotspot 2 library
+under the same drug. So the split is hotspot × condition, 3 × 4.
+
+**The Phase 7 re-derivation reconciles exactly.** Figure 2d states 76 hotspot 1 single mutants
+resistant to all three echinocandins; recomputing from the deposited classification table gives 76,
+and the gap to the 72 in these files is fully accounted: one nonsense variant (`S643*`, dropped as
+unwritable) and three substitutions absent from the pooled library that were measured individually
+(`F639C`, `P647N`, `P647Q`).
+
+Two things the check surfaced that no validator would have. `V641W` and `L642K` disagree between the
+deposit's two tables, because `rescue_missing_mutants.py` replaces their pooled values with
+individual validation estimates the authors judge less biased — these files keep the pooled values,
+so the dataset stays one assay on one basis, and the divergence is in `remark`. And the paper's
+prose count of **465** classified mutants recounts to **462**; the 3-variant gap is unexplained and
+is recorded rather than reverse-engineered.
+
+**Not curated, still available in the same file**: the same hotspot libraries in the R1158
+background (*FKS2* repressible by doxycycline), 2 hotspots × 5 conditions, and two Fks2 hotspot
+libraries (P40989, 1,895 aa), 2 × 5 — 20 further datasets on two more wild types, each a separately
+normalized screen. The homolog hotspot libraries are excluded as a homolog panel.
+
 
 ### 2. Form II rubisco fitness landscape (*Gallionella* sp.)
 
