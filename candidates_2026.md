@@ -222,7 +222,8 @@ paper is genuinely closed. **Check Unpaywall before believing any reachability v
 ### Worth taking
 
 **`10.1038/s41587-026-03059-7`** — *Engineered TnpB genome editors for plants and human cells
-identified by ribonucleoprotein mutational scanning*, Nature Biotechnology 2026. The abstract is
+identified by ribonucleoprotein mutational scanning*, Nature Biotechnology 2026.
+**CURATED 2026-09-08, five datasets, 30,229 variant rows.** The abstract is
 unambiguous: "we mapped **comprehensive sequence-function landscapes** of a TnpB ribonucleoprotein
 using **deep mutational scanning**", finding activating mutations in both the RNA and the protein,
 then building a combinatorial library from them. TnpB is an RNA-guided endonuclease, so it is in
@@ -231,6 +232,40 @@ Unpaywall: **hybrid OA, publisher landing page only** — no PDF url, no PMC dep
 Crossref puts it online 2026-03-11. **Superseded**: the mutational landscape is public on GitHub at
 `SavageLab/tnpb_dms` — see *Two hand-offs dissolved* below. Only the article PDF is still missing,
 and it is not needed to start.
+
+#### What the TnpB curation produced
+
+Five datasets under `Activity/CatalyticActivity/DMS/` on one 408-residue wild type (Thornton *et
+al.*, first author; Crossref puts it online 2026-03-11):
+
+| Dataset | Variants | |
+|---|---|---|
+| `protein_scan` | **7,227** | the single-substitution scan across all 408 residues |
+| `combinatorial_site1_4h` / `site2_4h` | 5,701 / 5,738 | two target sites, 4 h induction |
+| `combinatorial_site1_8h` / `site2_8h` | 5,753 / 5,810 | the same two sites, 8 h |
+
+The combinatorial arms carry **up to eleven substitutions per variant**, which is the deepest
+epistasis anywhere in this repository.
+
+**The sequence got an external check that a 3f derivation normally cannot have.** The scan's
+`OriginalAA` column is consistent at all 406 positions it covers, which is enough to derive a
+sequence — but a derived sequence satisfies the label check by construction, so nothing is tested.
+Here the deposit also ships the reference plasmid, and translating it gives a 408-residue open
+reading frame whose residues **2 to 407 reproduce the derived scan exactly**, with position 1 the
+initiator methionine the library never mutates and position 408 lying past the scan's range. The
+plasmid is the authority and the derivation merely agrees with it.
+
+**Phase 7 reproduces the paper's design logic across two independent datasets.** The abstract says
+the combinatorial library was built from activating mutations found in the protein landscape.
+Taking the 33 constituent changes of the combinatorial library and looking each up in the
+single-substitution scan: **all 33 have positive enrichment, all 33 sit in the top 5 percent of the
+scan, and their median rank is the 99.6th percentile** — `E302K` is 4th of 7,227. Neither file knows
+about the other, so this is a real check rather than an internal consistency one.
+
+Dropped: **382 rows coded `X`**, the library's nonsense variant at each position, and one `dead` row
+per sheet, a catalytically inactivated control rather than a genotype. The **reRNA sheet is out of
+scope** — 576 guide-RNA variants, which cannot be written against a protein sequence.
+
 
 ### Worth a look, but probably not
 
