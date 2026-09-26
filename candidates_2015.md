@@ -140,6 +140,56 @@ Notes per row:
   the scope", but HMBS is hydroxymethylbilane synthase, an enzyme. It may have been rejected for
   being human before `datasets_human/` existed. Worth re-reading.
 
+## The 2009–2020 Europe PMC sweep — run, and mostly empty
+
+No branch had ever queried this window. Five date-chunked queries over the enzyme × library-scale
+vocabulary at `SRC:MED`, 2009 through 2020, returned **898 records, 893 of them unseen**. All 893 are
+in `backlog_pre2022.tsv` with a verdict each, so this is resumable rather than a one-off.
+
+| Verdict | Count |
+|---|---|
+| unopened | 412 |
+| rejected: no library-scale technique named | 249 |
+| rejected: computational | 99 |
+| rejected: outside the enzyme scope | 70 |
+| rejected: no enzyme term | 35 |
+| rejected: landscape in the cancer/theory sense | 28 |
+
+**The yield rate here is low, and the reason is the era, not the query.** Deep mutational scanning
+dates from about 2010 and only became common mid-decade, so the 2009–2020 enzyme literature is
+overwhelmingly champion-shaped: a handful of rationally chosen or site-saturated positions, screened
+to one improved clone. Titles in the unopened pile run "Engineering the substrate binding site of…",
+"Improving thermostability and catalytic activity of…", "Site-saturation mutagenesis of tryptophan
+116 of…". Under the 20-variant floor most of these are rejections waiting to be confirmed.
+
+**MaveDB is the better index for this window**, and by a wide margin — it holds only deposited
+per-variant data, so everything in it has already passed the test that most of these 893 will fail.
+Every confirmed pre-2022 lead in the table above came from MaveDB, not from here.
+
+Two survivors are worth opening first:
+
+- **`10.1093/nar/gku511`** (2014) — *Comprehensive mutational scanning of a kinase in vivo reveals
+  substrate-dependent fitness landscapes*. `inEPMC:Y`, `hasSuppl:Y`, and a genuine library-scale scan
+  of an aminoglycoside kinase against multiple substrates, so several work items on one wild type.
+- **`10.1371/journal.pone.0073727`** (2013) — *Systematic mutational analysis of the putative
+  hydrolase PqsE*. Open access, in EPMC, with supplements. Scale needs checking.
+
+### Two vocabulary traps this sweep walked into
+
+**"Mutational landscape" and "fitness landscape" have senses that are not ours, and in this window
+they dominate.** Cancer genomics uses "the mutational landscape of adenoid cystic carcinoma";
+evolutionary theory uses "predictability of evolutionary trajectories in fitness landscapes". A first
+triage keying on those phrases surfaced 136 candidates of which the large majority were exome studies,
+reviews and off-lattice folding models. This is the same failure the `2026` branch recorded for
+"high-throughput screening" meaning small-molecule screening: the word carries two unrelated meanings
+and only one of them is ours.
+
+**"Saturation mutagenesis" is a weak signal before about 2020.** In this era it nearly always means
+site-saturation at one to three chosen positions — at most 57 variants, and usually reported as a few
+improved clones — rather than a library-scale scan. Post-2020 the same phrase reliably means the
+scan. The `2026` backlog already carries two rejections of exactly this shape, "saturation at one
+residue, Arg121" and "Gly374".
+
 ## Method notes
 
 **MaveDB's API will not page, and its text search caps at 100.** `POST /api/v1/score-sets/search`
