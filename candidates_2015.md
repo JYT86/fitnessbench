@@ -77,6 +77,42 @@ notation that converts directly to `{WT}{position}{MUT}`. None needs a publisher
 | `10.1093/molbev/msu081` (2014) | **TEM-1 β-lactamase** | *E. coli* | 2 (aa-level) | 5,740 | a `2014` branch |
 | `urn:mavedb:00000004-a` | **E4B ubiquitin E3 ligase** | *M. musculus* | 1 (aa-level) | 96,991 | year TBD |
 | `10.1186/s13073-020-0711-1` (2020) | **CBS**, cystathionine β-synthase | human | 2 **raw** | 11,478 / 10,802 | `datasets_human/`, 2020 |
+| `10.7554/elife.53476` (2020) | **DHFR** | *E. coli* BL21(DE3) | 2 | 3,171 / 3,132 | a `2020` branch |
+| `10.1038/s41598-017-17081-y` (2017) | **SpCas9** | *S. pyogenes* | 2 | 2,470 | a `2017` branch |
+| `urn:mavedb:00000085-a…d` | **TEM-15 / TEM-17 / TEM-19** | *E. coli* | 4 | — | `10.1073/pnas.0901246106`, 2009 |
+| `10.1093/nar/gku689` (2014) | **AID**, activation-induced deaminase | human | 3 exp | — | a `2014` branch |
+| `10.7554/elife.27810` (2017) | **Ras** (GTPase switching cycle) | human | 4 exp | — | check scope: GTP hydrolysis |
+| `10.1016/j.ajhg.2018.03.018` (2018) | **PTEN** lipid phosphatase | human | 1 | — | `datasets_human/`, 2018 |
+| `10.1016/j.molcel.2019.02.003` (2019) | **Src** kinase | human | 2 | — | `datasets_human/`, 2019 |
+| `10.7554/elife.58026` (2020) | **VKOR**, vitamin K epoxide reductase | human | 1 | — | `datasets_human/`, 2020 |
+| `10.1002/jimd.12227` (2020) | human enzyme, 200 missense variants | human | 1 | ~200 | `datasets_human/`, 2020 |
+| `10.15252/msb.20177908` (2017) | UBE2I, TPK1 (+ SUMO1, CALM1 — mixed) | human | 5 exp | — | split by target first |
+
+DHFR and SpCas9 resolve to exactly **6,303 over 2 sets** and **4,940 over 2 sets**, matching the
+counts the `2025` branch's parked tracker recorded for them — an independent check that this
+enumeration agrees with that one.
+
+**Rejected on the format, not on merit:** `10.1016/j.jmb.2019.04.030`, *Fitness Effects of Single
+Amino Acid Insertions and Deletions in TEM-1 β-Lactamase* (2019, 2 sets). Insertions and deletions
+cannot be written as `{WT}{position}{MUT}`, so the four-column format has no way to express them.
+Worth reopening only if the format ever grows an indel notation.
+
+**Out of scope, and numerous:** the `FYN SH3 domain` series (`urn:mavedb:00000116`–`00000120` and
+onwards, one experiment per background) is a binding domain scored by proteolytic digestion, so it
+fails the scope on both halves. The same applies to `10.1038/s41467-026-70341-2`, *The genetic
+architecture of an allosteric hormone receptor*, whose 14 experiments make it look large.
+
+## Recent years, from the same enumeration
+
+Enzyme-matching MaveDB experiments at 2024 and 2026 that no branch has recorded:
+
+- **`10.1101/2024.02.13.579700`** — a missense variant effect map for **CHK2**, a serine/threonine
+  kinase. Belongs to `2024`.
+- **`10.64898/2026.02.09.704817`** — a functional genetic atlas of **Parkin**, a ubiquitin E3 ligase
+  acting downstream of PINK1. Belongs to `2026`.
+- **`10.1038/s41588-024-01800-z`** — saturation genome editing of **VHL**. VHL is the substrate
+  recognition component of an E3 ligase complex rather than the catalytic subunit, and the readout is
+  a cellular function score; scope needs deciding before any work.
 
 Notes per row:
 
