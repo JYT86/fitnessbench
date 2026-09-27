@@ -16,7 +16,7 @@ polymerases, helicases, ATP-driven transporters.
 **Out of scope**: fluorescent proteins, binding domains, ion channels, structural and scaffold
 proteins, viral surface glycoproteins.
 
-## Shipped — 1 dataset, 5,199 variants
+## Shipped — 4 datasets, 5,826 variants
 
 ### Firnberg 2014, TEM-1 β-lactamase — 5,199 variants
 
@@ -59,9 +59,38 @@ here, checked score by score across all 5,740 rows, and the other two are nucleo
   TEM-1, TEM-17, TEM-19, and TEM-15 alleles" comes out at 12,555 — and **5,199 of those are this
   dataset**. So this branch supplies a term in a check completed elsewhere.
 
+### Gajula 2014, AID cytidine deaminase — 3 datasets, 627 variants → `datasets_human/`
+
+`10.1093/nar/gku689`, *High-throughput mutagenesis reveals functional determinants for DNA targeting
+by activation-induced deaminase*, Nucleic Acids Res 2014. From `urn:mavedb:00000106` (CC0), in
+`datasets_human/Activity/CatalyticActivity/Sat-Sel-Seq/`. Opens `datasets_human/` on this branch.
+
+The model token is **`Sat-Sel-Seq`**, the method this paper contributes and names, which under the
+Repo shape table always beats the `DMS` fallback.
+
+Sequence is UniProt Q9GZX7 exactly, 198 aa, `bad = 0`. But **the library covers only positions
+113–123**, eleven codons of the 198, so 187 residues carry no variant and rest on provenance alone.
+209 variants per dataset — above the 20-variant floor, and narrow.
+
+**Three generations of selection are three datasets, not one.** They are not reuploads: consecutive
+generations correlate at r = 0.773 and 0.971, and selection visibly sharpens — the substitution median
+falls 0.580 → 0.227 → 0.073 while the maximum rises 8.5 → 18.5 → 21.0. That is the same logic as the
+ampicillin concentration series on `2015` and `2016`: a different amount of selection is a different
+condition.
+
+**The orientation was checked against the deposit's own dead-variant control.** The 11 nonsense rows
+per generation sit *below* the substitutions in all three (0.141 vs 0.634, 0.039 vs 0.267, 0.021 vs
+0.085), which is what a dead deaminase must do when the readout is rifampin resistance. So `score` is
+used as it stands, and the build asserts that ordering rather than trusting it.
+
+Each dataset keeps a wild-type row, collapsed from the 11 rows the deposit writes in substitution form
+as `p.XnnX` rather than with `=`. The WT readout **rises with selection depth — 2.834, 6.716, 9.150** —
+which is the expected direction for wild-type AID being enriched, and an independent sign the
+generations are ordered as labelled.
+
+The article is not staged in `papers/`: `PMC4150791` is open access but both the `fullTextPDF` route
+and `?pdf=render` refuse an automated request.
+
 ## Other 2014 items seen and not taken
 
-From the MaveDB enumeration on the `2015` branch:
-
-- **`10.1093/nar/gku689`** — AID, activation-induced deaminase, 3 experiments. A deaminase, so in
-  scope by protein; not opened. Human, so it would go to `datasets_human/`.
+Nothing else from the MaveDB enumeration at 2014 remains unworked.
