@@ -77,7 +77,30 @@ From the MaveDB enumeration on the `2015` branch:
 
 - **`10.1016/j.jmb.2019.04.030`** — TEM-1 single amino acid insertions and deletions. **Rejected on the
   format, not on merit**: an indel has no `{WT}{position}{MUT}` form. Recorded on `2015` too.
-- **`10.1016/j.jmb.2019.03.020`** — *Pervasive Pairwise Intragenic Epistasis among Sequential Mutations
-  in TEM-1*. Same lab and the same band-pass system as the `2014` and `2016` branches, and pairwise
-  epistasis is exactly what this benchmark is short of. **Not opened** — no MaveDB deposit surfaced for
-  it, so it needs a Phase 0 chase.
+## Open task — needs a person, not a sweep
+
+**Fetch the TEM-1 pairwise-epistasis supplement.** Gonzalez & Ostermeier,
+`10.1016/j.jmb.2019.03.020`, *Pervasive Pairwise Intragenic Epistasis among Sequential Mutations in
+TEM-1 β-Lactamase*, J Mol Biol 2019. `PMC6502654`.
+
+**Why it is worth the trouble.** The abstract reports the fitness effect of **~12,000 pairs of
+consecutive amino acid substitutions**, with epistasis computed for **over 8,000 pairs** against the
+single-substitution study already curated on the `2014` branch. Same lab, same band-pass selection
+system, same TEM-1 wild type — so it joins the `2014` and `2016` datasets directly. Pairwise epistasis
+is the thing this benchmark is shortest of: only E4B on `2013`, the four DHFR doubles on `2020` and the
+UBE2I BarSeq library on `2017` carry any at all.
+
+**What was tried, and why it stopped.** No MaveDB deposit exists — searched `epistasis`, `pairwise` and
+`TEM-1 epistasis`, and none of the 20 matching score sets carries this DOI. Europe PMC reports
+`inEPMC: Y` and `hasSuppl: Y`, but its `supplementaryFiles` endpoint returns 296 bytes that are not a
+zip and `fullTextXML` returns HTTP 500. That is the trap the `2025` branch's method notes name: Europe
+PMC's flags describe its own holdings and licence record, not what it will actually serve. Unpaywall
+calls the article **bronze OA** — free at the publisher — but supplies no `url_for_pdf`.
+
+**What is needed**: the article's supplementary tables from ScienceDirect at
+<https://doi.org/10.1016/j.jmb.2019.03.020>, dropped into `original_datasets/` under the publisher's
+own filenames. Renaming is mine to do. The per-variant table wanted is the one behind the ~12,000
+consecutive pairs; the single-mutant study it is compared against is already on `2014` as
+`Firnberg 2014-DMS-TEM1-drugresistance-fitness_bandpass_amp.csv`.
+
+## Other 2019 items seen and not taken
