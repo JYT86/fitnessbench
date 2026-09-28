@@ -104,8 +104,11 @@ Q9H3S4 still has `M` there, so a future reference update cannot silently invalid
 From the MaveDB enumeration on the `2015` branch:
 
 - **`10.15252/msb.20177908`** — the Weile framework. **Now curated, see above.**
-- **`10.7554/elife.27810`** — Ras switching cycle, 4 experiments. A GTPase, so in scope by the
-  hydrolysis reading, but the scope's transporter clause is about ATP-driven transport and the
-  catalyst reading should be settled deliberately rather than assumed.
+- **`10.7554/elife.27810`** — Ras, 4 score sets of 3,300 each (Unregulated, Attenuated, Regulated, and a
+  G12V background), UniProt P01112, CC0. **Rejected: outside the enzyme scope, on the readout half.**
+  Ras is a GTPase and so catalytic by protein, but these variants were selected by a **bacterial
+  two-hybrid**, which reports Ras–effector *binding* rather than GTP hydrolysis. The scope test asks what
+  the readout reports, not only what the protein is — the same reasoning that excludes a yeast
+  surface-display level. Reopen only if a hydrolysis-based readout for the same library turns up.
 - **`10.1093/nar/gkx183`** — a platform paper for assessing large variant libraries; likely a method
   paper whose data belongs to others.
