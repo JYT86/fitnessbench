@@ -15,4 +15,24 @@ jobs:
       # test_validate.py runs validate.py over the committed datasets first,
       # then confirms each check still fires on deliberately corrupted copies
       - run: python test_validate.py
-      - run: python validate.py --strict
+      # Every dataset tree gets validated, not just datasets/. datasets_human/ and
+      # datasets_virus/ are first-class trees with the same four-column format and the
+      # same eleven-column reference.csv per category, and one invocation left them
+      # unchecked. A loop rather than three fixed steps, so this file works unchanged
+      # on a branch that carries only some of the trees.
+      - name: validate every dataset tree present
+        run: |
+          set -euo pipefail
+          found=0
+          for d in datasets datasets_human datasets_virus; do
+            if [ -d "$d" ]; then
+              found=1
+              echo "::group::validate.py --strict --datasets-dir $d"
+              python validate.py --strict --datasets-dir "$d"
+              echo "::endgroup::"
+            fi
+          done
+          if [ "$found" -eq 0 ]; then
+            echo "no dataset tree found; nothing was validated" >&2
+            exit 1
+          fi
