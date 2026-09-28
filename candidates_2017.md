@@ -19,7 +19,7 @@ proteins, viral surface glycoproteins.
 SpCas9 is an RNA-guided DNA endonuclease, so it is in scope on both halves: a nuclease by protein, and
 DNA cleavage by readout.
 
-## Shipped — 2 datasets, 4,808 variants
+## Shipped — 5 datasets, 15,052 variants
 
 ### Spencer 2017, SpCas9 — 2 datasets, 2,404 variants each
 
@@ -53,11 +53,44 @@ codons in a DNA-level library, so the spread is data and is recorded per row rat
 No wild-type row exists in the deposit, so `wt_readout` is empty and the zero point of
 `normalized-score` is the dataset mean.
 
+### Weile 2017, UBE2I and TPK1 — 3 datasets, 10,244 variants → `datasets_human/`
+
+`10.15252/msb.20177908`, *A framework for exhaustively mapping functional missense variants*, Mol Syst
+Biol 2017. From `urn:mavedb:00000001` and `urn:mavedb:00001251` (CC0), in
+`datasets_human/Fitness/GrowthFitness/DMS/`. Opens `datasets_human/` on this branch.
+
+**Split by target first.** The paper covers four proteins across six genes. **UBE2I** (SUMO E2
+conjugase) and **TPK1** (thiamin pyrophosphokinase) are enzymes; **SUMO1** is a modifier protein and
+**calmodulin** a calcium-binding regulator, so both fail the scope. Only the first two are taken, and
+the remarks say so — curating the deposit whole would have shipped two non-enzymes.
+
+| Dataset | Assay | `n_variants` | Shape |
+|---|---|---|---|
+| `…-UBE2I-…-complementation_barseq` | DMS-BarSeq | 3,239 | **1–11 substitutions per genotype** |
+| `…-UBE2I-…-complementation_tileseq` | DMS-TileSeq | 2,870 | single substitutions |
+| `…-TPK1-…-complementation_tileseq` | DMS-TileSeq | 4,135 | single substitutions |
+
+**Only the raw score sets are used.** The deposit's machine-learning *imputed and refined* sets are
+excluded because imputed values are computed rather than measured, and UBE2I's *joint data* set is
+skipped because it merges the two raw assays that ship separately here.
+
+**BarSeq and TileSeq are two experiments, not two analyses.** BarSeq is a multi-site library —
+1,164 doubles, 815 triples, on up to 11 sites — while TileSeq is singles only. A first pass that
+matched single substitutions alone silently dropped 78% of the BarSeq file; the multi-site genotypes
+are joined with `:` and kept, and they are the only epistasis on this branch.
+
+**TPK1's deposit metadata is wrong about its own sequence.** MaveDB gives it a 194-residue TPK1
+isoform, which its labels do not verify against. The labels span positions 2–243 and match canonical
+**Q9H3S4 at 241 of 242** covered positions. The one exception is position 193, where 22 independent
+rows all assert `S` and Q9H3S4 has `M`, with nothing contradicting them — so the construct is taken as
+Q9H3S4 with **M193S**, on the repo's rule that mutation labels outrank the accession. The build asserts
+Q9H3S4 still has `M` there, so a future reference update cannot silently invalidate the patch.
+
 ## Not done
 
-- **The article is not staged in `papers/`.** It is open access as `PMC5715146` but neither Europe PMC's
-  `fullTextPDF` route nor the publisher's PDF link returns a PDF to an automated request. Recorded in
-  both remarks.
+- **Neither article is staged in `papers/`.** For SpCas9, `PMC5715146` is open access but neither Europe
+  PMC's `fullTextPDF` route nor the publisher's PDF link returns a PDF to an automated request; recorded
+  in both remarks.
 - **Phase 7 has no re-derived prose number.** The abstract's figure is the library size, 1.9 × 10⁷
   variants, which is the number of *molecules screened* rather than the number scored, so it cannot be
   re-derived from a 2,470-row deposit. If the PDF is fetched, the count of positions identified as
@@ -70,8 +103,7 @@ No wild-type row exists in the deposit, so `wt_readout` is empty and the zero po
 
 From the MaveDB enumeration on the `2015` branch:
 
-- **`10.15252/msb.20177908`** — the Weile framework, 5 experiments. Mixed targets: UBE2I and TPK1 are
-  enzymes, SUMO1 and CALM1 are not, so it must be split by target before anything is curated.
+- **`10.15252/msb.20177908`** — the Weile framework. **Now curated, see above.**
 - **`10.7554/elife.27810`** — Ras switching cycle, 4 experiments. A GTPase, so in scope by the
   hydrolysis reading, but the scope's transporter clause is about ATP-driven transport and the
   catalyst reading should be settled deliberately rather than assumed.
