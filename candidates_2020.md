@@ -17,7 +17,7 @@ polymerases, helicases, ATP-driven transporters.
 **Out of scope**: fluorescent proteins, binding domains, ion channels, structural and scaffold
 proteins, viral surface glycoproteins.
 
-## Shipped — 13 datasets, 60,315 variants
+## Shipped — 15 datasets, 63,707 variants
 
 ### Chen 2020, VIM-2 metallo-β-lactamase — 9 datasets, 45,213 variants
 
@@ -78,13 +78,30 @@ and collapse to one WT row at 0.978 and 0.983, the scores being normalised so wi
 The article is open access but neither Europe PMC's `fullTextPDF` route nor the publisher's
 `counter/pdf` link returns a PDF to an automated request, so it is not staged in `papers/`.
 
-## Still open at 2020
+### Chiasson 2020, VKOR — CURATED, 2 datasets in two categories
 
-| Item | DOI / URN | What is wanted | State |
-|---|---|---|---|
-| **VKOR** | `10.7554/elife.58026` | vitamin K epoxide reductase, variant abundance **and** activity — two readouts, so two or more work items | not opened; human, so `datasets_human/` |
-| **200 missense variants in a human enzyme** | `10.1002/jimd.12227` | yeast complementation, ~200 variants — above the floor but only just | not opened; identify the enzyme first |
-| **HMGCR** | `urn:mavedb:00000035-a` | 3 × 18,448, no statin / rosuvastatin / atorvastatin | **all three sets are "imputed and refined"**; find raw versions or reject |
+`10.7554/eLife.58026`, from `urn:mavedb:00000078` (CC0). Vitamin K epoxide reductase measured two ways:
+carboxylation activity by FACS on a carboxylation-specific antibody (**697 variants** →
+`datasets_human/Activity/CatalyticActivity/`) and steady-state abundance by VAMP-seq (**2,695** →
+`datasets_human/Stability/FoldingStability/`). Two work items, not two readouts of one, because the
+property differs.
+
+Sequence is UniProt Q9BQB6 exactly, 163 aa, `bad = 0` over 2,827 substitutions across positions 2–163.
+Each dataset keeps a WT row collapsed from its synonymous rows, landing at 0.842 and 0.953 on scales
+normalised so wild type reads about 1.
+
+The activity arm ships **exactly 697** variants, which is the number of missense mutations the
+deposit's own methods state the library contains — a stated number re-derived from the finished file.
+
+## Decided against at 2020
+
+| Item | URN / DOI | Decision |
+|---|---|---|
+| **HMGCR** | `urn:mavedb:00000035-a` | **Rejected.** All three sets — no statin, rosuvastatin, atorvastatin, 18,448 each — are "imputed and refined". There is no raw version in the deposit, and Phase 1 excludes computed columns, so an imputed score set is not a weak dataset but a different kind of thing. Reopen only if the authors deposit the measured scores. |
+| **PSAT1** | `10.1002/jimd.12227`, `urn:mavedb:00000107` | **Held on a licence question, not on the data.** Phosphoserine aminotransferase is an enzyme, the sequence is UniProt Q9Y617 exactly with `bad = 0`, and two sets are available — 200 variants and a 1,914-variant SNV-accessible scan, minus 3 frameshift rows the format cannot express. But it is **CC BY-NC-SA 4.0**, and every one of the 39 score sets shipped across this cohort is **CC0**. A non-commercial ShareAlike term on part of a benchmark others may redistribute is a project decision, so it is not curated here. |
+
+PSAT1 is the first non-CC0 deposit the cohort has hit. If the answer is that NC-SA data is acceptable
+with the licence recorded per row, it is about an hour's work and the Phase 3 half is already done.
 
 ## Method note
 
