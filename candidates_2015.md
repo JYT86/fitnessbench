@@ -8,21 +8,35 @@ where MaveDB's enzyme back catalogue lives. The `2025` branch parked it as a sin
 "2009–2020: 26 publications / 87 score sets" tracker entry and never worked it. The
 publication-year convention gives each of those papers its own branch; this is the first.
 
-## Open task — needs a person, not a sweep
+## The open task, now closed
 
-**Fetch the Cell 2015 article PDF.** `10.1016/j.cell.2015.01.035`,
-<https://www.cell.com/cell/fulltext/S0092-8674(15)00078-1>
+The article was fetched by hand on 2026-09-29 and is staged as
+`papers/Stiffler 2015-DMS-Cell.pdf` — Stiffler, Hekstra & Ranganathan, *Cell* **160**:882–892.
+`cell.com` returns HTTP 403 to automated requests, so this could only ever have come from a browser.
 
-Unpaywall reports it **bronze OA**, so it is free in a browser, but `cell.com` returns HTTP 403 to
-automated requests — both the PDF and the fulltext URL, confirmed, not assumed. Drop it into
-`papers/` under the publisher's own filename and the rename is mine to do.
+**It settles the basis, and the answer is that wild type is zero by definition.** The paper's
+Equation 1 defines the relative fitness of mutation *a* at position *i* as
 
-What it unblocks: the seven shipped rows carry an **empty `wt_readout`** because the MaveDB deposit
-has no wild-type row and never states what the fitness score is relative to. If the article defines
-the metric against wild type, `wt_readout` becomes `0.0 by definition` and the remark says so — the
-`Jiang 2024-PRIME-TgoD4K` precedent. It would change **only `wt_readout` and `remark`**; `readout`
-and `normalized-score` are unaffected either way, which is why the datasets shipped without it
-rather than waiting.
+```
+F(a,i) = log10( N[a,sel] / N[a,unsel] )  −  log10( N[wt,sel] / N[wt,unsel] )
+```
+
+with the text adding that "mutations that show no fitness effect have values of F close to that of
+wild-type (F ≈ 0)". So the metric is a log10 enrichment ratio measured **against the wild-type
+allele**, and wild type is fixed at 0 by construction rather than by measurement. All seven rows now
+carry `wt_readout` `0.000000` and a remark saying why — the `Jiang 2024-PRIME-TgoD4K` precedent, where
+`wt_readout` is 1.0 by definition with no WT row.
+
+`readout` now names the metric rather than calling it "as deposited". `normalized-score` is unchanged,
+as predicted.
+
+**One thing the article changed that the deposit did not disclose.** The unselected arm is not a
+seventh condition — it is the **0 µg/mL denominator that Equation 1 uses for every other condition in
+the paper**. Its own scores are therefore near zero by construction, which is what the sd of 0.061 and
+the r = 0.035 against the 156 µg/mL arm were really showing. Its remark now says so outright: it ranks
+replicate noise rather than resistance and should not be benchmarked against. It stays in the set
+because the Fks1 precedent curates a no-drug control, but a reader needs to know which of the seven it
+is.
 
 ## Scope — enzymes and enzyme-adjacent
 
