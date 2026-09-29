@@ -19,7 +19,7 @@ proteins, viral surface glycoproteins.
 Src is a tyrosine kinase and the readout is its phosphotransferase activity, so it passes on both
 halves. Human, so `datasets_human/`.
 
-## Shipped — 1 dataset, 3,714 variants
+## Shipped — 2 datasets, 16,088 variants
 
 ### Ahler 2019, Src kinase — 3,714 variants
 
@@ -77,11 +77,45 @@ From the MaveDB enumeration on the `2015` branch:
 
 - **`10.1016/j.jmb.2019.04.030`** — TEM-1 single amino acid insertions and deletions. **Rejected on the
   format, not on merit**: an indel has no `{WT}{position}{MUT}` form. Recorded on `2015` too.
-## Open task — needs a person, not a sweep
+### Gonzalez 2019, TEM-1 pairwise doubles — CURATED, 12,374 variants
 
-**Fetch the TEM-1 pairwise-epistasis supplement.** Gonzalez & Ostermeier,
 `10.1016/j.jmb.2019.03.020`, *Pervasive Pairwise Intragenic Epistasis among Sequential Mutations in
-TEM-1 β-Lactamase*, J Mol Biol 2019. `PMC6502654`.
+TEM-1 β-Lactamase*, J Mol Biol 2019. The supplement was fetched by hand on 2026-09-29 from
+ScienceDirect and is staged as `Gonzalez 2019-DMS-Journal of Molecular Biology-mmc2.xlsx` (+ `mmc1.docx`).
+Dataset in `Activity/DrugResistance/DMS/`.
+
+**Every genotype is a double mutant at two consecutive positions**, joined with `:`. This is the only
+file in the repo that is *entirely* pairwise epistasis — 12,374 doubles spanning 281 of the 285
+possible consecutive position pairs. Readout is sheet S2's `Double Mutant Fitness`.
+
+Sequence is UniProt P62593 exactly, 286 aa, and all 12,374 wild-type *pairs* verify against it at both
+positions. No duplicate genotypes, no rows without a fitness value.
+
+**The Ambler mapping is confirmed a fourth time.** The sheet carries its own Ambler column and gives
+the offset as +2 over sequential 1–236, +3 for 237–249, +4 for 250–286 — matching what `2015` derived
+from motifs, `2014` read from its deposit's `ambler` column, and `2016` inferred from the ESBL allele
+identities.
+
+**`wt_readout` is left empty, deliberately.** There is no wild-type row in S2, and while the scale is
+the same band-pass fitness as `Firnberg 2014-DMS-TEM1` on the `2014` branch — whose *measured* wild
+type reads **1.0299** — that means wild type is about 1 rather than exactly 1 by definition. Typing
+1.0 would assert a definition the assay does not make.
+
+**Phase 7 re-derives both of the abstract's numbers.** It claims "~12,000 pairs of consecutive amino
+acid substitutions" and epistasis "for over 8000 mutation pairs": the sheet holds **12,374** pairs and
+**8,302** with a computed epistasis value.
+
+**Not extracted, and why.** The `Epistasis` column is a derived difference between the double mutant and
+the additive expectation of its two singles, and it has **no higher-is-better orientation** — positive
+epistasis is not "better", it is a different shape of interaction — so it cannot be oriented as a
+FitnessBench readout. Same for the `Positive`/`Negative Sign Epistasis` flags (17 and 522 rows). The
+`Mut 1`/`Mut 2 Fitness` columns are the single-substitution values from the earlier study, already
+shipped on `2014`. Sheets S1 and S3 are raw sequencing counts across eleven ampicillin concentrations,
+not a per-variant phenotype.
+
+## How this one was reached, for the record
+
+`PMC6502654`, `10.1016/j.jmb.2019.03.020`.
 
 **Why it is worth the trouble.** The abstract reports the fitness effect of **~12,000 pairs of
 consecutive amino acid substitutions**, with epistasis computed for **over 8,000 pairs** against the
