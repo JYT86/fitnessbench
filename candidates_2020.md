@@ -17,7 +17,7 @@ polymerases, helicases, ATP-driven transporters.
 **Out of scope**: fluorescent proteins, binding domains, ion channels, structural and scaffold
 proteins, viral surface glycoproteins.
 
-## Shipped — 15 datasets, 63,707 variants
+## Shipped — 16 datasets, 65,622 variants
 
 ### Chen 2020, VIM-2 metallo-β-lactamase — 9 datasets, 45,213 variants
 
@@ -98,10 +98,30 @@ deposit's own methods state the library contains — a stated number re-derived 
 | Item | URN / DOI | Decision |
 |---|---|---|
 | **HMGCR** | `urn:mavedb:00000035-a` | **Rejected.** All three sets — no statin, rosuvastatin, atorvastatin, 18,448 each — are "imputed and refined". There is no raw version in the deposit, and Phase 1 excludes computed columns, so an imputed score set is not a weak dataset but a different kind of thing. Reopen only if the authors deposit the measured scores. |
-| **PSAT1** | `10.1002/jimd.12227`, `urn:mavedb:00000107` | **Held on a licence question, not on the data.** Phosphoserine aminotransferase is an enzyme, the sequence is UniProt Q9Y617 exactly with `bad = 0`, and two sets are available — 200 variants and a 1,914-variant SNV-accessible scan, minus 3 frameshift rows the format cannot express. But it is **CC BY-NC-SA 4.0**, and every one of the 39 score sets shipped across this cohort is **CC0**. A non-commercial ShareAlike term on part of a benchmark others may redistribute is a project decision, so it is not curated here. |
+### Sirr 2020, PSAT1 — CURATED, 1,915 variants → `datasets_human/`, under CC BY-NC-SA 4.0
 
-PSAT1 is the first non-CC0 deposit the cohort has hit. If the answer is that NC-SA data is acceptable
-with the licence recorded per row, it is about an hour's work and the Phase 3 half is already done.
+`10.1002/jimd.12227`, *A yeast-based complementation assay elucidates the functional impact of 200
+missense variants in human PSAT1*, J Inherit Metab Dis 2020. From `urn:mavedb:00000107`, in
+`datasets_human/Fitness/GrowthFitness/DMS/`.
+
+**This is the only dataset in the cohort that is not CC0**, and the licence terms are recorded first in
+its `remark` and in full in [`DATA_LICENSES.md`](DATA_LICENSES.md): attribution to the authors and to
+the MaveDB URN, no commercial use, and ShareAlike on any adaptation. Shipping it beside CC0 data is
+sound because the repository is a *collection* — each dataset under its own terms — which is
+aggregation rather than adaptation. What would change that is anything merging them into one derived
+work.
+
+Sequence is UniProt Q9Y617 exactly, 370 aa, `bad = 0`.
+
+**The deposit's two score sets are joined into one dataset.** They are the same assay measuring the
+same quantity on overlapping libraries — a 200-variant solid-growth panel and a 1,914-variant
+SNV-accessible scan. 196 variants are measured in both, and **no value is identical between them**, so
+they are independent measurements rather than a reupload. They are averaged, and the agreement is the
+only empirical check the merge gets: **Pearson r = 0.9708**, worst disagreement 0.256.
+
+3 frameshift rows are dropped — an indel has no `{WT}{position}{MUT}` form. Neither set carries a
+wild-type or synonymous row, so `wt_readout` is empty, though the scale is one on which wild type reads
+about 1.
 
 ## Method note
 
